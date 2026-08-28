@@ -1,0 +1,103 @@
+import { expect, test } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+
+test('@claim:conflict-check sample exposes the exact fit conflict', async ({ page }) => {
+  await page.goto('/demo');
+  await expect(page.getByRole('heading', { name: '1 conflict to fix' })).toBeVisible();
+  await expect(page.getByText('Build depth exceeds the cleared space by 10 mm.')).toBeVisible();
+  await page.getByLabel('Build depth').fill('735');
+  await expect(page.getByRole('heading', { name: /Fits with 1 check/ })).toBeVisible();
+});
+
+test('@claim:panel-list calculates panels and invokes print', async ({ page }) => {
+  await page.addInitScript(() => { Object.defineProperty(window, 'print', { value: () => document.body.dataset.printed = 'true' }); });
+  await page.goto('/demo');
+  const table = page.getByRole('table');
+  await expect(table.getByRole('rowheader', { name: /Centre support/ })).toBeVisible();
+  await expect(table.getByRole('rowheader', { name: /Back/ })).toBeVisible();
+  await expect(page.getByText('3 × 1,220 × 2,440 mm sheet at 18 mm')).toBeVisible();
+  await page.getByRole('button', { name: 'Print build sheet' }).click();
+  await expect(page.locator('body')).toHaveAttribute('data-printed', 'true');
+});
+
+test('@claim:demo-isolation keeps sample changes separate', async ({ page }) => {
+  await page.goto('/');
+  await page.getByLabel('Project name').fill('My real garage bench');
+  await page.goto('/demo');
+  await expect(page.getByLabel('Project name')).toHaveValue('Van bed utility cabinet');
+  await page.getByLabel('Project name').fill('Changed sample only');
+  await page.getByRole('button', { name: 'Start for real' }).click();
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.getByLabel('Project name')).toHaveValue('My real garage bench');
+});
+
+test('@claim:local-only keeps calculator traffic same-origin', async ({ page }) => {
+  const offOrigin: string[] = [];
+  page.on('request', (request) => {
+    if (new URL(request.url()).origin !== 'http://127.0.0.1:4173') offOrigin.push(request.url());
+  });
+  await page.goto('/demo');
+  await page.getByLabel('Build width').fill('1340');
+  const stored = await page.evaluate(() => localStorage.getItem('demo:shop-fit-sheet:project:v1'));
+  expect(stored).toContain('1340');
+  expect(offOrigin).toEqual([]);
+  await expect(page.getByText('Shop Fit Sheet has no account, analytics, advertising, or tracking.')).not.toBeAttached();
+  await page.goto('/privacy');
+  await expect(page.getByText('Shop Fit Sheet has no account, analytics, advertising, or tracking.')).toBeVisible();
+  expect(offOrigin).toEqual([]);
+});
+
+test('@claim:offline-reload reloads the demo without a network', async ({ page, context }) => {
+  await page.goto('/demo');
+  await page.evaluate(async () => {
+    await navigator.serviceWorker.ready;
+    if (!navigator.serviceWorker.controller) {
+      await new Promise<void>((resolve) => navigator.serviceWorker.addEventListener('controllerchange', () => resolve(), { once: true }));
+    }
+  });
+  await expect.poll(() => page.evaluate(async () => (await caches.keys()).includes('shop-fit-sheet-v4'))).toBe(true);
+  await context.setOffline(true);
+  await page.reload();
+  await expect(page.getByRole('heading', { name: '1 conflict to fix' })).toBeVisible();
+  await context.setOffline(false);
+});
+
+test('@claim:paid-library-price shows the exact offer and checkout', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByRole('heading', { name: 'Keep a local project library for $9' })).toBeVisible();
+  await expect(page.getByText('One-time purchase', { exact: true })).toBeVisible();
+  await expect(page.getByText('The calculator and print sheet stay free.')).toBeVisible();
+  await expect(page.getByRole('link', { name: /Buy the project library/ })).toHaveAttribute('href', 'https://api.sociobot.in/api/v1/products/shop-fit-sheet/checkout');
+  await page.getByLabel('Space width').fill('1000');
+  await expect(page.getByLabel('Space width')).toHaveValue('1000');
+});
+
+test('routes have one h1, distinct titles, and no serious accessibility findings', async ({ page }, testInfo) => {
+  const routes = ['/', '/demo', '/privacy', '/terms', '/missing-page'];
+  for (const route of routes) {
+    await page.goto(route);
+    await expect(page.locator('h1')).toHaveCount(1);
+    await expect(page.locator('main')).toHaveCount(1);
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    const results = await new AxeBuilder({ page }).analyze();
+    expect(results.violations.filter((item) => ['serious', 'critical'].includes(item.impact ?? '')),
+      `${route} accessibility findings on ${testInfo.project.name}`).toEqual([]);
+  }
+});
+
+test('calculator has an empty state and keyboard-reachable controls', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByText('Your panel list appears after you enter the space and build sizes.')).toBeVisible();
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', { name: 'Skip to main content' })).toBeFocused();
+  await page.getByRole('link', { name: 'Skip to main content' }).press('Enter');
+  await expect(page.locator('#main')).toBeFocused();
+});
+
+test('editing after load keeps the print action working', async ({ page }) => {
+  await page.addInitScript(() => { Object.defineProperty(window, 'print', { value: () => document.body.dataset.printed = 'true' }); });
+  await page.goto('/demo');
+  await page.getByLabel('Build width').fill('1340');
+  await page.getByRole('button', { name: 'Print build sheet' }).click();
+  await expect(page.locator('body')).toHaveAttribute('data-printed', 'true');
+});

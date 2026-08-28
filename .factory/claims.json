@@ -1,0 +1,44 @@
+[
+  {
+    "id": "conflict-check",
+    "claim": "Checks the outer build against the cleared space",
+    "where": "landing headline and demo verdict",
+    "test": "npm test -- --grep @claim:conflict-check",
+    "sandbox": "fresh browser context at /demo; sample depth exceeds its cleared space by 10 mm"
+  },
+  {
+    "id": "panel-list",
+    "claim": "Makes a printable panel and rough sheet list",
+    "where": "calculator results and how-it-works section",
+    "test": "npm test -- --grep @claim:panel-list",
+    "sandbox": "fresh browser context at /demo; assert calculated parts, dimensions, stock allowance, and print action"
+  },
+  {
+    "id": "demo-isolation",
+    "claim": "Demo sample data does not overwrite the user's real project",
+    "where": "demo banner and README",
+    "test": "npm test -- --grep @claim:demo-isolation",
+    "sandbox": "fresh browser context; create a real project, edit demo data, then leave demo and assert the real project remains"
+  },
+  {
+    "id": "local-only",
+    "claim": "Plans stay on this device and there is no analytics or tracking",
+    "where": "landing facts, privacy page, and README",
+    "test": "npm test -- --grep @claim:local-only",
+    "sandbox": "fresh browser context; record the complete demo flow network and assert every request is same-origin, then assert local storage"
+  },
+  {
+    "id": "offline-reload",
+    "claim": "Works offline after the first visit",
+    "where": "landing facts and README",
+    "test": "npm test -- --grep @claim:offline-reload",
+    "sandbox": "fresh browser context at /demo; wait for its service worker, go offline, reload, and assert the sample verdict"
+  },
+  {
+    "id": "paid-library-price",
+    "claim": "The calculator is free and the local project library is a $9 one-time purchase",
+    "where": "landing facts, paid section, terms, and README",
+    "test": "npm test -- --grep @claim:paid-library-price",
+    "sandbox": "fresh browser context; assert the free calculator is usable, exact price copy appears, and checkout uses the Sociobot product URL"
+  }
+]
