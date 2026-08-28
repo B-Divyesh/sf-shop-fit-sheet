@@ -122,7 +122,9 @@ function landing(): string {
 }
 
 function paidSection(): string {
-  return `<section class="paid" aria-labelledby="paid-heading"><div><div class="section-kicker">Optional one-time purchase</div><h2 id="paid-heading">Keep a local project library for $9</h2><p>Save named versions on this device and reopen them later. The calculator and print sheet stay free.</p><ul><li>One-time purchase</li><li>No subscription</li><li>Sociobot is the merchant of record</li></ul></div><div class="license-panel">${licenseValid ? `<p class="license-active"><span>✓</span><strong>Project library active</strong></p><button class="primary-button" data-action="save-library">Save current version</button><div id="library-list">${libraryList()}</div>` : `<a class="primary-button" href="https://api.sociobot.in/api/v1/products/${PRODUCT}/checkout">Buy the project library <span aria-hidden="true">→</span></a><details><summary>Have a license?</summary><form class="license-form"><label for="license-token">Paste your license token</label><input id="license-token" name="license" autocomplete="off"><button class="secondary-button" type="submit">Verify license</button><p class="form-status" aria-live="polite"></p></form></details>`}</div></section>`;
+  const inactiveNotice = !licenseValid && localStorage.getItem(LICENSE_KEY) && localStorage.getItem(VERDICT_KEY)
+    ? '<p class="form-status">Your license is no longer active. Paste another license or buy the project library.</p>' : '';
+  return `<section class="paid" aria-labelledby="paid-heading"><div><div class="section-kicker">Optional one-time purchase</div><h2 id="paid-heading">Keep a local project library for $9</h2><p>Save named versions on this device and reopen them later. The calculator and print sheet stay free.</p><ul><li>One-time purchase</li><li>No subscription</li><li>Sociobot is the merchant of record</li></ul></div><div class="license-panel">${licenseValid ? `<p class="license-active"><span>✓</span><strong>Project library active</strong></p><button class="primary-button" data-action="save-library">Save current version</button><div id="library-list">${libraryList()}</div>` : `${inactiveNotice}<a class="primary-button" href="https://api.sociobot.in/api/v1/products/${PRODUCT}/checkout">Buy the project library <span aria-hidden="true">→</span></a><details><summary>Have a license?</summary><form class="license-form"><label for="license-token">Paste your license token</label><input id="license-token" name="license" autocomplete="off"><button class="secondary-button" type="submit" aria-label="Verify license">Verify license</button><p class="form-status" aria-live="polite"></p></form></details>`}</div></section>`;
 }
 
 function libraryList(): string {
@@ -213,7 +215,7 @@ async function verifyLicense(token: string, status: HTMLElement): Promise<void> 
     const response = await fetch(`https://api.sociobot.in/api/v1/products/${PRODUCT}/verify?license=${encodeURIComponent(token)}`);
     const verdict = await response.json() as { valid: boolean; reason?: string };
     localStorage.setItem(VERDICT_KEY, JSON.stringify({ valid: verdict.valid, checkedAt: Date.now() })); licenseValid = verdict.valid;
-    if (verdict.valid) render(); else status.textContent = 'This license is not active. Check the token or buy a new license.';
+    render();
   } catch { status.textContent = 'The license check could not connect. Check your connection and try again.'; }
 }
 
@@ -221,9 +223,23 @@ function updateCanonical(path: string): void {
   const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]'); if (canonical) canonical.href = `https://shop-fit-sheet.sociobot.in${path === '/' ? '/' : path}`;
 }
 
-function acceptLicenseFromUrl(): void {
+function acceptLicenseFromUrl(): boolean {
   const url = new URL(location.href); const token = url.searchParams.get('license');
-  if (!token) return; localStorage.setItem(LICENSE_KEY, token); url.searchParams.delete('license'); history.replaceState({}, '', url.pathname + url.search + url.hash); void verifyLicense(token, document.createElement('span'));
+  if (!token) return false;
+  localStorage.setItem(LICENSE_KEY, token); localStorage.removeItem(VERDICT_KEY); licenseValid = false;
+  url.searchParams.delete('license'); history.replaceState({}, '', url.pathname + url.search + url.hash);
+  void verifyLicense(token, document.createElement('span'));
+  return true;
+}
+
+function verifyStoredLicenseIfDue(): void {
+  const token = localStorage.getItem(LICENSE_KEY);
+  if (!token) return;
+  try {
+    const cached = JSON.parse(localStorage.getItem(VERDICT_KEY) ?? '{}') as { checkedAt?: number };
+    if (typeof cached.checkedAt === 'number' && Date.now() - cached.checkedAt < 86_400_000) return;
+  } catch { /* verify below */ }
+  void verifyLicense(token, document.createElement('span'));
 }
 
 window.addEventListener('popstate', () => { isDemo = location.pathname === '/demo'; project = loadProject(); render(); });
@@ -231,5 +247,5 @@ window.addEventListener('offline', () => { document.body.dataset.offline = 'true
 window.addEventListener('online', () => { delete document.body.dataset.offline; });
 if (!navigator.onLine) document.body.dataset.offline = 'true';
 render();
-acceptLicenseFromUrl();
+if (!acceptLicenseFromUrl()) verifyStoredLicenseIfDue();
 if ('serviceWorker' in navigator && import.meta.env.PROD) window.addEventListener('load', () => void navigator.serviceWorker.register('/sw.js'));

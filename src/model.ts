@@ -98,8 +98,13 @@ export function calculate(p: Project): Result {
   if (p.includeBack && positive(p.outerWidth) && positive(p.outerHeight)) pieces.push({ part: 'Back', quantity: 1, length: p.outerHeight, width: p.outerWidth, thickness: p.backThickness, note: 'Overall size; adjust for grooves or rebates' });
 
   const findings: Finding[] = [];
-  const required = [p.spaceWidth, p.spaceHeight, p.spaceDepth, p.outerWidth, p.outerHeight, p.outerDepth, p.panelThickness];
-  if (required.some((v) => !positive(v))) findings.push({ level: 'conflict', text: 'Enter positive space, build, and panel measurements.' });
+  const required = [p.spaceWidth, p.spaceHeight, p.spaceDepth, p.outerWidth, p.outerHeight, p.outerDepth, p.panelThickness, p.sheetWidth, p.sheetHeight];
+  if (p.includeBack) required.push(p.backThickness);
+  if (required.some((v) => !positive(v))) findings.push({ level: 'conflict', text: 'Enter positive space, build, panel, and stock measurements.' });
+  const clearances = [p.clearanceLeft, p.clearanceRight, p.clearanceTop, p.clearanceBottom, p.clearanceBack, p.doorGap];
+  if (clearances.some((v) => !Number.isFinite(v) || v < 0)) findings.push({ level: 'conflict', text: 'Clearances and gaps cannot be negative.' });
+  const counts = [p.supports, p.shelves, p.doors];
+  if (counts.some((v) => !Number.isInteger(v) || v < 0)) findings.push({ level: 'conflict', text: 'Supports, shelves, and doors must use whole numbers of zero or more.' });
   const axes: Array<[string, number, number]> = [['width', p.outerWidth, availableWidth], ['height', p.outerHeight, availableHeight], ['depth', p.outerDepth, availableDepth]];
   for (const [axis, outer, available] of axes) {
     if (positive(outer) && positive(available) && outer > available) findings.push({ level: 'conflict', text: `Build ${axis} exceeds the cleared space by ${round(outer - available)} ${p.unit}.` });

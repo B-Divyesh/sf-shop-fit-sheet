@@ -23,6 +23,9 @@ Audited 2026-08-28. Counts treat symbols and measurements as words. Headings, la
 | Consider another support or confirm sag limits. | 7 | Pass |
 | Confirm hinge limits and door weight. | 6 | Pass |
 | Your panel list appears after you enter the space and build sizes. | 12 | Pass |
+| Enter positive space, build, panel, and stock measurements. | 8 | Pass |
+| Clearances and gaps cannot be negative. | 6 | Pass |
+| Supports, shelves, and doors must use whole numbers of zero or more. | 12 | Pass |
 | Includes 15% area waste. | 4 | Pass |
 | This is not a cutting layout. | 6 | Pass |
 | How the fit check works | 5 | Pass |
@@ -43,9 +46,11 @@ Audited 2026-08-28. Counts treat symbols and measurements as words. Headings, la
 | No subscription | 2 | Pass |
 | Sociobot is the merchant of record | 6 | Pass |
 | Saved versions appear here after you save the current plan. | 10 | Pass |
+| Your license is no longer active. | 6 | Pass |
+| Paste another license or buy the project library. | 8 | Pass |
 | Check a fitted build before you buy sheet material. | 9 | Pass |
 
-No sentence exceeds 22 words. The average is 7.0 words. No banned word appears.
+No sentence exceeds 22 words. The average is 7.1 words. No banned word appears.
 
 ## Terminology table
 

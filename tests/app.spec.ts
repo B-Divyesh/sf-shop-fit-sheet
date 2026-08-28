@@ -73,9 +73,16 @@ test('@claim:paid-library-price shows the exact offer and checkout', async ({ pa
 });
 
 test('routes have one h1, distinct titles, and no serious accessibility findings', async ({ page }, testInfo) => {
-  const routes = ['/', '/demo', '/privacy', '/terms', '/missing-page'];
-  for (const route of routes) {
+  const routes = new Map([
+    ['/', 'Shop Fit Sheet — Check a fitted build'],
+    ['/demo', 'Demo — Shop Fit Sheet'],
+    ['/privacy', 'Privacy — Shop Fit Sheet'],
+    ['/terms', 'Terms — Shop Fit Sheet'],
+    ['/missing-page', 'Page not found — Shop Fit Sheet'],
+  ]);
+  for (const [route, title] of routes) {
     await page.goto(route);
+    await expect(page).toHaveTitle(title);
     await expect(page.locator('h1')).toHaveCount(1);
     await expect(page.locator('main')).toHaveCount(1);
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
@@ -83,6 +90,19 @@ test('routes have one h1, distinct titles, and no serious accessibility findings
     expect(results.violations.filter((item) => ['serious', 'critical'].includes(item.impact ?? '')),
       `${route} accessibility findings on ${testInfo.project.name}`).toEqual([]);
   }
+});
+
+test('demo has no console errors and every internal link resolves', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('console', (message) => { if (message.type() === 'error') errors.push(message.text()); });
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.goto('/demo');
+  const hrefs = await page.locator('a[href]').evaluateAll((links) => [...new Set(links.map((link) => (link as HTMLAnchorElement).href))]);
+  for (const href of hrefs.filter((href) => new URL(href).origin === 'http://127.0.0.1:4173')) {
+    const response = await page.request.get(href);
+    expect(response.ok(), href).toBe(true);
+  }
+  expect(errors).toEqual([]);
 });
 
 test('calculator has an empty state and keyboard-reachable controls', async ({ page }) => {
@@ -100,4 +120,30 @@ test('editing after load keeps the print action working', async ({ page }) => {
   await page.getByLabel('Build width').fill('1340');
   await page.getByRole('button', { name: 'Print build sheet' }).click();
   await expect(page.locator('body')).toHaveAttribute('data-printed', 'true');
+});
+
+test('invalid measurements explain what to fix', async ({ page }) => {
+  await page.goto('/demo');
+  await page.getByLabel('Left').fill('-1');
+  await expect(page.getByText('Clearances and gaps cannot be negative.')).toBeVisible();
+  await page.getByRole('spinbutton', { name: 'Centre supports', exact: true }).fill('1.5');
+  await expect(page.getByText('Supports, shelves, and doors must use whole numbers of zero or more.')).toBeVisible();
+});
+
+test('a stale paid license is checked and revoked in the background', async ({ page }) => {
+  let release!: () => void;
+  const heldResponse = new Promise<void>((resolve) => { release = resolve; });
+  await page.addInitScript(() => {
+    localStorage.setItem('sb_license:shop-fit-sheet', 'stale-test-token');
+    localStorage.setItem('shop-fit-sheet:license-verdict', JSON.stringify({ valid: true, checkedAt: 0 }));
+  });
+  await page.route('https://api.sociobot.in/api/v1/products/shop-fit-sheet/verify?license=stale-test-token', async (route) => {
+    await heldResponse;
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ valid: false, reason: 'revoked' }) });
+  });
+  await page.goto('/');
+  await expect(page.getByText('Project library active')).toBeVisible();
+  release();
+  await expect(page.getByText('Your license is no longer active. Paste another license or buy the project library.')).toBeVisible();
+  await expect(page.getByRole('link', { name: /Buy the project library/ })).toBeVisible();
 });
