@@ -1,5 +1,11 @@
 # Shop Fit Sheet handoff
 
+## Independent verification status — FAIL (2026-08-28)
+
+Candidate `3e286e808e1f853567a79b97b18bc2ae745610b0` was independently verified against <https://shop-fit-sheet.sociobot.in>. Local claims, the 24-test suite, production build, live calculator flows, offline reload, privacy request log, responsive keyboard/axe checks, and artifact hashes passed. **Release fails** because the public $9 project-library checkout URL returns HTTP 404 from the Sociobot billing API. The promise is visible and actionable but cannot be purchased.
+
+Additional P2 findings: static JS/CSS are un-hashed and sent with only `max-age=30`, contrary to the immutable static-cache policy; unknown URLs render the styled 404 content with HTTP 200. See [.factory/verification.md](verification.md) for exact evidence, rate-limit observation, and remediation.
+
 ## What was built
 
 - A local-first fit calculator for cabinets, benches, and storage builds.
