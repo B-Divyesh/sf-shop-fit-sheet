@@ -1,0 +1,12 @@
+{
+  "name": "Shop Fit Sheet",
+  "short_name": "Fit Sheet",
+  "description": "Check a fitted build before you buy sheet material.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f3eedc",
+  "theme_color": "#f3eedc",
+  "icons": [
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}
