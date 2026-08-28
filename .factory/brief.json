@@ -1,0 +1,13 @@
+{
+  "slug": "shop-fit-sheet",
+  "title": "Shop Fit Sheet",
+  "summary": "Check a fitted build before you buy sheet material.",
+  "territory": "utilities",
+  "user": "Home makers fitting a cabinet, bench, or storage build into a garage, utility room, or vehicle who need a constraint-first cut/material brief before buying stock.",
+  "smallest_useful_product": "Offline web calculator for outer envelope, openings, panel thickness, supports, clearances, and stock list; export one printable build sheet.",
+  "artifact_class": "static-web",
+  "monetization": "one-time",
+  "constraints": "Prominent verify dimensions/load safety warning; do not represent output as engineering advice; local files only.",
+  "confidence": 3,
+  "state": "RESEARCHED"
+}
