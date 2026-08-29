@@ -1,4 +1,37 @@
-# Shop Fit Sheet handoff — independent verification 6
+# Shop Fit Sheet handoff — adversarial review 2
+
+**Work order:** `shop-fit-sheet-review-2`
+**Reviewed commit:** `806a79f48f10ea538ed80b9f37062345124073eb`
+**Live URL:** <https://shop-fit-sheet.sociobot.in>
+**Reviewed:** 2026-08-29 UTC
+
+**Result:** **FAIL** — product code was not changed. One minor accessibility-copy finding remains: the shipped demo SVG announces “1 centre supports” rather than “1 centre support.” See [review-2.md](review-2.md) for the exact location, impact, and regression to add.
+
+## What was verified
+
+- Fresh live first-read checks at 390 px and desktop: the job, audience, and one-click sample action are clear.
+- Live demo: realistic filled sample, banner, reset, Start for real, isolated `demo:` storage, same-origin request log, and offline reload.
+- Fresh no-local clone at `/tmp/shop-fit-sheet-review-2-H6GHig`: `npm ci`; every one of the 11 exact `.factory/claims.json` commands; and `npm test` (44 passed, 2 expected desktop skips). The production build emitted `dist/`.
+- Live route, title, metadata, header/footer, link, 404, history-focus, reduced-motion, console, cache-header, robots, sitemap, and visual-identity checks.
+- Every prior review/polish/handoff finding was rechecked. F-1-1 and all recorded historical issues remain fixed.
+
+## How to verify after repair
+
+```sh
+npm ci
+npm test
+npm run build
+```
+
+Open <https://shop-fit-sheet.sociobot.in/?demo=1> with a screen reader and inspect the cabinet diagram description. It must announce “1 centre support.” Also edit the support count above one and confirm plural grammar.
+
+## Known gap / next step
+
+Implement F-2-1 in `diagram()` and add a regression for one and multiple centre supports. Then rerun the full review. No other open item was found.
+
+---
+
+# Previous handoff — independent verification 6
 
 **Work order:** `shop-fit-sheet-verify-6`
 
