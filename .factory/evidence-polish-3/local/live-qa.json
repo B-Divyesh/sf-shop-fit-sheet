@@ -1,0 +1,257 @@
+{
+  "testedAt": "2026-08-29T17:08:04.168Z",
+  "base": "http://127.0.0.1:4173",
+  "identity": {
+    "html": true,
+    "script": true,
+    "style": true,
+    "worker": true,
+    "scriptPath": "/assets/main-tmwnctVJ.js",
+    "stylePath": "/assets/main-DDrsfY5z.css"
+  },
+  "responses": {
+    "/": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "csp": null,
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin"
+    },
+    "/?demo=1": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "csp": null,
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin"
+    },
+    "/demo": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "csp": null,
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin"
+    },
+    "/privacy": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "csp": null,
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin"
+    },
+    "/terms": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "csp": null,
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin"
+    },
+    "/does-not-exist": {
+      "status": 404,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "csp": null,
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin"
+    },
+    "/assets/main-tmwnctVJ.js": {
+      "status": 200,
+      "cacheControl": "public, max-age=31536000, immutable",
+      "csp": null,
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin"
+    },
+    "/assets/main-DDrsfY5z.css": {
+      "status": 200,
+      "cacheControl": "public, max-age=31536000, immutable",
+      "csp": null,
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin"
+    },
+    "/sw.js": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "csp": null,
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin"
+    }
+  },
+  "firstScreen": {
+    "title": "Shop Fit Sheet — Check a fitted build",
+    "h1": "Check a fitted build before buying sheet material",
+    "actionHref": "/?demo=1",
+    "facts": [
+      "Plans stay on this device",
+      "Works offline after the first visit",
+      "Calculator and printable build sheet"
+    ]
+  },
+  "demo": {
+    "url": "http://127.0.0.1:4173/?demo=1",
+    "firstViewport": {
+      "project": {
+        "x": 144,
+        "y": 226.921875,
+        "width": 482.390625,
+        "height": 149.75,
+        "inViewport": true
+      },
+      "verdict": {
+        "x": 739.390625,
+        "y": 295.03125,
+        "width": 523.609375,
+        "height": 39.9375,
+        "inViewport": true
+      },
+      "conflict": {
+        "x": 739.390625,
+        "y": 352.96875,
+        "width": 523.609375,
+        "height": 24,
+        "inViewport": true
+      }
+    },
+    "banner": "Demo\n— sample data, nothing is saved.\nReset demo\nStart for real",
+    "repeatCtaCount": 0,
+    "sampleName": "Van bed utility cabinet",
+    "panelRows": 6,
+    "stickyAtPanelList": {
+      "banner": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 60
+      },
+      "resetVisible": true,
+      "exitVisible": true
+    },
+    "storageKeys": [
+      "demo:shop-fit-sheet:project:v1",
+      "shop-fit-sheet:project:v1"
+    ]
+  },
+  "routes": {
+    "/": {
+      "status": 200,
+      "title": "Shop Fit Sheet — Check a fitted build",
+      "h1": "Check a fitted build before buying sheet material",
+      "h1Count": 1,
+      "mainCount": 1,
+      "canonical": "https://shop-fit-sheet.sociobot.in/",
+      "privacyLinks": 2,
+      "termsLinks": 1
+    },
+    "/?demo=1": {
+      "status": 200,
+      "title": "Demo — Shop Fit Sheet",
+      "h1": "Van bed utility cabinet",
+      "h1Count": 1,
+      "mainCount": 1,
+      "canonical": "https://shop-fit-sheet.sociobot.in/?demo=1",
+      "privacyLinks": 2,
+      "termsLinks": 1
+    },
+    "/demo": {
+      "status": 200,
+      "title": "Demo — Shop Fit Sheet",
+      "h1": "Van bed utility cabinet",
+      "h1Count": 1,
+      "mainCount": 1,
+      "canonical": "https://shop-fit-sheet.sociobot.in/demo",
+      "privacyLinks": 2,
+      "termsLinks": 1
+    },
+    "/privacy": {
+      "status": 200,
+      "title": "Privacy — Shop Fit Sheet",
+      "h1": "Your plan stays in your browser",
+      "h1Count": 1,
+      "mainCount": 1,
+      "canonical": "https://shop-fit-sheet.sociobot.in/privacy",
+      "privacyLinks": 2,
+      "termsLinks": 1
+    },
+    "/terms": {
+      "status": 200,
+      "title": "Terms — Shop Fit Sheet",
+      "h1": "Use the sheet as a planning aid",
+      "h1Count": 1,
+      "mainCount": 1,
+      "canonical": "https://shop-fit-sheet.sociobot.in/terms",
+      "privacyLinks": 2,
+      "termsLinks": 1
+    },
+    "/does-not-exist": {
+      "status": 404,
+      "title": "Page not found — Shop Fit Sheet",
+      "h1": "Page not found",
+      "h1Count": 1,
+      "mainCount": 1,
+      "canonical": "https://shop-fit-sheet.sociobot.in/does-not-exist",
+      "privacyLinks": 2,
+      "termsLinks": 1
+    }
+  },
+  "axe": {
+    "/": [],
+    "/?demo=1": [],
+    "/demo": [],
+    "/privacy": [],
+    "/terms": [],
+    "/does-not-exist": []
+  },
+  "history": {
+    "focused": true,
+    "announcement": "Page changed: Van bed utility cabinet"
+  },
+  "privacy": {
+    "origins": [
+      "http://127.0.0.1:4173"
+    ],
+    "offOrigin": [],
+    "errors": []
+  },
+  "offline": {
+    "registration": {
+      "state": "activated",
+      "caches": [
+        "shop-fit-sheet-v9"
+      ]
+    },
+    "verdict": "1 conflict to fix"
+  },
+  "mobile": {
+    "firstViewport": {
+      "project": {
+        "x": 20,
+        "y": 250.6875,
+        "width": 338.203125,
+        "height": 76.6875,
+        "inViewport": true
+      },
+      "verdict": {
+        "x": 39,
+        "y": 488.375,
+        "width": 312,
+        "height": 25.78125,
+        "inViewport": true
+      },
+      "conflict": {
+        "x": 39,
+        "y": 526.15625,
+        "width": 312,
+        "height": 48,
+        "inViewport": true
+      }
+    },
+    "stickyBanner": {
+      "x": 0,
+      "y": 0,
+      "width": 390,
+      "height": 75.6875
+    },
+    "undersizedTargets": [],
+    "text200": {
+      "scrollWidth": 390,
+      "clientWidth": 390
+    }
+  }
+}

@@ -1,47 +1,62 @@
-# Shop Fit Sheet review 3 handoff — FAIL
+# Shop Fit Sheet polish 3 handoff — PASS
 
-- **Work order:** `shop-fit-sheet-review-3`
-- **Reviewed commit:** `52a209ad3582cf96d89ed57e9c577d02d9a162cd`
+- **Work order:** `shop-fit-sheet-polish-3`
+- **Base:** `a68b488f218ea546857513b15cdbb0db39c922dd`
+- **Repair code:** `0df2ff72e2ad2548b9e657ef207c7ce49430d54a`
 - **Live URL:** <https://shop-fit-sheet.sociobot.in>
 - **Demo URL:** <https://shop-fit-sheet.sociobot.in/?demo=1>
-- **Reviewed:** 2026-08-29 UTC
+- **Deployment:** Azure Static Web Apps `19bc03ff-46bd-4cc3-9a73-e56a9304eb94`
+- **Verified:** 2026-08-29 UTC
 
-## What was done
+## What changed
 
-Performed the requested adversarial first-read review without changing product code. The detailed report is in [review-3.md](review-3.md).
+The one-click demo now opens on the populated product, with the sample project, calculated verdict, and first conflict visible in the immediate desktop and phone viewport. Its demo status, Reset demo, and Start for real controls remain sticky while the visitor works. Reset restores the sample without touching real data.
 
-The cold landing page is clear at 390 × 844 and 1440 × 900. The calculator, storage isolation, reset/exit flow, offline behavior, claims, routes, metadata, accessibility smoke checks, build, and prior functional repairs all pass. Three blocking findings remain:
+The 404 h1 now says **Page not found**. The earlier first-screen copy, diagram grammar, allowance arithmetic, unit precision, count limits, demo isolation, route titles and metadata, history focus, legal links, responsive behavior, offline shell, and complete claim coverage were retained and re-verified. The distinct annotated field-guide design remains intact.
 
-1. `F-3-1`: the one-click demo returns to the marketing hero; the populated product is below the next viewport.
-2. `F-3-2`: the demo banner scrolls away while the visitor uses the sample.
-3. `F-3-3 / H-6`: the 404 h1 is still metaphorical copy: “This page is not on the sheet.”
+The catalog description is now: **Check a fitted build before buying sheet material.**
 
-No product code was modified. Only this handoff and `.factory/review-3.md` were added/updated.
+The full finding-to-change-to-evidence ledger is in [polish-3.md](polish-3.md).
 
-## Verification performed
+## Verification
 
-- Fresh no-local clone: `/tmp/shop-fit-sheet-review-3-RYBfNP`
+- Final clean clone at `0df2ff72e2ad2548b9e657ef207c7ce49430d54a`
 - `npm ci`: passed; 22 packages, zero reported vulnerabilities
-- Every exact command in `.factory/claims.json`: passed independently; 11 claims × desktop/mobile = 22 passing executions
-- `npm test`: passed; 46 passed and two expected desktop skips; build emitted `dist/`
-- Live cold browser checks: 390 × 844 and 1440 × 900
-- Live demo: sample, exact conflict, reset, real/demo isolation, exit, and offline reload passed
-- Live request audit: same-origin only; no console/page error in the normal demo flow
-- Live routes and link crawl: valid routes 200; designed missing route 404; external factory link 200
-- Live route metadata and Back/Forward focus checks: passed
-- Live Axe serious/critical checks: none on root, demo, privacy, terms, or 404
+- Every exact `.factory/claims.json` command: passed independently; 11 claims × desktop/mobile = 22 passing executions
+- `npm test`: 50 passed, two expected desktop skips
+- `npm run build`: passed; `dist/` produced
+- Initial bundle: 27.07 kB JS / 9.51 kB gzip and 18.78 kB CSS / 5.03 kB gzip
+- Live cold checks at 1440 × 900 and 390 × 844: passed
+- Live demo first viewport, sticky controls, reset, exit, sample calculations, and real/demo storage isolation: passed
+- Live routes: five intended routes returned 200; designed missing route returned 404
+- Live titles, canonicals, one h1, one main, focus restoration, announcements, and legal links: passed
+- Live Axe serious/critical scan on root, both demo URLs, Privacy, Terms, and 404: zero findings
+- Live network/privacy audit: same-origin requests only; no console or page errors
+- Live offline reload: passed from service-worker cache `shop-fit-sheet-v9`
+- Live 390 px target-size and 200% text-reflow checks: passed
+- Live Lighthouse mobile: 100 performance, 100 accessibility, 100 best practices, 100 SEO; FCP 0.9 s, LCP 1.0 s, CLS 0, TBT 50 ms, 71 KiB transferred
 - `/opt/fleet/lib/verify-url.sh 'https://shop-fit-sheet.sociobot.in/?demo=1'`: passed
-- Live JS/CSS hashes match the clean build
-- Live mobile 44 px targets, 200% text reflow, count maxima, unit precision, and diagram grammar: passed
+- Deployed HTML, hashed JS/CSS, and service worker match the verified `dist/`
 
-## How to reproduce the blockers
+Screenshots, Lighthouse reports, verifier output, and the browser audit are under `.factory/evidence-polish-3/`.
 
-1. Open the live root at 390 × 844 or 1440 × 900 in a fresh context.
-2. Click **Try it with sample data** once.
-3. Confirm that the next viewport still shows the hero, not the sample project or conflict. At 390 px, the verdict begins roughly 4,915 px below the viewport.
-4. Scroll to the planner and confirm that the demo banner, Reset, and Start for real controls are no longer visible.
-5. Open `/does-not-exist` and confirm the h1 is “This page is not on the sheet,” not “Page not found.”
+## Run and verify
 
-## Next steps
+```sh
+npm ci
+npm test
+npm run build
+npm run preview
+```
 
-Render a product-first demo state, make its banner sticky, replace the 404 h1 with plain copy, and add regressions that assert the demo result is inside the immediate viewport and the banner remains visible at the planner and result. Then deploy and repeat the live review.
+Then open <http://localhost:4173/?demo=1>. To repeat the live audit:
+
+```sh
+node .factory/evidence-polish-3/live-qa.mjs \
+  https://shop-fit-sheet.sociobot.in \
+  .factory/evidence-polish-3/live
+```
+
+## Known gaps
+
+None.
