@@ -16,7 +16,6 @@ One-click demo: <https://shop-fit-sheet.sociobot.in/demo>
 - Millimetres and inches
 - Local browser storage and an offline service worker
 - A separate demo storage namespace
-- An optional $9 one-time local project library
 
 Shop Fit Sheet is a planning aid. It does not design joints, test loads, choose fixings, or optimise sheet cuts. Verify every measurement and safety decision before cutting.
 
@@ -54,11 +53,7 @@ The tests cover each claim in [.factory/claims.json](.factory/claims.json), both
 
 Plans stay in browser storage. The demo uses `demo:shop-fit-sheet:project:v1`, separate from the real project key. There are no analytics, trackers, runtime fonts, or third-party scripts. After the first visit, the service worker reloads the calculator without a network.
 
-License verification is the only calculator-side request to another origin. It sends only a pasted or returned license token to `api.sociobot.in`.
-
-## Paid project library
-
-The calculator and print sheet are free. The optional local project library costs $9 once. Checkout and license verification use the Sociobot billing API. The factory registers the product; this repository does not contain a payment-provider key or hardcoded product ID beyond the public product slug.
+The calculator makes no third-party requests. It stores plans only in browser storage on this device.
 
 ## Deploy
 

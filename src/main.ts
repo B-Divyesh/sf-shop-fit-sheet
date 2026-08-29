@@ -4,13 +4,10 @@ import { blankProject, calculate, convertProject, sampleProject, type Project, t
 const PRODUCT = 'shop-fit-sheet';
 const REAL_KEY = `${PRODUCT}:project:v1`;
 const DEMO_KEY = `demo:${PRODUCT}:project:v1`;
-const LICENSE_KEY = `sb_license:${PRODUCT}`;
-const VERDICT_KEY = `${PRODUCT}:license-verdict`;
-const BUILD_ID = '1.0.0';
+const BUILD_ID = '1.0.1';
 const app = document.querySelector<HTMLDivElement>('#app')!;
 let isDemo = location.pathname === '/demo' || new URLSearchParams(location.search).get('demo') === '1';
 let project = loadProject();
-let licenseValid = cachedLicenseValid();
 
 function escapeHtml(value: string | number): string {
   return String(value).replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]!);
@@ -28,13 +25,6 @@ function loadProject(): Project {
 
 function saveProject(): void {
   localStorage.setItem(isDemo ? DEMO_KEY : REAL_KEY, JSON.stringify(project));
-}
-
-function cachedLicenseValid(): boolean {
-  try {
-    const cached = JSON.parse(localStorage.getItem(VERDICT_KEY) ?? '{}');
-    return cached.valid === true;
-  } catch { return false; }
 }
 
 function icon(name: 'leaf' | 'ruler' | 'warn'): string {
@@ -112,32 +102,18 @@ function results(): string {
 
 function landing(): string {
   return `${header()}<main id="main" tabindex="-1">
-    <section class="hero" aria-labelledby="page-title"><div class="hero-copy"><div class="specimen-label">Workshop field note · No. 01</div><h1 id="page-title" tabindex="-1">Check a fitted build before buying stock</h1><p class="lede">For home makers fitting cabinets or benches into tight garages, utility rooms, and vehicles.</p><div class="hero-actions"><a class="primary-button" href="/demo" data-link>Try it with sample data <span aria-hidden="true">→</span></a><span>See a filled plan and its conflicts.</span></div><ul class="plain-facts"><li>${icon('leaf')} Plans stay on this device</li><li>${icon('ruler')} Works offline after the first visit</li><li>${icon('warn')} Free calculator · $9 project library</li></ul></div><figure class="hero-art"><picture><source media="(max-width: 700px)" srcset="/assets/hero-720.webp"><img src="/assets/hero-1200.webp" width="1200" height="800" alt="A plywood cabinet arranged like a botanical specimen beside a fern and folding rule." fetchpriority="high" decoding="async"></picture><figcaption>Cabinet specimen, plate 01 · generated for Shop Fit Sheet</figcaption></figure></section>
+    <section class="hero" aria-labelledby="page-title"><div class="hero-copy"><div class="specimen-label">Workshop field note · No. 01</div><h1 id="page-title" tabindex="-1">Check a fitted build before buying stock</h1><p class="lede">For home makers fitting cabinets or benches into tight garages, utility rooms, and vehicles.</p><div class="hero-actions"><a class="primary-button" href="/demo" data-link>Try it with sample data <span aria-hidden="true">→</span></a><span>See a filled plan and its conflicts.</span></div><ul class="plain-facts"><li>${icon('leaf')} Plans stay on this device</li><li>${icon('ruler')} Works offline after the first visit</li><li>${icon('warn')} Free calculator and printable build sheet</li></ul></div><figure class="hero-art"><picture><source media="(max-width: 700px)" srcset="/assets/hero-720.748a1193.webp"><img src="/assets/hero-1200.7e56413d.webp" width="1200" height="800" alt="A plywood cabinet arranged like a botanical specimen beside a fern and folding rule." fetchpriority="high" decoding="async"></picture><figcaption>Cabinet specimen, plate 01 · generated for Shop Fit Sheet</figcaption></figure></section>
     <aside class="safety-note">${icon('warn')}<div><strong>Measure twice. Verify the result before cutting.</strong><p>This sheet is not structural or load-safety advice. Confirm fixings, spans, hinges, ventilation, and site conditions.</p></div></aside>
     ${calculator()}
     <section class="how" aria-labelledby="how-heading"><div class="section-kicker">A short field method</div><h2 id="how-heading">How the fit check works</h2><ol><li><span>01</span><div><h3>Measure the space</h3><p>Record the tightest width, height, and depth. Add room for walls, doors, cables, and airflow.</p></div></li><li><span>02</span><div><h3>Describe the build</h3><p>Enter the outer size, panel thickness, supports, shelves, and doors.</p></div></li><li><span>03</span><div><h3>Check before buying</h3><p>Fix conflicts. Then print the panel list and verify every size at the site.</p></div></li></ol></section>
     <section class="limits" aria-labelledby="limits-heading"><div><div class="section-kicker">Scope note</div><h2 id="limits-heading">A fit check, not an engineering drawing</h2></div><div><p>Shop Fit Sheet checks the outer envelope and makes a rough panel list. It does not design joints, choose fixings, test loads, or optimise cuts.</p><p>No account is needed. Your current plan stays in your browser.</p></div></section>
-    ${paidSection()}
   </main>${footer()}`;
-}
-
-function paidSection(): string {
-  const inactiveNotice = !licenseValid && localStorage.getItem(LICENSE_KEY) && localStorage.getItem(VERDICT_KEY)
-    ? '<p class="form-status">Your license is no longer active. Paste another license or buy the project library.</p>' : '';
-  return `<section class="paid" aria-labelledby="paid-heading"><div><div class="section-kicker">Optional one-time purchase</div><h2 id="paid-heading">Keep a local project library for $9</h2><p>Save named versions on this device and reopen them later. The calculator and print sheet stay free.</p><ul><li>One-time purchase</li><li>No subscription</li><li>Sociobot is the merchant of record</li></ul></div><div class="license-panel">${licenseValid ? `<p class="license-active"><span>✓</span><strong>Project library active</strong></p><button class="primary-button" data-action="save-library">Save current version</button><div id="library-list">${libraryList()}</div>` : `${inactiveNotice}<a class="primary-button" href="https://api.sociobot.in/api/v1/products/${PRODUCT}/checkout">Buy the project library <span aria-hidden="true">→</span></a><details><summary>Have a license?</summary><form class="license-form"><label for="license-token">Paste your license token</label><input id="license-token" name="license" autocomplete="off"><button class="secondary-button" type="submit" aria-label="Verify license">Verify license</button><p class="form-status" aria-live="polite"></p></form></details>`}</div></section>`;
-}
-
-function libraryList(): string {
-  let items: Array<{ id: string; name: string; project: Project }> = [];
-  try { items = JSON.parse(localStorage.getItem(`${PRODUCT}:library:v1`) ?? '[]'); } catch { /* empty */ }
-  if (!items.length) return '<p class="empty-note">Saved versions appear here after you save the current plan.</p>';
-  return `<ul class="library-list">${items.map((item) => `<li><button data-action="load-project" data-id="${item.id}">${escapeHtml(item.name)}</button></li>`).join('')}</ul>`;
 }
 
 function legalPage(kind: 'privacy' | 'terms'): string {
   const privacy = kind === 'privacy';
   document.title = `${privacy ? 'Privacy' : 'Terms'} — Shop Fit Sheet`;
-  return `${header()}<main id="main" class="legal" tabindex="-1"><div class="section-kicker">Field note · ${privacy ? 'Privacy' : 'Terms'}</div><h1 tabindex="-1">${privacy ? 'Your plan stays in your browser' : 'Use the sheet as a planning aid'}</h1>${privacy ? `<p class="lede">Shop Fit Sheet has no account, analytics, advertising, or tracking.</p><h2>What is stored</h2><p>Your current plan, demo plan, saved project versions, and license token use local browser storage. Demo data uses a separate <code>demo:</code> storage key.</p><h2>What leaves the device</h2><p>Calculator data does not leave your device. A license token is sent to the Sociobot billing API only when you verify a purchase. Checkout opens the Sociobot payment page.</p><h2>Remove your data</h2><p>Clear this site’s browser storage to remove plans and license details. “Reset demo” removes the demo copy.</p>` : `<p class="lede">Check every measurement and safety decision before you cut or install anything.</p><h2>Planning output only</h2><p>The calculator estimates fit, panel sizes, and sheet area from the measurements you enter. It is not engineering, structural, electrical, vehicle, or load-safety advice.</p><h2>Your responsibility</h2><p>You must verify site dimensions, material thickness, joints, fixings, loads, clearances, hinge rules, airflow, and local requirements.</p><h2>Purchases</h2><p>The optional $9 project library is a one-time purchase for this browser tool. Sociobot and Dodo are the merchant of record. Their checkout handles payment and refunds. A refund revokes the license.</p><h2>No warranty</h2><p>The software is provided “as is”, without warranty. See the MIT License in the source repository for the full terms.</p>`}</main>${footer()}`;
+  return `${header()}<main id="main" class="legal" tabindex="-1"><div class="section-kicker">Field note · ${privacy ? 'Privacy' : 'Terms'}</div><h1 tabindex="-1">${privacy ? 'Your plan stays in your browser' : 'Use the sheet as a planning aid'}</h1>${privacy ? `<p class="lede">Shop Fit Sheet has no account, analytics, advertising, or tracking.</p><h2>What is stored</h2><p>Your current plan and demo plan use local browser storage. Demo data uses a separate <code>demo:</code> storage key.</p><h2>What leaves the device</h2><p>Calculator data does not leave your device. This version makes no third-party requests.</p><h2>Remove your data</h2><p>Clear this site’s browser storage to remove plans. “Reset demo” removes the demo copy.</p>` : `<p class="lede">Check every measurement and safety decision before you cut or install anything.</p><h2>Planning output only</h2><p>The calculator estimates fit, panel sizes, and sheet area from the measurements you enter. It is not engineering, structural, electrical, vehicle, or load-safety advice.</p><h2>Your responsibility</h2><p>You must verify site dimensions, material thickness, joints, fixings, loads, clearances, hinge rules, airflow, and local requirements.</p><h2>No warranty</h2><p>The software is provided “as is”, without warranty. See the MIT License in the source repository for the full terms.</p>`}</main>${footer()}`;
 }
 
 function notFound(): string {
@@ -175,11 +151,6 @@ function bindCalculator(): void {
   document.querySelector<HTMLSelectElement>('[data-unit]')?.addEventListener('change', (event) => {
     project = convertProject(project, (event.target as HTMLSelectElement).value as Unit); saveProject(); render();
   });
-  document.querySelector<HTMLFormElement>('.license-form')?.addEventListener('submit', async (event) => {
-    event.preventDefault(); const form = event.currentTarget as HTMLFormElement; const token = new FormData(form).get('license')?.toString().trim();
-    if (!token) return;
-    localStorage.setItem(LICENSE_KEY, token); await verifyLicense(token, form.querySelector('.form-status')!);
-  });
 }
 
 function bindCommon(): void {
@@ -194,52 +165,14 @@ function handleAction(button: HTMLElement): void {
   if (action === 'print') window.print();
   if (action === 'reset-demo') { localStorage.removeItem(DEMO_KEY); project = structuredClone(sampleProject); saveProject(); render(); }
   if (action === 'start-real') { localStorage.removeItem(DEMO_KEY); navigate('/'); }
-  if (action === 'save-library' && licenseValid) {
-    const key = `${PRODUCT}:library:v1`; let items: Array<{ id: string; name: string; project: Project }> = [];
-    try { items = JSON.parse(localStorage.getItem(key) ?? '[]'); } catch { /* empty */ }
-    items.unshift({ id: crypto.randomUUID(), name: `${project.name} · ${new Date().toLocaleDateString()}`, project: structuredClone(project) });
-    localStorage.setItem(key, JSON.stringify(items.slice(0, 25))); document.querySelector('#library-list')!.innerHTML = libraryList();
-  }
-  if (action === 'load-project') {
-    try { const items = JSON.parse(localStorage.getItem(`${PRODUCT}:library:v1`) ?? '[]'); const item = items.find((entry: { id: string }) => entry.id === button.dataset.id); if (item) { project = item.project; saveProject(); render(); location.hash = 'planner'; } } catch { /* no action */ }
-  }
 }
 
 function navigate(path: string): void {
   history.pushState({}, '', path); isDemo = path === '/demo'; project = loadProject(); render(); scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); requestAnimationFrame(() => { const heading = document.querySelector<HTMLElement>('h1'); heading?.focus({ preventScroll: true }); const status = document.querySelector('#route-status'); if (status) status.textContent = heading?.textContent ?? ''; });
 }
 
-async function verifyLicense(token: string, status: HTMLElement): Promise<void> {
-  status.textContent = 'Checking the license…';
-  try {
-    const response = await fetch(`https://api.sociobot.in/api/v1/products/${PRODUCT}/verify?license=${encodeURIComponent(token)}`);
-    const verdict = await response.json() as { valid: boolean; reason?: string };
-    localStorage.setItem(VERDICT_KEY, JSON.stringify({ valid: verdict.valid, checkedAt: Date.now() })); licenseValid = verdict.valid;
-    render();
-  } catch { status.textContent = 'The license check could not connect. Check your connection and try again.'; }
-}
-
 function updateCanonical(path: string): void {
   const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]'); if (canonical) canonical.href = `https://shop-fit-sheet.sociobot.in${path === '/' ? '/' : path}`;
-}
-
-function acceptLicenseFromUrl(): boolean {
-  const url = new URL(location.href); const token = url.searchParams.get('license');
-  if (!token) return false;
-  localStorage.setItem(LICENSE_KEY, token); localStorage.removeItem(VERDICT_KEY); licenseValid = false;
-  url.searchParams.delete('license'); history.replaceState({}, '', url.pathname + url.search + url.hash);
-  void verifyLicense(token, document.createElement('span'));
-  return true;
-}
-
-function verifyStoredLicenseIfDue(): void {
-  const token = localStorage.getItem(LICENSE_KEY);
-  if (!token) return;
-  try {
-    const cached = JSON.parse(localStorage.getItem(VERDICT_KEY) ?? '{}') as { checkedAt?: number };
-    if (typeof cached.checkedAt === 'number' && Date.now() - cached.checkedAt < 86_400_000) return;
-  } catch { /* verify below */ }
-  void verifyLicense(token, document.createElement('span'));
 }
 
 window.addEventListener('popstate', () => { isDemo = location.pathname === '/demo'; project = loadProject(); render(); });
@@ -247,5 +180,4 @@ window.addEventListener('offline', () => { document.body.dataset.offline = 'true
 window.addEventListener('online', () => { delete document.body.dataset.offline; });
 if (!navigator.onLine) document.body.dataset.offline = 'true';
 render();
-if (!acceptLicenseFromUrl()) verifyStoredLicenseIfDue();
 if ('serviceWorker' in navigator && import.meta.env.PROD) window.addEventListener('load', () => void navigator.serviceWorker.register('/sw.js'));

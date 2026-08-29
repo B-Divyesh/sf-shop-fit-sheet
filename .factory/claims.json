@@ -33,12 +33,5 @@
     "where": "landing facts and README",
     "test": "npm test -- --grep @claim:offline-reload",
     "sandbox": "fresh browser context at /demo; wait for its service worker, go offline, reload, and assert the sample verdict"
-  },
-  {
-    "id": "paid-library-price",
-    "claim": "The calculator is free and the local project library is a $9 one-time purchase",
-    "where": "landing facts, paid section, terms, and README",
-    "test": "npm test -- --grep @claim:paid-library-price",
-    "sandbox": "fresh browser context; assert the free calculator is usable, exact price copy appears, and checkout uses the Sociobot product URL"
   }
 ]

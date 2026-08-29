@@ -1,6 +1,6 @@
 # Landing-page copy audit
 
-Audited 2026-08-28. Counts treat symbols and measurements as words. Headings, labels, facts, result messages, and sentences are included because visitors rely on all of them.
+Audited 2026-08-29. Counts treat symbols and measurements as words. Headings, labels, facts, result messages, and sentences are included because visitors rely on all of them.
 
 | Copy | Words | Result |
 | --- | ---: | --- |
@@ -10,7 +10,7 @@ Audited 2026-08-28. Counts treat symbols and measurements as words. Headings, la
 | See a filled plan and its conflicts. | 7 | Pass |
 | Plans stay on this device | 5 | Pass |
 | Works offline after the first visit | 6 | Pass |
-| Free calculator · $9 project library | 5 | Pass |
+| Free calculator and printable build sheet | 6 | Pass |
 | Measure twice. | 2 | Pass |
 | Verify the result before cutting. | 6 | Pass |
 | This sheet is not structural or load-safety advice. | 8 | Pass |
@@ -39,15 +39,6 @@ Audited 2026-08-28. Counts treat symbols and measurements as words. Headings, la
 | It does not design joints, choose fixings, test loads, or optimise cuts. | 12 | Pass |
 | No account is needed. | 4 | Pass |
 | Your current plan stays in your browser. | 7 | Pass |
-| Keep a local project library for $9 | 7 | Pass |
-| Save named versions on this device and reopen them later. | 9 | Pass |
-| The calculator and print sheet stay free. | 7 | Pass |
-| One-time purchase | 2 | Pass |
-| No subscription | 2 | Pass |
-| Sociobot is the merchant of record | 6 | Pass |
-| Saved versions appear here after you save the current plan. | 10 | Pass |
-| Your license is no longer active. | 6 | Pass |
-| Paste another license or buy the project library. | 8 | Pass |
 | Check a fitted build before you buy sheet material. | 9 | Pass |
 
 No sentence exceeds 22 words. The average is 7.1 words. No banned word appears.
@@ -64,7 +55,6 @@ No sentence exceeds 22 words. The average is 7.1 words. No banned word appears.
 | Browser-isolated sample | demo |
 | Calculated problem | conflict |
 | Item needing manual confirmation | check |
-| Paid saved-version feature | project library |
 | Printed calculator output | build sheet |
 
 Catalog description: “Check a fitted build before you buy sheet material.” (50 characters; starts with a verb.)

@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { readFileSync, readdirSync } from 'node:fs';
 
 test('@claim:conflict-check sample exposes the exact fit conflict', async ({ page }) => {
   await page.goto('/demo');
@@ -55,21 +56,49 @@ test('@claim:offline-reload reloads the demo without a network', async ({ page, 
       await new Promise<void>((resolve) => navigator.serviceWorker.addEventListener('controllerchange', () => resolve(), { once: true }));
     }
   });
-  await expect.poll(() => page.evaluate(async () => (await caches.keys()).includes('shop-fit-sheet-v4'))).toBe(true);
+  await expect.poll(() => page.evaluate(async () => (await caches.keys()).includes('shop-fit-sheet-v5'))).toBe(true);
   await context.setOffline(true);
   await page.reload();
   await expect(page.getByRole('heading', { name: '1 conflict to fix' })).toBeVisible();
   await context.setOffline(false);
 });
 
-test('@claim:paid-library-price shows the exact offer and checkout', async ({ page }) => {
+test('regression: an unregistered checkout is neither advertised nor requested', async ({ page }) => {
+  const offOrigin: string[] = [];
+  page.on('request', (request) => {
+    if (new URL(request.url()).origin !== 'http://127.0.0.1:4173') offOrigin.push(request.url());
+  });
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: 'Keep a local project library for $9' })).toBeVisible();
-  await expect(page.getByText('One-time purchase', { exact: true })).toBeVisible();
-  await expect(page.getByText('The calculator and print sheet stay free.')).toBeVisible();
-  await expect(page.getByRole('link', { name: /Buy the project library/ })).toHaveAttribute('href', 'https://api.sociobot.in/api/v1/products/shop-fit-sheet/checkout');
+  await expect(page.getByText(/\$9/)).toHaveCount(0);
+  await expect(page.getByRole('link', { name: /buy|checkout|project library/i })).toHaveCount(0);
   await page.getByLabel('Space width').fill('1000');
   await expect(page.getByLabel('Space width')).toHaveValue('1000');
+  await page.goto('/privacy');
+  await expect(page.getByText('This version makes no third-party requests.')).toBeVisible();
+  expect(offOrigin).toEqual([]);
+});
+
+test('regression: release config fingerprints assets, caches them immutably, and preserves HTTP 404', () => {
+  const config = JSON.parse(readFileSync('public/staticwebapp.config.json', 'utf8')) as {
+    routes: Array<{ route: string; rewrite?: string; headers?: Record<string, string> }>;
+    navigationFallback: { exclude: string[] };
+    responseOverrides: Record<string, { rewrite: string }>;
+  };
+  const assetsRoute = config.routes.find((route) => route.route === '/assets/*');
+  expect(assetsRoute?.headers?.['Cache-Control']).toBe('public, max-age=31536000, immutable');
+  expect(config.routes.filter((route) => route.rewrite === '/index.html').map((route) => route.route))
+    .toEqual(['/demo', '/privacy', '/terms']);
+  expect(config.navigationFallback.exclude).toContain('/*');
+  expect(config.responseOverrides['404']).toEqual({ rewrite: '/index.html' });
+
+  const assets = readdirSync('dist/assets');
+  const appJs = assets.find((name) => /^app-[a-zA-Z0-9_-]+\.js$/.test(name));
+  const appCss = assets.find((name) => /^app-[a-zA-Z0-9_-]+\.css$/.test(name));
+  expect(appJs).toBeTruthy();
+  expect(appCss).toBeTruthy();
+  const serviceWorker = readFileSync('dist/sw.js', 'utf8');
+  expect(serviceWorker).toContain(`/assets/${appJs}`);
+  expect(serviceWorker).toContain(`/assets/${appCss}`);
 });
 
 test('routes have one h1, distinct titles, and no serious accessibility findings', async ({ page }, testInfo) => {
@@ -128,22 +157,4 @@ test('invalid measurements explain what to fix', async ({ page }) => {
   await expect(page.getByText('Clearances and gaps cannot be negative.')).toBeVisible();
   await page.getByRole('spinbutton', { name: 'Centre supports', exact: true }).fill('1.5');
   await expect(page.getByText('Supports, shelves, and doors must use whole numbers of zero or more.')).toBeVisible();
-});
-
-test('a stale paid license is checked and revoked in the background', async ({ page }) => {
-  let release!: () => void;
-  const heldResponse = new Promise<void>((resolve) => { release = resolve; });
-  await page.addInitScript(() => {
-    localStorage.setItem('sb_license:shop-fit-sheet', 'stale-test-token');
-    localStorage.setItem('shop-fit-sheet:license-verdict', JSON.stringify({ valid: true, checkedAt: 0 }));
-  });
-  await page.route('https://api.sociobot.in/api/v1/products/shop-fit-sheet/verify?license=stale-test-token', async (route) => {
-    await heldResponse;
-    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ valid: false, reason: 'revoked' }) });
-  });
-  await page.goto('/');
-  await expect(page.getByText('Project library active')).toBeVisible();
-  release();
-  await expect(page.getByText('Your license is no longer active. Paste another license or buy the project library.')).toBeVisible();
-  await expect(page.getByRole('link', { name: /Buy the project library/ })).toBeVisible();
 });
