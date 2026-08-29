@@ -6,15 +6,18 @@ function precachePlugin(): Plugin {
   return {
     name: 'shop-fit-sheet-precache',
     generateBundle(_, bundle) {
-      const generatedAssets = Object.values(bundle).flatMap((item) => {
+      // Rollup does not promise insertion order for bundle entries. Keep the
+      // generated portion stable so independently produced release artifacts
+      // have the same service-worker bytes.
+      const generatedAssets = [...new Set(Object.values(bundle).flatMap((item) => {
         if (item.type === 'chunk' && item.fileName.startsWith('assets/main-') && item.fileName.endsWith('.js')) return [`/${item.fileName}`];
         if (item.type === 'asset' && item.fileName.startsWith('assets/') && /\.(?:css|webp)$/.test(item.fileName)) return [`/${item.fileName}`];
         if (item.type !== 'asset' || !item.fileName.endsWith('.html') || typeof item.source !== 'string') return [];
         return [...item.source.matchAll(/(?:src|href)="(\/assets\/[^"?]+\.js)"/g)].map((match) => match[1]);
-      });
+      }))].sort();
       const shell = ['/', '/?demo=1', '/demo', '/privacy', '/terms', '/404.html', '/manifest.webmanifest', '/favicon.svg', '/apple-touch-icon.png', ...generatedAssets];
-      const source = `const CACHE = 'shop-fit-sheet-v8';\nconst SHELL = ${JSON.stringify(shell)};\n\nself.addEventListener('install', (event) => {\n  const freshRequests = SHELL.map((url) => new Request(url, { cache: 'reload' }));\n  event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(freshRequests)).then(() => self.skipWaiting()));\n});\n\nself.addEventListener('activate', (event) => {\n  event.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((key) => key !== CACHE).map((key) => caches.delete(key)))).then(() => self.clients.claim()));\n});\n\nself.addEventListener('fetch', (event) => {\n  if (event.request.method !== 'GET' || new URL(event.request.url).origin !== self.location.origin) return;\n  event.respondWith(caches.match(event.request, { ignoreVary: true }).then((cached) => cached || fetch(event.request).then((response) => {\n    if (response.ok) caches.open(CACHE).then((cache) => cache.put(event.request, response.clone()));\n    return response;\n  }).catch(() => event.request.mode === 'navigate' ? caches.match('/', { ignoreVary: true }) : undefined)));\n});\n`;
-      this.emitFile({ type: 'asset', fileName: 'sw.js', source: source.replace('shop-fit-sheet-v8', 'shop-fit-sheet-v9') });
+      const source = `const CACHE = 'shop-fit-sheet-v10';\nconst SHELL = ${JSON.stringify(shell)};\n\nself.addEventListener('install', (event) => {\n  const freshRequests = SHELL.map((url) => new Request(url, { cache: 'reload' }));\n  event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(freshRequests)).then(() => self.skipWaiting()));\n});\n\nself.addEventListener('activate', (event) => {\n  event.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((key) => key !== CACHE).map((key) => caches.delete(key)))).then(() => self.clients.claim()));\n});\n\nself.addEventListener('fetch', (event) => {\n  if (event.request.method !== 'GET' || new URL(event.request.url).origin !== self.location.origin) return;\n  event.respondWith(caches.match(event.request, { ignoreVary: true }).then((cached) => cached || fetch(event.request).then((response) => {\n    if (response.ok) caches.open(CACHE).then((cache) => cache.put(event.request, response.clone()));\n    return response;\n  }).catch(() => event.request.mode === 'navigate' ? caches.match('/', { ignoreVary: true }) : undefined)));\n});\n`;
+      this.emitFile({ type: 'asset', fileName: 'sw.js', source });
     },
   };
 }

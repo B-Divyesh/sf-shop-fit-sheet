@@ -1,4 +1,4 @@
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import { expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
@@ -140,11 +140,25 @@ test('@claim:offline-reload reloads the demo without a network', async ({ page, 
       await new Promise<void>((resolve) => navigator.serviceWorker.addEventListener('controllerchange', () => resolve(), { once: true }));
     }
   });
-  await expect.poll(() => page.evaluate(async () => (await caches.keys()).includes('shop-fit-sheet-v9'))).toBe(true);
+  await expect.poll(() => page.evaluate(async () => (await caches.keys()).includes('shop-fit-sheet-v10'))).toBe(true);
   await context.setOffline(true);
   await page.reload();
   await expect(page.getByRole('heading', { name: '1 conflict to fix' })).toBeVisible();
   await context.setOffline(false);
+});
+
+test('@regression:release-artifacts service-worker precache is complete, unique, and sorted', async () => {
+  const source = await readFile(join(process.cwd(), 'dist/sw.js'), 'utf8');
+  const encodedShell = source.match(/const SHELL = (\[[^;]+\]);/)?.[1];
+  expect(encodedShell, 'Expected a serialized service-worker shell').toBeTruthy();
+  const shell = JSON.parse(encodedShell!) as string[];
+  const generated = shell.filter((path) => path.startsWith('/assets/'));
+  const emitted = (await readdir(join(process.cwd(), 'dist/assets')))
+    .filter((path) => /\.(?:js|css|webp)$/.test(path))
+    .map((path) => `/assets/${path}`)
+    .sort();
+  expect(generated).toEqual([...new Set(generated)].sort());
+  expect(generated).toEqual(emitted);
 });
 
 test('withdraws the unavailable paid offer and makes no billing request', async ({ page }) => {
