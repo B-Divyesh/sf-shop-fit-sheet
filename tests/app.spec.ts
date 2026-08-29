@@ -22,6 +22,37 @@ test('@claim:panel-list calculates panels and invokes print', async ({ page }) =
   await expect(page.locator('body')).toHaveAttribute('data-printed', 'true');
 });
 
+test('@claim:calculated-parts sample calculates openings, doors, supports, shelves, and a back', async ({ page }) => {
+  await page.goto('/demo');
+  const results = page.locator('.result-slot');
+  await expect(results.getByText('648 × 764 mm')).toBeVisible();
+  await expect(results.getByText('670.5 × 794 mm')).toBeVisible();
+  for (const part of ['Centre support', 'Shelf', 'Door', 'Back']) {
+    await expect(results.getByRole('rowheader', { name: new RegExp(part) })).toBeVisible();
+  }
+});
+
+test('@claim:stock-fit-check flags an oversize panel for the selected sheet', async ({ page }) => {
+  await page.goto('/demo');
+  await page.getByLabel('Sheet width').fill('500');
+  await expect(page.getByText('Side at 800 × 750 mm does not fit the chosen stock sheet.')).toBeVisible();
+});
+
+test('@claim:unit-conversion changes the displayed measurements to inches', async ({ page }) => {
+  await page.goto('/demo');
+  await page.getByLabel('Build depth').fill('740');
+  await page.getByLabel('Units').selectOption('in');
+  await expect(page.getByLabel('Build depth')).toHaveValue('29.13');
+  await expect(page.getByText(/All dimensions use inches/)).toBeVisible();
+});
+
+test('@claim:live-results updates the verdict without a submit action', async ({ page }) => {
+  await page.goto('/demo');
+  await expect(page.getByRole('heading', { name: '1 conflict to fix' })).toBeVisible();
+  await page.getByLabel('Build depth').fill('735');
+  await expect(page.getByRole('heading', { name: 'Fits with 1 check' })).toBeVisible();
+});
+
 test('@claim:demo-isolation keeps sample changes separate', async ({ page }) => {
   await page.goto('/');
   await page.getByLabel('Project name').fill('My real garage bench');
@@ -31,6 +62,16 @@ test('@claim:demo-isolation keeps sample changes separate', async ({ page }) => 
   await page.getByRole('button', { name: 'Start for real' }).click();
   await expect(page).toHaveURL(/\/$/);
   await expect(page.getByLabel('Project name')).toHaveValue('My real garage bench');
+});
+
+test('@claim:demo-namespace saves demo edits under a separate browser-storage key', async ({ page }) => {
+  await page.goto('/demo');
+  await page.getByLabel('Project name').fill('Demo storage check');
+  const keys = await page.evaluate(() => Object.keys(localStorage).sort());
+  expect(keys).toContain('demo:shop-fit-sheet:project:v1');
+  expect(keys).not.toContain('shop-fit-sheet:project:v1');
+  const demoValue = await page.evaluate(() => localStorage.getItem('demo:shop-fit-sheet:project:v1'));
+  expect(demoValue).toContain('Demo storage check');
 });
 
 test('@claim:local-only keeps calculator traffic same-origin', async ({ page }) => {
@@ -69,10 +110,23 @@ test('withdraws the unavailable paid offer and makes no billing request', async 
   page.on('request', (request) => requests.push(request.url()));
   await page.goto('/');
   await expect(page.getByText(/\$9 project library|Buy the project library|One-time purchase/)).toHaveCount(0);
-  await expect(page.getByText('Free calculator and printable build sheet')).toBeVisible();
+  await expect(page.getByText('Calculator and printable build sheet')).toBeVisible();
   await page.getByLabel('Space width').fill('1000');
   await expect(page.getByLabel('Space width')).toHaveValue('1000');
   expect(requests.some((url) => url.includes('api.sociobot.in'))).toBe(false);
+});
+
+test('mobile @regression:touch-targets gives every visible control a 44 px target', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'mobile', 'This regression checks the required 390 px viewport.');
+  await page.goto('/demo');
+  const undersized = await page.locator('a, button, input, select, summary').evaluateAll((elements) => elements
+    .map((element) => {
+      const rect = element.getBoundingClientRect();
+      const style = getComputedStyle(element);
+      return { name: element.getAttribute('aria-label') || element.textContent?.trim() || (element as HTMLInputElement).name || element.tagName, width: rect.width, height: rect.height, visible: style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 0 && rect.height > 0 };
+    })
+    .filter((target) => target.visible && (target.width < 44 || target.height < 44)));
+  expect(undersized).toEqual([]);
 });
 
 test('ships hashed immutable assets and a styled HTTP 404 response', async ({ page }) => {

@@ -14,6 +14,34 @@
     "sandbox": "fresh browser context at /demo; assert calculated parts, dimensions, stock allowance, and print action"
   },
   {
+    "id": "calculated-parts",
+    "claim": "Calculates openings, door blanks, supports, shelves, and a back panel",
+    "where": "README and calculator results",
+    "test": "npm test -- --grep @claim:calculated-parts",
+    "sandbox": "fresh browser context at /demo; assert every named calculated value or panel row from the shipped sample"
+  },
+  {
+    "id": "stock-fit-check",
+    "claim": "Flags a panel that will not fit the chosen stock sheet",
+    "where": "README and demo verdict",
+    "test": "npm test -- --grep @claim:stock-fit-check",
+    "sandbox": "fresh browser context at /demo; reduce the stock sheet and assert the observable oversize-part conflict"
+  },
+  {
+    "id": "unit-conversion",
+    "claim": "Switches measurements between millimetres and inches",
+    "where": "README and unit selector",
+    "test": "npm test -- --grep @claim:unit-conversion",
+    "sandbox": "fresh browser context at /demo; switch units and assert the converted build depth"
+  },
+  {
+    "id": "live-results",
+    "claim": "Results update while you type",
+    "where": "calculator heading",
+    "test": "npm test -- --grep @claim:live-results",
+    "sandbox": "fresh browser context at /demo; edit a measurement and assert the verdict changes without submitting"
+  },
+  {
     "id": "demo-isolation",
     "claim": "Demo sample data does not overwrite the user's real project",
     "where": "demo banner and README",
@@ -21,8 +49,15 @@
     "sandbox": "fresh browser context; create a real project, edit demo data, then leave demo and assert the real project remains"
   },
   {
+    "id": "demo-namespace",
+    "claim": "Demo data uses a separate browser-storage namespace",
+    "where": "README, demo documentation, and privacy page",
+    "test": "npm test -- --grep @claim:demo-namespace",
+    "sandbox": "fresh browser context; save a demo edit and assert it is stored only under the demo: key"
+  },
+  {
     "id": "local-only",
-    "claim": "Plans stay on this device and there is no analytics or tracking",
+    "claim": "Plans stay on this device; there is no account, analytics, tracking, or third-party calculator traffic",
     "where": "landing facts, privacy page, and README",
     "test": "npm test -- --grep @claim:local-only",
     "sandbox": "fresh browser context; record the complete demo flow network and assert every request is same-origin, then assert local storage"

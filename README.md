@@ -9,7 +9,7 @@ One-click demo: <https://shop-fit-sheet.sociobot.in/demo>
 
 ## What it includes
 
-- Live width, height, and depth clearance checks
+- Checks the outer build against the cleared space
 - Opening, door blank, support, shelf, and back calculations
 - Oversize-part checks against the chosen stock sheet
 - A printable build sheet with a 15% sheet-area allowance
@@ -52,8 +52,6 @@ The tests cover each claim in [.factory/claims.json](.factory/claims.json), both
 ## Privacy and offline use
 
 Plans stay in browser storage. The demo uses `demo:shop-fit-sheet:project:v1`, separate from the real project key. There are no analytics, trackers, runtime fonts, third-party scripts, or cross-origin calculator requests. After the first visit, the service worker reloads the calculator without a network.
-
-The unavailable project-library offer was removed until the factory can register and test it in the Sociobot billing engine. The free calculator and printable build sheet remain fully usable.
 
 ## Deploy
 

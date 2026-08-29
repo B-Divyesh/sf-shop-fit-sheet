@@ -2,7 +2,7 @@
 
 ## Direction: botanical field guide for the workshop
 
-The product treats a fitted cabinet like a specimen worth measuring before it is cut. A quiet, paper-toned field sheet, ruled annotations, specimen labels, and an original exploded cabinet illustration make the calculator feel specific to hands-on planning. It must not resemble a centred SaaS landing page or a generic CAD dashboard.
+The product treats a fitted cabinet as an object to measure before it is cut. A quiet, paper-toned field sheet, ruled annotations, and an original cabinet illustration make the calculator feel specific to hands-on planning. It must not resemble a centred SaaS landing page or a generic CAD dashboard.
 
 The interface is intentionally single-mode. Its warm paper ground is part of the field-guide metaphor and remains explicit in every route and print view.
 
@@ -34,7 +34,7 @@ Color is never the only state signal. Every warning uses a symbol and explicit t
 ## Shape, depth, and interaction grammar
 
 - Panels resemble loose survey sheets: square corners with one clipped corner, a 1 px ink rule, and a low offset shadow.
-- Section labels use specimen numbers such as `01 · Measure the space`.
+- Section headings use direct task names such as `Measure the space`; the field-guide influence stays visual rather than decorative copy.
 - Buttons are solid fern rectangles with a small arrow or direct verb. Links stay underlined.
 - The calculator is the main visual object. Decoration remains behind or beside the work.
 - Focus is a 3 px ochre outline with a 3 px offset.
