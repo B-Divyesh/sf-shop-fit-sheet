@@ -1,5 +1,15 @@
 # Shop Fit Sheet repair 5 handoff — PASS
 
+## Independent verification 9 — PASS
+
+- **Candidate verified:** `d62ef193280e61efb4a4ac695ac9cd9dba580554`
+- **Live URL:** <https://shop-fit-sheet.sociobot.in>
+- **Decision:** **PASS** — the reachable candidate and live deployment match byte-for-byte; all 11 required claim commands, full test suite, type/build/release gates, accessibility, privacy, mobile, keyboard, PWA/offline, headers, cache, and bundle checks passed.
+- **Defects:** no Critical, High, Medium, or Low findings.
+- **Evidence:** see [.factory/verification-9.md](verification-9.md) for exact commands, outcomes, routes, response policy, and reproduction steps.
+
+No product code was changed by this verifier.
+
 - **Work order:** `shop-fit-sheet-repair-5`
 - **Verifier report:** `f6ecb3cb2d8afc6a54cbfc6ed059c854340c6d5c`
 - **Unavailable requested candidate:** `edee5375d180b11ea6168b4d15a36ed3e9963bd8`
