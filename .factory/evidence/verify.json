@@ -1,26 +1,14 @@
 {
-  "url": "http://127.0.0.1:4173/demo",
-  "loadMs": 621,
+  "url": "https://shop-fit-sheet.sociobot.in",
+  "loadMs": 756,
   "errors": [],
   "a11y": {
-    "title": "Demo — Shop Fit Sheet",
+    "title": "Shop Fit Sheet — Check a fitted build",
     "lang": "en",
     "h1": 1,
     "main": true,
     "imgsMissingAlt": 0,
     "buttonsUnlabeled": 0,
-    "textLength": 3262
-  },
-  "consoleErrors": 0,
-  "internalLinksFailed": 0,
-  "lighthouseMobile": {
-    "performance": 100,
-    "accessibility": 100,
-    "bestPractices": 100,
-    "seo": 100,
-    "lcpSeconds": 1.4,
-    "cls": 0,
-    "totalBlockingTimeMs": 80,
-    "transferKiB": 100
+    "textLength": 2402
   }
 }
