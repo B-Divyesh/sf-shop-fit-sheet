@@ -1,0 +1,247 @@
+{
+  "testedAt": "2026-08-29T15:36:48.704Z",
+  "base": "https://shop-fit-sheet.sociobot.in",
+  "identity": {
+    "html": true,
+    "script": true,
+    "style": true,
+    "worker": true,
+    "scriptPath": "/assets/main-Dr6XEvF5.js",
+    "stylePath": "/assets/main-BoV9wXCl.css"
+  },
+  "responses": {
+    "/": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin"
+    },
+    "/?demo=1": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin"
+    },
+    "/demo": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin"
+    },
+    "/privacy": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin"
+    },
+    "/terms": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin"
+    },
+    "/does-not-exist": {
+      "status": 404,
+      "cacheControl": "public, must-revalidate, max-age=30",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin"
+    },
+    "/assets/main-Dr6XEvF5.js": {
+      "status": 200,
+      "cacheControl": "public, max-age=31536000, immutable",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin"
+    },
+    "/assets/main-BoV9wXCl.css": {
+      "status": 200,
+      "cacheControl": "public, max-age=31536000, immutable",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin"
+    },
+    "/sw.js": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin"
+    }
+  },
+  "firstScreen": {
+    "title": "Shop Fit Sheet — Check a fitted build",
+    "h1": "Check a fitted build before buying sheet material",
+    "audience": "For home makers fitting cabinets or benches into tight garages, utility rooms, and vehicles.",
+    "actionHref": "/?demo=1",
+    "facts": [
+      "Plans stay on this device",
+      "Works offline after the first visit",
+      "Calculator and printable build sheet"
+    ]
+  },
+  "demo": {
+    "url": "https://shop-fit-sheet.sociobot.in/?demo=1",
+    "banner": "Demo\n— sample data, nothing is saved.\nReset demo\nStart for real",
+    "sampleName": "Van bed utility cabinet",
+    "verdict": "1 conflict to fix",
+    "conflict": true,
+    "panelRows": 6,
+    "allowance": "Panel area 5.78 m² + 15% allowance (0.87 m²) = 6.65 m².",
+    "plannerUrl": "https://shop-fit-sheet.sociobot.in/?demo=1#planner",
+    "storageKeys": [
+      "demo:shop-fit-sheet:project:v1",
+      "shop-fit-sheet:project:v1"
+    ],
+    "realName": "Live real project",
+    "keysAfterExit": [
+      "shop-fit-sheet:project:v1"
+    ]
+  },
+  "diagram": {
+    "singular": "The build is 1,350 by 800 mm with 1 centre support.",
+    "plural": "The build is 1,350 by 800 mm with 2 centre supports."
+  },
+  "history": {
+    "url": "https://shop-fit-sheet.sociobot.in/?demo=1#planner",
+    "focused": true,
+    "announcement": "Page changed: Check a fitted build before buying sheet material"
+  },
+  "routes": {
+    "/": {
+      "status": 200,
+      "title": "Shop Fit Sheet — Check a fitted build",
+      "h1": 1,
+      "main": 1,
+      "canonical": "https://shop-fit-sheet.sociobot.in/",
+      "description": "Check cabinet clearances, panels, doors, and sheet material before you buy.",
+      "ogTitle": "Shop Fit Sheet — Check a fitted build",
+      "twitterTitle": "Shop Fit Sheet — Check a fitted build",
+      "privacyLinks": 2,
+      "termsLinks": 1
+    },
+    "/?demo=1": {
+      "status": 200,
+      "title": "Demo — Shop Fit Sheet",
+      "h1": 1,
+      "main": 1,
+      "canonical": "https://shop-fit-sheet.sociobot.in/?demo=1",
+      "description": "Try a sample fitted-build plan with isolated data you can reset.",
+      "ogTitle": "Demo — Shop Fit Sheet",
+      "twitterTitle": "Demo — Shop Fit Sheet",
+      "privacyLinks": 2,
+      "termsLinks": 1
+    },
+    "/demo": {
+      "status": 200,
+      "title": "Demo — Shop Fit Sheet",
+      "h1": 1,
+      "main": 1,
+      "canonical": "https://shop-fit-sheet.sociobot.in/demo",
+      "description": "Try a sample fitted-build plan with isolated data you can reset.",
+      "ogTitle": "Demo — Shop Fit Sheet",
+      "twitterTitle": "Demo — Shop Fit Sheet",
+      "privacyLinks": 2,
+      "termsLinks": 1
+    },
+    "/privacy": {
+      "status": 200,
+      "title": "Privacy — Shop Fit Sheet",
+      "h1": 1,
+      "main": 1,
+      "canonical": "https://shop-fit-sheet.sociobot.in/privacy",
+      "description": "Learn how Shop Fit Sheet keeps plans in your browser.",
+      "ogTitle": "Privacy — Shop Fit Sheet",
+      "twitterTitle": "Privacy — Shop Fit Sheet",
+      "privacyLinks": 2,
+      "termsLinks": 1
+    },
+    "/terms": {
+      "status": 200,
+      "title": "Terms — Shop Fit Sheet",
+      "h1": 1,
+      "main": 1,
+      "canonical": "https://shop-fit-sheet.sociobot.in/terms",
+      "description": "Read the planning and safety terms for Shop Fit Sheet.",
+      "ogTitle": "Terms — Shop Fit Sheet",
+      "twitterTitle": "Terms — Shop Fit Sheet",
+      "privacyLinks": 2,
+      "termsLinks": 1
+    },
+    "/does-not-exist": {
+      "status": 404,
+      "title": "Page not found — Shop Fit Sheet",
+      "h1": 1,
+      "main": 1,
+      "canonical": "https://shop-fit-sheet.sociobot.in/does-not-exist",
+      "description": "Return to the Shop Fit Sheet calculator.",
+      "ogTitle": "Page not found — Shop Fit Sheet",
+      "twitterTitle": "Page not found — Shop Fit Sheet",
+      "privacyLinks": 2,
+      "termsLinks": 1
+    }
+  },
+  "axe": {
+    "/": [],
+    "/?demo=1": [],
+    "/demo": [],
+    "/privacy": [],
+    "/terms": [],
+    "/does-not-exist": []
+  },
+  "unitBoundary": {
+    "value": "740.01",
+    "inchConflict": true,
+    "millimetreConflict": true
+  },
+  "countLimit": {
+    "ariaInvalid": "true",
+    "message": true,
+    "rows": 0
+  },
+  "offline": {
+    "registration": {
+      "active": "activated",
+      "caches": [
+        "shop-fit-sheet-v8"
+      ]
+    },
+    "title": "Demo — Shop Fit Sheet",
+    "verdict": "1 conflict to fix"
+  },
+  "privacy": {
+    "origins": [
+      "https://shop-fit-sheet.sociobot.in"
+    ],
+    "offOrigin": [],
+    "errors": [],
+    "expected404ConsoleMessages": [
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ]
+  },
+  "mobile": {
+    "normal": {
+      "scrollWidth": 390,
+      "clientWidth": 390
+    },
+    "undersizedTargets": [],
+    "text200": {
+      "scrollWidth": 390,
+      "clientWidth": 390
+    }
+  },
+  "keyboard": {
+    "firstFocus": "Skip to main content",
+    "outline": "rgb(166, 93, 29) solid 3px",
+    "skipTarget": "MAIN#main"
+  },
+  "reducedMotion": {
+    "animation": "1e-05s",
+    "scroll": "auto"
+  }
+}

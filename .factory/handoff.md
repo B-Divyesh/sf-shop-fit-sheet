@@ -1,97 +1,43 @@
-# Shop Fit Sheet handoff — adversarial review 2
+# Shop Fit Sheet handoff — perfection-loop polish 2
 
-**Work order:** `shop-fit-sheet-review-2`
-**Reviewed commit:** `806a79f48f10ea538ed80b9f37062345124073eb`
-**Live URL:** <https://shop-fit-sheet.sociobot.in>
-**Reviewed:** 2026-08-29 UTC
-
-**Result:** **FAIL** — product code was not changed. One minor accessibility-copy finding remains: the shipped demo SVG announces “1 centre supports” rather than “1 centre support.” See [review-2.md](review-2.md) for the exact location, impact, and regression to add.
-
-## What was verified
-
-- Fresh live first-read checks at 390 px and desktop: the job, audience, and one-click sample action are clear.
-- Live demo: realistic filled sample, banner, reset, Start for real, isolated `demo:` storage, same-origin request log, and offline reload.
-- Fresh no-local clone at `/tmp/shop-fit-sheet-review-2-H6GHig`: `npm ci`; every one of the 11 exact `.factory/claims.json` commands; and `npm test` (44 passed, 2 expected desktop skips). The production build emitted `dist/`.
-- Live route, title, metadata, header/footer, link, 404, history-focus, reduced-motion, console, cache-header, robots, sitemap, and visual-identity checks.
-- Every prior review/polish/handoff finding was rechecked. F-1-1 and all recorded historical issues remain fixed.
-
-## How to verify after repair
-
-```sh
-npm ci
-npm test
-npm run build
-```
-
-Open <https://shop-fit-sheet.sociobot.in/?demo=1> with a screen reader and inspect the cabinet diagram description. It must announce “1 centre support.” Also edit the support count above one and confirm plural grammar.
-
-## Known gap / next step
-
-Implement F-2-1 in `diagram()` and add a regression for one and multiple centre supports. Then rerun the full review. No other open item was found.
-
----
-
-# Previous handoff — independent verification 6
-
-**Work order:** `shop-fit-sheet-verify-6`
-
-**Candidate:** `1e8b6ff973970dbdeb16e62e593bf9cd2832f04b`
-
-**Live URL:** <https://shop-fit-sheet.sociobot.in>
-
-**Verified:** 2026-08-29 UTC
-
-**Result:** **PASS** — no critical, high, medium, or low defects found.
-
-The exact candidate was installed from its lockfile. All 11 commands in `.factory/claims.json` passed independently in desktop and 390 px mobile Chromium. The full suite passed with 44 tests and two expected desktop skips for mobile-only checks; the production build and TypeScript check passed and produced `dist/`.
-
-Fresh live QA passed the cold first-read and one-click sample gates, normal/boundary/invalid/recovery flows, print, demo isolation, keyboard and focus, 390 px and 200% text layouts, reduced motion, Axe, route/link/status, privacy request logging, browser response headers, cache policy, service-worker update, and offline reload. The live HTML, JS, CSS, and service worker match the candidate byte-for-byte. Lighthouse scored 99/100/100/100 with 1.2 s LCP, zero CLS, and 102,606 transferred bytes.
-
-Full results, hashes, evidence paths, applicability notes, and reproduction commands are in [.factory/verification-6.md](verification-6.md). Fresh artifacts are in [evidence-6](evidence-6/).
-
-There are no known release gaps. This static product has no backend, paid unlock, sign-in, library, or CLI, so those conditional checks do not apply.
-
----
-
-# Previous handoff — perfection-loop polish 1
-
-- **Work order:** `shop-fit-sheet-polish-1`
-- **Released candidate:** `771e6b23c3455e99b865cf4f7d5101f2f1045c13`
-- **Review commit:** `62bf8236240e686b9c3a6e2a15241f88db2f1444`
-- **Repair commit:** `1e8b6ff973970dbdeb16e62e593bf9cd2832f04b`
+- **Work order:** `shop-fit-sheet-polish-2`
+- **Released candidate:** `806a79f48f10ea538ed80b9f37062345124073eb`
+- **Review commit:** `5b73204003c525b68f96b8b92e0e2c921b385dae`
+- **Repair code commit:** `e4f62e9bf1d8d89503929bb4845498f6b723f573`
+- **Deployment:** Azure Static Web Apps `a22e3e3c-734f-41c9-9298-1f589ee0187d`
 - **Live URL:** <https://shop-fit-sheet.sociobot.in>
 - **Demo URL:** <https://shop-fit-sheet.sociobot.in/?demo=1>
-- **Deployment:** Azure Static Web Apps `3edb82b4-f280-46d0-9307-f8478d6e3c0c`
 
-**Result:** PASS — every current and historical finding is resolved locally and live.
+**Result:** PASS — every current and historical finding is resolved locally and on the deployed site.
 
 ## What changed
 
-- Rewrote the first-screen headline to “Check a fitted build before buying sheet material” and updated the copy audit and terminology record.
-- Made `/?demo=1` the visible one-click sample entry, demo-aware navigation path, documentation URL, claim-test entry, and offline-precache URL.
-- Kept demo data isolated under `demo:shop-fit-sheet:project:v1`; the banner, reset, Start for real, Planner navigation, and real-data preservation are browser-tested.
-- Added complete static and client-updated descriptions, canonicals, Open Graph, and Twitter metadata for the landing, demo, privacy, terms, and styled 404 routes.
-- Strengthened browser coverage for the first screen, reset behavior, query demo, route metadata, and emitted static metadata.
-- Updated `.factory/catalog-description.txt` with a 51-character verb-first description.
-- Rechecked all older checkout, caching, 404, claims, allowance, conversion, validation, focus, privacy, offline, accessibility, and mobile findings. The complete map is in `.factory/polish-1.md`.
+- Fixed F-2-1 by announcing “1 centre support” and pluralizing only other counts.
+- Added `@regression:diagram-support-grammar` for the shipped one-support sample and a two-support edit in desktop and mobile browsers.
+- Updated the service-worker cache to `shop-fit-sheet-v8` so existing installations receive the repair.
+- Updated the round-2 copy audit and the verb-first, 48-character catalog description.
+- Rechecked every earlier first-screen, demo, claim, paid-offer, cache, 404, mobile, copy, calculation, conversion, routing, focus, legal, metadata, privacy, offline, keyboard, and accessibility finding.
 
-The existing botanical workshop field-guide identity remains intact. This stays a Vite + TypeScript static web artifact with no backend, account, payment provider, AI call, analytics, runtime font, or third-party script.
+The existing paper-toned botanical workshop field-guide design is unchanged. The artifact remains a Vite + TypeScript static site with no backend, account, payment provider, analytics, runtime font, third-party script, or AI call.
 
-## Exact verification evidence
+## Exact verification
 
-- Clean clone: `/tmp/shop-fit-sheet-polish-clean-dv7DMW` at repair commit `1e8b6ff973970dbdeb16e62e593bf9cd2832f04b`.
-- `npm ci`: 22 locked packages installed; 0 audit vulnerabilities.
-- Every `.factory/claims.json` command passed separately: 11 claims in desktop Chromium and 390 px mobile Chromium, 22 passed executions total.
-- Clean-clone `npm test`: 44 passed, 2 expected desktop skips for mobile-only assertions.
-- `npm run build`: passed TypeScript checking and Vite production build; `dist/index.html` exists.
-- Production sizes: JS 25.55 kB / 9.17 kB gzip; CSS 16.61 kB / 4.60 kB gzip; mobile hero 30.26 kB; social image 67.35 kB; total live transfer 100 KiB.
-- Local verifier: `.factory/evidence-polish-1/local/verify.json`; no console errors.
-- Live verifier: `.factory/evidence-polish-1/live/verify.json`; no console errors.
-- Live browser audit: `.factory/evidence-polish-1/live-qa.json`; all deployed artifact hashes match `dist/`, and all route Axe serious/critical results are empty.
-- Live screenshots: `.factory/evidence-polish-1/live/screenshot-desktop.png` and `.factory/evidence-polish-1/live/screenshot-mobile.png`.
-- Lighthouse: `.factory/evidence-polish-1/lighthouse-live.json` — Performance 99, Accessibility 100, Best Practices 100, SEO 100; FCP 1.0 s, LCP 1.2 s, CLS 0, TBT 130 ms.
+- Clean clone: `/tmp/shop-fit-sheet-polish-2-clean-TPFddR` at `e4f62e9bf1d8d89503929bb4845498f6b723f573`.
+- `npm ci`: 22 locked packages; zero audit vulnerabilities.
+- All 11 exact claim commands passed independently in both desktop Chromium and 390 px mobile Chromium: 22 passing executions.
+- Clean-clone `npm test`: 46 passed; two expected desktop skips for mobile-only checks.
+- Clean-clone `npm run build`: passed; `dist/index.html` and all static route files exist.
+- Build sizes: JS 25.57 kB / 9.18 kB gzip; CSS 16.61 kB / 4.60 kB gzip; mobile hero 30.26 kB.
+- Local verifier and screenshots: `.factory/evidence-polish-2/local/`.
+- Live verifier and screenshots: `.factory/evidence-polish-2/live/`.
+- Cold live browser audit: `.factory/evidence-polish-2/live-qa.json`; source-to-live hashes match, valid routes have no console errors, and all serious/critical Axe arrays are empty.
+- Live F-2-1 evidence: the diagram description is exactly “The build is 1,350 by 800 mm with 1 centre support.” After editing the count it is exactly “The build is 1,350 by 800 mm with 2 centre supports.”
+- Live privacy: every observed request stayed on `https://shop-fit-sheet.sociobot.in`; no analytics, tracking, billing, CDN, or calculator request left the origin.
+- Live offline: cache `shop-fit-sheet-v8` reloaded `/?demo=1` offline with the sample verdict.
+- Live mobile: no horizontal overflow at 390 px or 200% text; no visible target below 44 px.
+- Lighthouse mobile: Performance 100, Accessibility 100, Best Practices 100, SEO 100; FCP 0.9 s, LCP 0.9 s, CLS 0, TBT 40 ms, total transfer 100 KiB. Report: `.factory/evidence-polish-2/lighthouse-live.json`.
 
-The live cold check confirmed the repaired headline, `/?demo=1` action, banner, realistic sample, reset, separate storage key, Planner isolation, Start for real, unit boundary, count limits, history focus, complete route metadata, legal links, styled 404, 44 px targets, 200% text reflow, reduced motion, same-origin requests, and offline reload.
+The complete finding-to-change-to-evidence map is in `.factory/polish-2.md`.
 
 ## Run and verify
 
@@ -102,11 +48,11 @@ npm run build
 npm run preview
 ```
 
-Then open <http://127.0.0.1:4173/?demo=1>. To rerun the live evidence:
+Then open <http://127.0.0.1:4173/?demo=1>. The production verification commands are:
 
 ```sh
-/opt/fleet/lib/verify-url.sh 'https://shop-fit-sheet.sociobot.in/?demo=1' .factory/evidence-polish-1/live
-node .factory/evidence-polish-1/live-qa.mjs
+/opt/fleet/lib/verify-url.sh 'https://shop-fit-sheet.sociobot.in/?demo=1' .factory/evidence-polish-2/live
+node .factory/evidence-polish-2/live-qa.mjs
 ```
 
 ## Known gaps and next steps

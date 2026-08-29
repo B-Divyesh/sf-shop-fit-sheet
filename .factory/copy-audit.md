@@ -11,6 +11,7 @@ Audited 2026-08-29 for perfection-loop round 2. This records every visitor-facin
 | Plans stay on this device | 5 | Pass |
 | Works offline after the first visit | 6 | Pass |
 | Calculator and printable build sheet | 5 | Pass |
+| A plywood cabinet arranged like a botanical specimen beside a fern and folding rule. | 14 | Pass; image alternative |
 | Cabinet planning reference image, generated for Shop Fit Sheet | 9 | Pass |
 | Measure twice. | 2 | Pass |
 | Verify the result before cutting. | 6 | Pass |
@@ -29,7 +30,12 @@ Audited 2026-08-29 for perfection-loop round 2. This records every visitor-facin
 | For walls, doors, cables, or airflow. | 6 | Pass |
 | The build is [width] by [height] [unit] with 1 centre support. | 11 | Pass; F-2-1 fixed |
 | The build is [width] by [height] [unit] with [n] centre supports. | 11 | Pass; plural template |
+| The build is [width] by [height] [unit] with a support count that needs correction. | 14 | Pass; invalid-count template |
+| Front view · clear envelope shown as a dashed line | 9 | Pass |
 | Fit verdict | 2 | Pass |
+| [n] conflict(s) to fix | 4 | Pass |
+| Fits with [n] check(s) | 4 | Pass |
+| Fits the cleared space | 4 | Pass |
 | Calculated openings | 2 | Pass |
 | Panel list | 2 | Pass |
 | Rough sheet allowance | 3 | Pass |
@@ -45,9 +51,16 @@ Audited 2026-08-29 for perfection-loop round 2. This records every visitor-facin
 | Centre supports must be no more than 8. | 8 | Pass |
 | Shelves must be no more than 30. | 7 | Pass |
 | Doors must be no more than 12. | 7 | Pass |
+| Build [axis] exceeds the cleared space by [value] [unit]. | 9 | Pass |
+| Supports and side panels leave no usable opening width. | 9 | Pass |
+| Top and bottom panels leave no usable opening height. | 9 | Pass |
+| An opening spans [value] [unit]. | 6 | Pass |
 | The outer build fits inside the clear envelope. | 8 | Pass |
 | Consider another support or confirm sag limits. | 7 | Pass |
+| Each door is [value] [unit] wide. | 6 | Pass |
 | Confirm hinge limits and door weight. | 6 | Pass |
+| [Part] at [length] × [width] [unit] does not fit the chosen stock sheet. | 13 | Pass |
+| Add measurements to check this build. | 6 | Pass |
 | How the fit check works | 5 | Pass |
 | Measure the space | 3 | Pass |
 | Record the tightest width, height, and depth. | 7 | Pass |
@@ -62,6 +75,7 @@ Audited 2026-08-29 for perfection-loop round 2. This records every visitor-facin
 | It does not design joints, choose fixings, test loads, or optimise cuts. | 12 | Pass |
 | Your current plan stays in your browser. | 7 | Pass |
 | Check a fitted build before you buy sheet material. | 9 | Pass |
+| Demo — sample data, nothing is saved. | 6 | Pass |
 | Page changed: [page heading]. | 4 | Pass |
 
 No sentence exceeds 22 words. The longest is 14 words. No banned word appears. “Sheet material” is the consistent buying term; “sheet” labels a physical size or output. Removed decorative labels: “Workshop field note · No. 01,” “Cabinet specimen, plate 01,” “A short field method,” “Scope note,” “Field note,” and “Specimen not found.”
@@ -81,4 +95,4 @@ No sentence exceeds 22 words. The longest is 14 words. No banned word appears. �
 | Printed calculator output | build sheet |
 | Material bought for the build | sheet material |
 
-Catalog description: “Check a fitted build before you buy sheet material.” (50 characters; starts with a verb.)
+Catalog description: “Check cabinet fit before you buy sheet material.” (48 characters; starts with a verb.)
