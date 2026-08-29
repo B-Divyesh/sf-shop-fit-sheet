@@ -271,17 +271,6 @@ function bindCommon(): void {
     if (link.origin !== location.origin) return; event.preventDefault(); navigate(`${link.pathname}${link.search}${link.hash}`);
   }));
   document.querySelectorAll<HTMLElement>('[data-action]').forEach((button) => button.addEventListener('click', () => handleAction(button)));
-  document.querySelector<HTMLElement>('#main')?.addEventListener('focusin', (event) => {
-    if (!isDemo || !(event.target instanceof HTMLElement)) return;
-    const focusTarget = event.target;
-    requestAnimationFrame(() => {
-      const banner = document.querySelector<HTMLElement>('.demo-banner');
-      if (!banner) return;
-      const targetBox = focusTarget.getBoundingClientRect();
-      const bannerBox = banner.getBoundingClientRect();
-      if (targetBox.top < bannerBox.bottom + 8) window.scrollBy({ top: targetBox.top - bannerBox.bottom - 16, behavior: 'auto' });
-    });
-  });
 }
 
 function handleAction(button: HTMLElement): void {

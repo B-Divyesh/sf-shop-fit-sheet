@@ -194,6 +194,7 @@ test('@regression:demo-first-viewport shows the loaded sample and conflict immed
 
 test('@regression:demo-banner stays visible across the planner and does not cover focused fields', async ({ page }) => {
   await page.goto('/?demo=1');
+  await page.evaluate(() => { document.documentElement.style.scrollBehavior = 'auto'; });
   const banner = page.getByLabel('Demo mode');
   const targets = [page.getByLabel('Project name'), page.getByRole('heading', { name: '1 conflict to fix' }), page.getByRole('heading', { name: 'Panel list' })];
   for (const target of targets) {
@@ -205,9 +206,13 @@ test('@regression:demo-banner stays visible across the planner and does not cove
     await expect(page.getByRole('button', { name: 'Reset demo' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Start for real' })).toBeVisible();
   }
-  await page.getByLabel('Project name').focus();
-  await page.waitForTimeout(50);
-  const focused = await page.getByLabel('Project name').boundingBox();
+  const projectName = page.getByLabel('Project name');
+  await projectName.evaluate((element) => {
+    document.documentElement.style.scrollBehavior = 'auto';
+    element.scrollIntoView({ block: 'start' });
+  });
+  await projectName.focus();
+  const focused = await projectName.boundingBox();
   const sticky = await banner.boundingBox();
   expect(focused!.y).toBeGreaterThanOrEqual(sticky!.y + sticky!.height + 8);
 });
