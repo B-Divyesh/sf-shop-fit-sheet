@@ -39,6 +39,7 @@ Color is never the only state signal. Every warning uses a symbol and explicit t
 - The calculator is the main visual object. Decoration remains behind or beside the work.
 - Focus is a 3 px ochre outline with a 3 px offset.
 - On small screens, the live fit verdict moves before the detailed stock list. Nothing is hidden.
+- Demo mode starts with a compact project field sheet: the sample name and live verdict sit above the long measurement form. Its dark sticky banner stays visually separate from the paper workspace.
 
 ## Motion policy
 

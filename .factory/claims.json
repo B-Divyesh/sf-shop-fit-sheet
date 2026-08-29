@@ -2,7 +2,7 @@
   {
     "id": "conflict-check",
     "claim": "Checks the outer build against the cleared space",
-    "where": "landing headline and demo verdict",
+    "where": "landing headline and demo first-screen verdict",
     "test": "npm test -- --grep @claim:conflict-check",
     "sandbox": "fresh browser context at /?demo=1; sample depth exceeds its cleared space by 10 mm"
   },

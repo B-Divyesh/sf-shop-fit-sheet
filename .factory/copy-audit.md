@@ -1,6 +1,6 @@
 # Landing-page copy audit
 
-Audited 2026-08-29 for perfection-loop round 2. This records every visitor-facing sentence, heading, fact, caption, and field-group label on the landing page. Dynamic measurements use the same sentence templates listed below. Product names, individual field labels, units, and table headings are direct labels rather than marketing copy.
+Audited 2026-08-29 for perfection-loop round 3. This records every visitor-facing sentence, heading, fact, caption, and field-group label on the landing, demo, and 404 pages. Dynamic measurements use the same sentence templates listed below. Product names, individual field labels, units, and table headings are direct labels rather than marketing copy.
 
 | Copy | Words | Result |
 | --- | ---: | --- |
@@ -76,9 +76,17 @@ Audited 2026-08-29 for perfection-loop round 2. This records every visitor-facin
 | Your current plan stays in your browser. | 7 | Pass |
 | Check a fitted build before you buy sheet material. | 9 | Pass |
 | Demo — sample data, nothing is saved. | 6 | Pass |
+| Sample fit check | 3 | Pass; direct demo heading |
+| Van bed utility cabinet | 4 | Pass; sample project name |
+| Left bay below the bed platform | 6 | Pass; sample location |
+| Edit sample measurements | 3 | Pass; result-naming action |
+| Demo reset to sample data. | 5 | Pass; screen-reader feedback |
+| Page not found | 3 | Pass; F-3-3 and H-6 fixed |
+| The address may be wrong or the page may have moved. | 11 | Pass |
+| Return to the fit checker | 5 | Pass; recovery action |
 | Page changed: [page heading]. | 4 | Pass |
 
-No sentence exceeds 22 words. The longest is 14 words. No banned word appears. “Sheet material” is the consistent buying term; “sheet” labels a physical size or output. Removed decorative labels: “Workshop field note · No. 01,” “Cabinet specimen, plate 01,” “A short field method,” “Scope note,” “Field note,” and “Specimen not found.”
+No sentence exceeds 22 words. The longest is 14 words. No banned word appears. “Sheet material” is the consistent buying term; “sheet” labels a physical size or output. The 404 now uses the direct heading “Page not found.”
 
 ## Terminology table
 
@@ -95,4 +103,4 @@ No sentence exceeds 22 words. The longest is 14 words. No banned word appears. �
 | Printed calculator output | build sheet |
 | Material bought for the build | sheet material |
 
-Catalog description: “Check cabinet fit before you buy sheet material.” (48 characters; starts with a verb.)
+Catalog description: “Check a fitted build before buying sheet material.” (50 characters; starts with a verb.)

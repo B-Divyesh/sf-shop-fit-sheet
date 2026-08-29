@@ -140,7 +140,7 @@ test('@claim:offline-reload reloads the demo without a network', async ({ page, 
       await new Promise<void>((resolve) => navigator.serviceWorker.addEventListener('controllerchange', () => resolve(), { once: true }));
     }
   });
-  await expect.poll(() => page.evaluate(async () => (await caches.keys()).includes('shop-fit-sheet-v8'))).toBe(true);
+  await expect.poll(() => page.evaluate(async () => (await caches.keys()).includes('shop-fit-sheet-v9'))).toBe(true);
   await context.setOffline(true);
   await page.reload();
   await expect(page.getByRole('heading', { name: '1 conflict to fix' })).toBeVisible();
@@ -165,12 +165,51 @@ test('@regression:first-screen-copy names sheet material and opens the isolated 
   await expect(demoLink).toHaveAttribute('href', '/?demo=1');
   await demoLink.click();
   await expect(page).toHaveURL(/\?demo=1$/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Van bed utility cabinet');
+  await expect(page.getByRole('link', { name: /Try it with sample data/ })).toHaveCount(0);
   await expect(page.getByLabel('Demo mode')).toContainText('Demo — sample data, nothing is saved.');
   await expect(page.getByLabel('Project name')).toHaveValue('Van bed utility cabinet');
   await page.getByLabel('Project name').fill('Temporary sample edit');
   await page.getByRole('button', { name: 'Reset demo' }).click();
   await expect(page.getByLabel('Project name')).toHaveValue('Van bed utility cabinet');
   expect(await page.evaluate(() => Object.keys(localStorage).sort())).toEqual(['demo:shop-fit-sheet:project:v1']);
+});
+
+test('@regression:demo-first-viewport shows the loaded sample and conflict immediately', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('link', { name: /Try it with sample data/ }).click();
+  const required = [
+    page.getByRole('heading', { level: 1, name: 'Van bed utility cabinet' }),
+    page.getByRole('heading', { name: '1 conflict to fix' }),
+    page.getByText('Build depth exceeds the cleared space by 10 mm.'),
+  ];
+  for (const item of required) {
+    await expect(item).toBeVisible();
+    const box = await item.boundingBox();
+    expect(box, 'Expected first-screen demo content to have a layout box').not.toBeNull();
+    expect(box!.y).toBeLessThan(page.viewportSize()!.height);
+    expect(box!.y + box!.height).toBeGreaterThan(0);
+  }
+});
+
+test('@regression:demo-banner stays visible across the planner and does not cover focused fields', async ({ page }) => {
+  await page.goto('/?demo=1');
+  const banner = page.getByLabel('Demo mode');
+  const targets = [page.getByLabel('Project name'), page.getByRole('heading', { name: '1 conflict to fix' }), page.getByRole('heading', { name: 'Panel list' })];
+  for (const target of targets) {
+    await target.evaluate((element) => element.scrollIntoView({ block: 'center' }));
+    const bannerBox = await banner.boundingBox();
+    expect(bannerBox, 'Demo banner must remain laid out').not.toBeNull();
+    expect(Math.round(bannerBox!.y)).toBe(0);
+    expect(bannerBox!.y + bannerBox!.height).toBeLessThanOrEqual(page.viewportSize()!.height);
+    await expect(page.getByRole('button', { name: 'Reset demo' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Start for real' })).toBeVisible();
+  }
+  await page.getByLabel('Project name').focus();
+  await page.waitForTimeout(50);
+  const focused = await page.getByLabel('Project name').boundingBox();
+  const sticky = await banner.boundingBox();
+  expect(focused!.y).toBeGreaterThanOrEqual(sticky!.y + sticky!.height + 8);
 });
 
 test('@regression:diagram-support-grammar describes one and multiple centre supports correctly', async ({ page }) => {
@@ -248,7 +287,7 @@ test('@regression:history-focus focuses and announces routes on Back and Forward
   await page.goBack();
   await expect(page).toHaveURL(/\?demo=1$/);
   await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
-  await expect(page.locator('#route-status')).toHaveText('Page changed: Check a fitted build before buying sheet material');
+  await expect(page.locator('#route-status')).toHaveText('Page changed: Van bed utility cabinet');
   await page.goForward();
   await expect(page).toHaveURL(/\/privacy\?demo=1$/);
   await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
@@ -263,7 +302,7 @@ test('ships hashed immutable assets and a styled HTTP 404 response', async ({ pa
   expect(asset.headers()['cache-control']).toBe('public, max-age=31536000, immutable');
   const missing = await page.goto('/does-not-exist');
   expect(missing?.status()).toBe(404);
-  await expect(page.getByRole('heading', { name: 'This page is not on the sheet' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Page not found', exact: true })).toBeVisible();
   const config = JSON.parse(await readFile(join(process.cwd(), 'dist/staticwebapp.config.json'), 'utf8'));
   expect(config.responseOverrides['404']).toEqual({ rewrite: '/404.html', statusCode: 404 });
   expect(config.routes).toContainEqual({ route: '/assets/*', headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } });
@@ -293,6 +332,7 @@ test('routes have one h1, distinct titles, and no serious accessibility findings
     await page.goto(route);
     await expect(page).toHaveTitle(title);
     await expect(page.locator('h1')).toHaveCount(1);
+    if (route === '/missing-page') await expect(page.locator('h1')).toHaveText('Page not found');
     await expect(page.locator('main')).toHaveCount(1);
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /\S+/);
