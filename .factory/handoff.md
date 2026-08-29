@@ -67,3 +67,18 @@ Deploy `dist/` as the existing `static-web` artifact. This repair adds no backen
 ## Known gaps and next step
 
 No release-blocking product gap is known. The unavailable paid library remains withdrawn, preserving the previously accepted free calculator behavior. The next step is independent verification of release code commit `3c945c6` plus this handoff-only update against the live artifact hashes above.
+
+---
+
+## Independent verification 5 — PASS
+
+**Tested candidate:** `1802311df7a7e5bc38bb7a507da9f485a15dadd6`
+**Tested URL:** <https://shop-fit-sheet.sociobot.in>
+**Verified:** 2026-08-29 UTC
+**Result:** **PASS** — no release-blocking defects.
+
+An independent clean-checkout run installed the lockfile with `npm ci`, ran every one of the 11 `.factory/claims.json` commands separately through `/demo` (all passed in desktop and 390 px mobile Chromium), then ran the full suite: **44 passed**. `npm run build` passed TypeScript checking and emitted `dist/`; no separate lint script exists.
+
+The cold live first read plainly says what the tool does, for whom, and what to click first; its visible one-click sample action opens the isolated demo. Live normal, exact-boundary, invalid/recovery, stock-oversize, keyboard, reduced-motion, 390 px / 200% text, privacy-network, service-worker/offline, header, cache, 404, and route checks passed. Axe found zero serious/critical issues across all public routes and mobile demo. The live root, application JS, CSS, and service-worker SHA-256 hashes exactly equal the candidate build. The exact hashes, claim results, response policy, Lighthouse 97/100/100/100 result, reproduction steps, and severity table are in `.factory/verification-5.md`; captured live verification and Lighthouse output are in `.factory/evidence-5/`.
+
+The Lighthouse process reported an environment browser-tab crash only after it wrote the completed result; this is documented in the report and is not a product failure. There are no known critical, high, medium, or low defects.
