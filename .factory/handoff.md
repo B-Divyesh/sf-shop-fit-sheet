@@ -1,4 +1,36 @@
-# Shop Fit Sheet handoff — repair 4
+# Shop Fit Sheet handoff — adversarial first-read review 1
+
+**Work order:** `shop-fit-sheet-review-1`
+**Reviewed commit:** `771e6b23c3455e99b865cf4f7d5101f2f1045c13`
+**Live URL:** <https://shop-fit-sheet.sociobot.in>
+**Result:** **FAIL** — one minor copy finding; no code was modified.
+
+## Done
+
+- Performed cold live checks at 390 × 844 and 1440 × 900, without scrolling before the first-read assessment.
+- Verified the one-click `/demo` flow, sample conflict, persistent banner, reset, explicit exit, demo storage namespace, and same-origin request log.
+- Ran all 11 declared claim commands after `npm ci`; every desktop and mobile execution passed.
+- Ran `npm test` successfully (44 passed), which also ran the production build and emitted `dist/`.
+- Crawled public/footer links and checked route metadata, 404 status, headers, robots, sitemap, and current visual identity.
+- Read all earlier verification reports and rechecked their findings against live behavior and tests.
+
+## Finding and next step
+
+See `.factory/review-1.md` for the complete report. F-1-1 asks to replace the landing headline's ambiguous woodworking term “stock” with “sheet material” and use one term consistently. Update the copy audit and first-screen test, then re-run the claims, full suite, and review.
+
+## Verification commands
+
+```sh
+npm ci
+npm test
+npm run build
+```
+
+The live product was reviewed at `https://shop-fit-sheet.sociobot.in`.
+
+---
+
+# Previous handoff — repair 4
 
 **Work order:** `shop-fit-sheet-repair-4`
 
