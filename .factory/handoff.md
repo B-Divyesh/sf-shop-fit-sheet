@@ -35,9 +35,13 @@ Product and deployment class: static local-first web app; deploy `dist/` to Azur
 - Offline/update and privacy: the claim suite waits for the service worker, reloads `/demo` offline, observes the sample conflict, records demo traffic as same-origin only, and checks isolated `demo:shop-fit-sheet:project:v1` storage. The unavailable billing offer remains absent and no billing request is made.
 - Lighthouse mobile (`/demo`, Chromium headless shell): Performance 100, Accessibility 100, LCP 1,440 ms, CLS 0.000.
 
-## Deploy and live follow-up
+## Deployment and live evidence
 
-Push `main` to the configured repository. The factory’s static deployment consumes `dist/`; no infrastructure, DNS, billing, or runtime service was changed here. After the push, verify the live build identity, `/demo` at 390 px, offline service-worker reload, same-origin privacy requests, and Azure response headers.
+- Pushed `main` through `b737c81` to `origin/main`.
+- Deployed the built `dist/` with the factory static work-order command: `/opt/fleet/lib/deploy-static.sh shop-fit-sheet dist`. Azure Static Web Apps deployment `e8dddc0e-94b5-4930-b909-3a1639b07ea9` succeeded to the existing Central US app `icy-sea-034db8c10.7.azurestaticapps.net`; the custom domain was `Ready` and HTTPS returned 200.
+- Live `/demo` now loads `/assets/main-DvNr9ka2.js`. Its SHA-256 is `2be269908189f5774155f3d7552b1f2058cbcc620a38f8c5d4e28fff99995257`, exactly matching the fresh repair build.
+- Live 390 × 844 smoke: title `Demo — Shop Fit Sheet`, one `h1`, one `main`, visible skip-link keyboard focus, no target below 44 px, no off-origin requests, no console/page errors, and an offline service-worker reload showing `1 conflict to fix`.
+- Live Axe (`@axe-core/playwright`) found no serious or critical violations on `/`, `/demo`, `/privacy`, `/terms`, or a missing URL. Live immutable JS, CSP, HSTS, `nosniff`, Referrer-Policy, Permissions-Policy, and styled 404 responses were also confirmed.
 
 ## Known gaps
 
