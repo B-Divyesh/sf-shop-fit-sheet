@@ -30,7 +30,19 @@ test('@claim:sheet-area-allowance adds 15% to each material total before countin
   const match = detail?.match(/Panel area ([\d.]+) m² \+ 15% allowance \(([\d.]+) m²\) = ([\d.]+) m²\./);
   expect(match, `Unexpected 18 mm allowance detail: ${detail}`).not.toBeNull();
   const [, shownPanelArea, shownAllowance, shownTotal] = match!;
-  const panelAreaFromVisibleRows = 2 * 800 * 750 + 2 * 1314 * 750 + 764 * 750 + 2 * 648 * 750 + 2 * 794 * 670.5;
+  const panelAreaFromVisibleRows = await page.locator('tbody tr').evaluateAll((rows) => rows
+    .map((row) => {
+      const cells = row.querySelectorAll<HTMLElement>('th, td');
+      const dimensions = cells[2]?.textContent?.match(/([\d,.]+) × ([\d,.]+)/);
+      return {
+        quantity: Number(cells[1]?.textContent),
+        length: Number(dimensions?.[1]?.replaceAll(',', '')),
+        width: Number(dimensions?.[2]?.replaceAll(',', '')),
+        thickness: Number(cells[3]?.textContent),
+      };
+    })
+    .filter((piece) => piece.thickness === 18)
+    .reduce((area, piece) => area + piece.quantity * piece.length * piece.width, 0));
   const expectedPanelArea = panelAreaFromVisibleRows / 1_000_000;
   const tolerance = 0.005; // Values shown to two decimals, in square metres.
   expect(Math.abs(Number(shownPanelArea) - expectedPanelArea)).toBeLessThanOrEqual(tolerance);

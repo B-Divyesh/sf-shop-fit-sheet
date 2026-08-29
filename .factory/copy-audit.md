@@ -31,7 +31,8 @@ Audited 2026-08-29 after the release repair. This records every visitor-facing s
 | Calculated openings | 2 | Pass |
 | Panel list | 2 | Pass |
 | Rough sheet allowance | 3 | Pass |
-| Includes 15% area waste. | 4 | Pass |
+| Panel area [area] + 15% allowance ([area]) = [area]. | 7 | Pass |
+| Each material thickness adds 15% of its panel area before sheet counting. | 12 | Pass |
 | This is not a cutting layout. | 6 | Pass |
 | Your panel list appears after you enter the space and build sizes. | 12 | Pass |
 | Enter positive space, build, panel, and stock measurements. | 8 | Pass |
