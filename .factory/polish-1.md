@@ -36,4 +36,17 @@ There are no earlier `.factory/review-*.md` or `.factory/polish-*.md` files. The
 
 ## Clean-clone and live evidence
 
-Final clean-clone claim results, deployment identity, live screenshots, and cold URL checks are recorded here after deployment.
+- Fresh clone: `/tmp/shop-fit-sheet-polish-clean-dv7DMW`, created with `git clone --no-local` at repair commit `1e8b6ff973970dbdeb16e62e593bf9cd2832f04b`.
+- Every exact command in `.factory/claims.json` passed separately: 11 claims × desktop/mobile = 22 passed executions.
+- The clean clone then ran `npm test`: 44 passed, 2 expected desktop skips. `npm run build` passed and emitted `dist/`.
+- Deployment: Azure Static Web Apps production deployment `3edb82b4-f280-46d0-9307-f8478d6e3c0c`.
+- `/opt/fleet/lib/verify-url.sh 'https://shop-fit-sheet.sociobot.in/?demo=1' .factory/evidence-polish-1/live` passed: 200, `Demo — Shop Fit Sheet`, `lang=en`, one `h1`, one `main`, no missing alt text, no unlabeled buttons, and no console errors.
+- Cold live screenshots: `.factory/evidence-polish-1/live/screenshot-desktop.png` and `.factory/evidence-polish-1/live/screenshot-mobile.png`.
+- Full live browser evidence: `.factory/evidence-polish-1/live-qa.json`. Root HTML, JS, CSS, and service worker hashes all match `dist/`. All Axe serious/critical arrays are empty.
+- Live route checks: `/`, `/?demo=1`, `/demo`, `/privacy`, and `/terms` return 200 with distinct titles and complete metadata; `/does-not-exist` returns the styled HTTP 404.
+- Live demo check: headline is “Check a fitted build before buying sheet material”; first action targets `/?demo=1`; the banner, sample, reset, separate key, Planner isolation, and explicit exit all work.
+- Live privacy/offline check: every observed request was same-origin; no console errors occurred; cache `shop-fit-sheet-v7` served the sample verdict offline.
+- Live responsive/accessibility check: 390 px and 200% text both had `scrollWidth === clientWidth === 390`; no visible target was below 44 px; keyboard skip focus and reduced motion passed.
+- Lighthouse mobile: Performance 99, Accessibility 100, Best Practices 100, SEO 100; FCP 1.0 s, LCP 1.2 s, CLS 0, TBT 130 ms, total transfer 100 KiB. Report: `.factory/evidence-polish-1/lighthouse-live.json`.
+
+All mapped findings are resolved on the live deployment. No critical, high, medium, minor, or informational item remains open.

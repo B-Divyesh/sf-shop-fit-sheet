@@ -1,89 +1,41 @@
-# Shop Fit Sheet handoff — adversarial first-read review 1
+# Shop Fit Sheet handoff — perfection-loop polish 1
 
-**Work order:** `shop-fit-sheet-review-1`
-**Reviewed commit:** `771e6b23c3455e99b865cf4f7d5101f2f1045c13`
-**Live URL:** <https://shop-fit-sheet.sociobot.in>
-**Result:** **FAIL** — one minor copy finding; no code was modified.
+**Work order:** `shop-fit-sheet-polish-1`  
+**Released candidate:** `771e6b23c3455e99b865cf4f7d5101f2f1045c13`  
+**Review commit:** `62bf8236240e686b9c3a6e2a15241f88db2f1444`  
+**Repair commit:** `1e8b6ff973970dbdeb16e62e593bf9cd2832f04b`  
+**Live URL:** <https://shop-fit-sheet.sociobot.in>  
+**Demo URL:** <https://shop-fit-sheet.sociobot.in/?demo=1>  
+**Deployment:** Azure Static Web Apps `3edb82b4-f280-46d0-9307-f8478d6e3c0c`  
+**Result:** PASS — every current and historical finding is resolved locally and live.
 
-## Done
+## What changed
 
-- Performed cold live checks at 390 × 844 and 1440 × 900, without scrolling before the first-read assessment.
-- Verified the one-click `/demo` flow, sample conflict, persistent banner, reset, explicit exit, demo storage namespace, and same-origin request log.
-- Ran all 11 declared claim commands after `npm ci`; every desktop and mobile execution passed.
-- Ran `npm test` successfully (44 passed), which also ran the production build and emitted `dist/`.
-- Crawled public/footer links and checked route metadata, 404 status, headers, robots, sitemap, and current visual identity.
-- Read all earlier verification reports and rechecked their findings against live behavior and tests.
+- Rewrote the first-screen headline to “Check a fitted build before buying sheet material” and updated the copy audit and terminology record.
+- Made `/?demo=1` the visible one-click sample entry, demo-aware navigation path, documentation URL, claim-test entry, and offline-precache URL.
+- Kept demo data isolated under `demo:shop-fit-sheet:project:v1`; the banner, reset, Start for real, Planner navigation, and real-data preservation are browser-tested.
+- Added complete static and client-updated descriptions, canonicals, Open Graph, and Twitter metadata for the landing, demo, privacy, terms, and styled 404 routes.
+- Strengthened browser coverage for the first screen, reset behavior, query demo, route metadata, and emitted static metadata.
+- Updated `.factory/catalog-description.txt` with a 51-character verb-first description.
+- Rechecked all older checkout, caching, 404, claims, allowance, conversion, validation, focus, privacy, offline, accessibility, and mobile findings. The complete map is in `.factory/polish-1.md`.
 
-## Finding and next step
+The existing botanical workshop field-guide identity remains intact. This stays a Vite + TypeScript static web artifact with no backend, account, payment provider, AI call, analytics, runtime font, or third-party script.
 
-See `.factory/review-1.md` for the complete report. F-1-1 asks to replace the landing headline's ambiguous woodworking term “stock” with “sheet material” and use one term consistently. Update the copy audit and first-screen test, then re-run the claims, full suite, and review.
+## Exact verification evidence
 
-## Verification commands
-
-```sh
-npm ci
-npm test
-npm run build
-```
-
-The live product was reviewed at `https://shop-fit-sheet.sociobot.in`.
-
----
-
-# Previous handoff — repair 4
-
-**Work order:** `shop-fit-sheet-repair-4`
-
-**Failed candidate:** `64cbc31978432e2b9edc04458cb3ce7c246267c1`
-
-**Verifier report:** `393ee468d6825bef36cbde0b5ab6bbdc4b4b9972`
-
-**Repair commit:** `290cb6cacb96ba05a4a3fb2df353a7e60f60b92e`
-
-**Release code commit:** `3c945c6a0f3d41695e19056fb34354676fbdf35e`
-
-**Live URL:** <https://shop-fit-sheet.sociobot.in>
-
-**Azure deployment:** `85453afc-7f8a-4fe4-b4fa-9ad28c888222`
-
-**Verified:** 2026-08-29 UTC
-
-**Result:** All five release blockers are repaired and verified locally and live.
-
-## Repairs
-
-1. Measurements now persist in a versioned, canonical millimetre record. The unit selector changes only presentation. Legacy saved records migrate on read. The strengthened `@claim:unit-conversion` test proves a `740.01 mm` conflict remains a conflict in inches and returns as exactly `740.01 mm`.
-2. Mobile grids, result columns, header navigation, demo actions, and footer links now reflow at increased text sizes. `@regression:text-resize` asserts no overflow, clipping, or overlap at 390 px and 200% text.
-3. Demo-aware links keep the wordmark and Planner in `/demo`; Privacy and Terms carry `?demo=1`. Only **Start for real** enters real storage. `@claim:demo-isolation` now exercises the Planner path and checks the real record remains untouched.
-4. Supports, shelves, and doors share enforced maxima of 8, 30, and 12. Invalid counts receive an associated live error and `aria-invalid`; invalid quantities are excluded from the diagram and panel list. `@regression:count-maxima` covers all three limits.
-5. Push, Back, and Forward navigation use one route-completion path that focuses the new `h1` and updates the polite live region. `@regression:history-focus` covers both history directions.
-
-The full-suite keyboard run also exposed reliance on browser fragment-focus behavior. The skip link now focuses and scrolls to `main` explicitly, with reduced-motion handling.
-
-The final metadata crawl also found that the social-image placeholder was only corrected at runtime. The production build now writes the hashed social image into every static HTML route, and the response-policy regression reads all five built pages to prevent recurrence.
-
-## Verification evidence
-
+- Clean clone: `/tmp/shop-fit-sheet-polish-clean-dv7DMW` at repair commit `1e8b6ff973970dbdeb16e62e593bf9cd2832f04b`.
 - `npm ci`: 22 locked packages installed; 0 audit vulnerabilities.
-- Every command in `.factory/claims.json` was run separately. All 11 claims passed in desktop Chromium and the 390 px mobile project (22 claim executions).
-- `npm test`: 42 passed, 2 intentionally skipped desktop executions of mobile-only checks.
-- `npm run build`: TypeScript checking and Vite production build passed. `dist/` contains root HTML. App JS is 24.31 kB (8.95 kB gzip); CSS is 16.61 kB (4.60 kB gzip); the mobile hero is 30.26 kB.
-- There is no separate lint script. Type checking is part of `npm run build`. Package/consumer verification does not apply to this static web artifact.
-- `/opt/fleet/lib/verify-url.sh` passed locally on `/demo` and live on `/`: HTTPS 200, correct title and language, one `h1`, a main landmark, no missing alt text, no unlabeled button, and no console error.
-- Live Axe scans found zero violations on `/`, `/demo`, `/privacy`, and `/terms` at 1440 px and 390 px.
-- Live 390 px checks found no undersized target and no normal overflow. At 200% text, document and viewport widths both remained 390 px; Demo, Planner, Privacy, Reset demo, and Start for real remained present.
-- Keyboard: first Tab reaches the skip link with a 3 px ochre outline; Enter focuses `MAIN#main`. Reduced-motion durations are `0.01 ms` and scrolling is `auto`.
-- Privacy: the complete live repair flow made requests only to `https://shop-fit-sheet.sociobot.in`; there were no browser or console errors and no off-origin request.
-- Offline/update: the active worker had no waiting worker, cache `shop-fit-sheet-v6` was present, and an offline `/demo` reload retained `Demo — Shop Fit Sheet` and `1 conflict to fix`.
-- Response policy: `/`, `/demo`, `/privacy`, and `/terms` return 200; an unknown route returns styled HTTP 404. HTML and `sw.js` revalidate; hashed JS is `public, max-age=31536000, immutable`. Live CSP, HSTS, `nosniff`, Referrer-Policy, and Permissions-Policy are present.
-- Live artifact identity is exact:
-  - HTML SHA-256: `4a810b9e200a962c59b16ad83e0e285761a133e96e98e82eea8ea112ae4177a2`
-  - JS `/assets/main-Dayn5lR2.js`: `08a0a72f1cc631b96c12fa470f7b00af0bd5989a2ea8f81554fb7ab12562be39`
-  - CSS `/assets/main-BoV9wXCl.css`: `43f0ba36b245599488a70b6ee85c8c00f371871f4efefe302ae16535fcec41f3`
-  - `sw.js`: `87632ab4f6479819444957bb304a57afefd49ab50c7468ff17e1728615bf0ad5`
-- Live Lighthouse 13.4.1 collected Performance 100, Accessibility 100, Best Practices 100, and SEO 100; FCP 0.9 s, LCP 1.1 s, CLS 0, TBT 60 ms, and total payload 100 KiB. Lighthouse then exited non-zero only because its `FullPageScreenshot` target crashed after audit collection, the same worker-environment failure documented by verification 3 and 4.
+- Every `.factory/claims.json` command passed separately: 11 claims in desktop Chromium and 390 px mobile Chromium, 22 passed executions total.
+- Clean-clone `npm test`: 44 passed, 2 expected desktop skips for mobile-only assertions.
+- `npm run build`: passed TypeScript checking and Vite production build; `dist/index.html` exists.
+- Production sizes: JS 25.55 kB / 9.17 kB gzip; CSS 16.61 kB / 4.60 kB gzip; mobile hero 30.26 kB; social image 67.35 kB; total live transfer 100 KiB.
+- Local verifier: `.factory/evidence-polish-1/local/verify.json`; no console errors.
+- Live verifier: `.factory/evidence-polish-1/live/verify.json`; no console errors.
+- Live browser audit: `.factory/evidence-polish-1/live-qa.json`; all deployed artifact hashes match `dist/`, and all route Axe serious/critical results are empty.
+- Live screenshots: `.factory/evidence-polish-1/live/screenshot-desktop.png` and `.factory/evidence-polish-1/live/screenshot-mobile.png`.
+- Lighthouse: `.factory/evidence-polish-1/lighthouse-live.json` — Performance 99, Accessibility 100, Best Practices 100, SEO 100; FCP 1.0 s, LCP 1.2 s, CLS 0, TBT 130 ms.
 
-Reproducible live details and the browser script are in [.factory/evidence-repair/live-qa.json](evidence-repair/live-qa.json) and [.factory/evidence-repair/live-qa.mjs](evidence-repair/live-qa.mjs).
+The live cold check confirmed the repaired headline, `/?demo=1` action, banner, realistic sample, reset, separate storage key, Planner isolation, Start for real, unit boundary, count limits, history focus, complete route metadata, legal links, styled 404, 44 px targets, 200% text reflow, reduced motion, same-origin requests, and offline reload.
 
 ## Run and verify
 
@@ -91,26 +43,16 @@ Reproducible live details and the browser script are in [.factory/evidence-repai
 npm ci
 npm test
 npm run build
-node .factory/evidence-repair/live-qa.mjs
+npm run preview
 ```
 
-Deploy `dist/` as the existing `static-web` artifact. This repair adds no backend, account, payment, AI call, or external runtime dependency, so package-consumer, API rate-limit, billing, and live identity-provider checks are not applicable.
+Then open <http://127.0.0.1:4173/?demo=1>. To rerun the live evidence:
 
-## Known gaps and next step
+```sh
+/opt/fleet/lib/verify-url.sh 'https://shop-fit-sheet.sociobot.in/?demo=1' .factory/evidence-polish-1/live
+node .factory/evidence-polish-1/live-qa.mjs
+```
 
-No release-blocking product gap is known. The unavailable paid library remains withdrawn, preserving the previously accepted free calculator behavior. The next step is independent verification of release code commit `3c945c6` plus this handoff-only update against the live artifact hashes above.
+## Known gaps and next steps
 
----
-
-## Independent verification 5 — PASS
-
-**Tested candidate:** `1802311df7a7e5bc38bb7a507da9f485a15dadd6`
-**Tested URL:** <https://shop-fit-sheet.sociobot.in>
-**Verified:** 2026-08-29 UTC
-**Result:** **PASS** — no release-blocking defects.
-
-An independent clean-checkout run installed the lockfile with `npm ci`, ran every one of the 11 `.factory/claims.json` commands separately through `/demo` (all passed in desktop and 390 px mobile Chromium), then ran the full suite: **44 passed**. `npm run build` passed TypeScript checking and emitted `dist/`; no separate lint script exists.
-
-The cold live first read plainly says what the tool does, for whom, and what to click first; its visible one-click sample action opens the isolated demo. Live normal, exact-boundary, invalid/recovery, stock-oversize, keyboard, reduced-motion, 390 px / 200% text, privacy-network, service-worker/offline, header, cache, 404, and route checks passed. Axe found zero serious/critical issues across all public routes and mobile demo. The live root, application JS, CSS, and service-worker SHA-256 hashes exactly equal the candidate build. The exact hashes, claim results, response policy, Lighthouse 97/100/100/100 result, reproduction steps, and severity table are in `.factory/verification-5.md`; captured live verification and Lighthouse output are in `.factory/evidence-5/`.
-
-The Lighthouse process reported an environment browser-tab crash only after it wrote the completed result; this is documented in the report and is not a product failure. There are no known critical, high, medium, or low defects.
+None. No finding of any severity remains unresolved.
