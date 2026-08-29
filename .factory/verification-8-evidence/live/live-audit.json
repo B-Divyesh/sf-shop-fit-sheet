@@ -1,0 +1,272 @@
+{
+  "testedAt": "2026-08-29T17:49:12.305Z",
+  "base": "https://shop-fit-sheet.sociobot.in",
+  "identity": {
+    "html": {
+      "path": "/",
+      "localSha256": "0b46f76638f939e7a051b3d40670ab3a33cb9b59b76cc8a5971a7c558ab6c9e9",
+      "liveSha256": "0b46f76638f939e7a051b3d40670ab3a33cb9b59b76cc8a5971a7c558ab6c9e9",
+      "byteMatch": true
+    },
+    "script": {
+      "path": "/assets/main-tmwnctVJ.js",
+      "localSha256": "016b7eed9eb0fe68e03d17f64c103cbe8c824223c7a0a2cf790a344773fabf75",
+      "liveSha256": "016b7eed9eb0fe68e03d17f64c103cbe8c824223c7a0a2cf790a344773fabf75",
+      "byteMatch": true
+    },
+    "style": {
+      "path": "/assets/main-DDrsfY5z.css",
+      "localSha256": "536382999b8d3629ed4af0f7193fb5cdbb1d0da8e751a349d8584cf624d8df7d",
+      "liveSha256": "536382999b8d3629ed4af0f7193fb5cdbb1d0da8e751a349d8584cf624d8df7d",
+      "byteMatch": true
+    },
+    "worker": {
+      "path": "/sw.js",
+      "localSha256": "38d70da5cbd31f088a3b05afcc4ff26013c309fd78302b913c2751497e667ef5",
+      "liveSha256": "7a74f153f06420afbd5a3aea5191101787ef3ee52199b787570f46483471d03c",
+      "byteMatch": false
+    }
+  },
+  "responses": {
+    "/": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "contentType": "text/html",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    "/?demo=1": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "contentType": "text/html",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    "/demo": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "contentType": "text/html",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    "/privacy": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "contentType": "text/html",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    "/terms": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "contentType": "text/html",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    "/does-not-exist": {
+      "status": 404,
+      "cacheControl": "public, must-revalidate, max-age=30",
+      "contentType": "text/html",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    "/assets/main-tmwnctVJ.js": {
+      "status": 200,
+      "cacheControl": "public, max-age=31536000, immutable",
+      "contentType": "text/javascript",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    "/assets/main-DDrsfY5z.css": {
+      "status": 200,
+      "cacheControl": "public, max-age=31536000, immutable",
+      "contentType": "text/css",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    "/sw.js": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "contentType": "text/javascript",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    }
+  },
+  "firstRead": {
+    "title": "Shop Fit Sheet — Check a fitted build",
+    "h1": "Check a fitted build before buying sheet material",
+    "audience": "For home makers fitting cabinets or benches into tight garages, utility rooms, and vehicles.",
+    "action": "Try it with sample data\n→",
+    "actionHref": "/?demo=1",
+    "outcome": "See a filled plan and its conflicts.",
+    "facts": [
+      "Plans stay on this device",
+      "Works offline after the first visit",
+      "Calculator and printable build sheet"
+    ]
+  },
+  "keyboard": {
+    "firstFocus": "Skip to main content",
+    "outline": {
+      "color": "rgb(166, 93, 29)",
+      "style": "solid",
+      "width": "3px",
+      "offset": "3px"
+    },
+    "skipTargetFocused": true
+  },
+  "normalFlow": {
+    "project": "Van bed utility cabinet",
+    "verdict": "1 conflict to fix",
+    "conflict": true,
+    "panelRows": 6,
+    "allowance": "Panel area 5.78 m² + 15% allowance (0.87 m²) = 6.65 m².",
+    "demoBanner": "Demo\n— sample data, nothing is saved.\nReset demo\nStart for real"
+  },
+  "boundary": {
+    "exactFitConflictCount": 0,
+    "overByPointZeroOne": true
+  },
+  "invalidRecovery": {
+    "negativeMessage": true,
+    "negativeCleared": true,
+    "fractionMessage": true,
+    "ariaInvalid": "true",
+    "fractionCleared": true
+  },
+  "reset": {
+    "project": "Van bed utility cabinet",
+    "focused": true
+  },
+  "storage": {
+    "keysInDemo": [
+      "demo:shop-fit-sheet:project:v1"
+    ],
+    "keysAfterExit": []
+  },
+  "routes": {
+    "/": {
+      "status": 200,
+      "title": "Shop Fit Sheet — Check a fitted build",
+      "h1": [
+        "Check a fitted build before buying sheet material"
+      ],
+      "mainCount": 1,
+      "lang": "en"
+    },
+    "/?demo=1": {
+      "status": 200,
+      "title": "Demo — Shop Fit Sheet",
+      "h1": [
+        "Van bed utility cabinet"
+      ],
+      "mainCount": 1,
+      "lang": "en"
+    },
+    "/demo": {
+      "status": 200,
+      "title": "Demo — Shop Fit Sheet",
+      "h1": [
+        "Van bed utility cabinet"
+      ],
+      "mainCount": 1,
+      "lang": "en"
+    },
+    "/privacy": {
+      "status": 200,
+      "title": "Privacy — Shop Fit Sheet",
+      "h1": [
+        "Your plan stays in your browser"
+      ],
+      "mainCount": 1,
+      "lang": "en"
+    },
+    "/terms": {
+      "status": 200,
+      "title": "Terms — Shop Fit Sheet",
+      "h1": [
+        "Use the sheet as a planning aid"
+      ],
+      "mainCount": 1,
+      "lang": "en"
+    },
+    "/does-not-exist": {
+      "status": 404,
+      "title": "Page not found — Shop Fit Sheet",
+      "h1": [
+        "Page not found"
+      ],
+      "mainCount": 1,
+      "lang": "en"
+    }
+  },
+  "axe": {
+    "/": [],
+    "/?demo=1": [],
+    "/demo": [],
+    "/privacy": [],
+    "/terms": [],
+    "/does-not-exist": []
+  },
+  "network": {
+    "origins": [
+      "https://shop-fit-sheet.sociobot.in"
+    ],
+    "offOrigin": [],
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ],
+    "pageErrors": []
+  },
+  "reducedMotion": {
+    "matches": true,
+    "animationDuration": "1e-05s",
+    "scrollBehavior": "auto"
+  },
+  "mobile": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "targetsUnder44": [],
+    "text200": {
+      "scrollWidth": 390,
+      "clientWidth": 390
+    }
+  },
+  "pwa": {
+    "registration": {
+      "activeState": "activated",
+      "scriptURL": "https://shop-fit-sheet.sociobot.in/sw.js",
+      "caches": [
+        "shop-fit-sheet-v9"
+      ]
+    },
+    "offlineVerdict": "1 conflict to fix"
+  }
+}
