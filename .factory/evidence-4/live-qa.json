@@ -1,0 +1,264 @@
+{
+  "testedAt": "2026-08-29T12:58:18.084Z",
+  "base": "https://shop-fit-sheet.sociobot.in",
+  "firstRead": {
+    "status": 200,
+    "title": "Shop Fit Sheet — Check a fitted build",
+    "h1": "Check a fitted build before buying stock",
+    "audience": "For home makers fitting cabinets or benches into tight garages, utility rooms, and vehicles.",
+    "action": "Try it with sample data\n→",
+    "actionHref": "/demo",
+    "outcome": "See a filled plan and its conflicts."
+  },
+  "demo": {
+    "url": "https://shop-fit-sheet.sociobot.in/demo",
+    "banner": "Demo\n— sample data, nothing is saved to your project.\nReset demo\nStart for real",
+    "initialVerdict": "1 conflict to fix",
+    "initialConflict": true,
+    "storageBeforeEdit": [],
+    "storageAfterEdit": {
+      "keys": [
+        "demo:shop-fit-sheet:project:v1"
+      ],
+      "demo": "{\"name\":\"Independent demo check\",\"location\":\"Left bay below the bed platform\",\"unit\":\"mm\",\"spaceWidth\":1400.05,\"spaceHeight\":839.98,\"spaceDepth\":780.03,\"clearanceLeft\":14.99,\"clearanceRight\":14.99,\"clearanceTop\":20.07,\"clearanceBottom\":9.91,\"clearanceBack\":39.88,\"outerWidth\":1350.01,\"outerHeight\":800.1,\"outerDepth\":739.9,\"panelThickness\":18.03,\"supports\":1,\"shelves\":2,\"doors\":2,\"doorStyle\":\"overlay\",\"doorGap\":3.05,\"includeBack\":true,\"backThickness\":6.1,\"sheetWidth\":1219.96,\"sheetHeight\":2439.92}",
+      "real": null
+    },
+    "afterReset": {
+      "projectName": "Van bed utility cabinet",
+      "verdict": "1 conflict to fix"
+    }
+  },
+  "boundaryExact": {
+    "value": "740",
+    "verdict": "Fits with 1 check",
+    "depthConflictCount": 0
+  },
+  "boundaryOver": {
+    "value": "740.01",
+    "verdict": "1 conflict to fix",
+    "conflict": true
+  },
+  "invalidClearance": {
+    "shown": true,
+    "recovered": true
+  },
+  "invalidCount": {
+    "shown": true,
+    "recovered": true
+  },
+  "invalidRequired": {
+    "shown": true,
+    "recovered": true
+  },
+  "optionalBack": {
+    "removed": true,
+    "restored": true
+  },
+  "unitRoundTrip": {
+    "inches": "29.13",
+    "millimetresAfterRoundTrip": "739.9"
+  },
+  "routing": {
+    "privacyUrl": "https://shop-fit-sheet.sociobot.in/privacy",
+    "privacyFocus": "H1#",
+    "afterBackUrl": "https://shop-fit-sheet.sociobot.in/demo",
+    "afterBackFocus": "BODY#",
+    "afterBackH1Focused": false
+  },
+  "keyboard": {
+    "firstFocusText": "Skip to main content",
+    "firstFocusStyle": {
+      "outline": "rgb(166, 93, 29) solid 3px",
+      "outlineOffset": "3px"
+    },
+    "skipTarget": "MAIN#main",
+    "firstTwentyTabs": [
+      {
+        "tag": "A",
+        "text": "Try it with sample data →",
+        "id": null
+      },
+      {
+        "tag": "SELECT",
+        "text": "MillimetresInches",
+        "id": "unit"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "id": "field-name"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "id": "field-location"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "id": "field-spaceWidth"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "id": "field-spaceHeight"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "id": "field-spaceDepth"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "id": "field-clearanceLeft"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "id": "field-clearanceRight"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "id": "field-clearanceTop"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "id": "field-clearanceBottom"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "id": "field-clearanceBack"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "id": "field-outerWidth"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "id": "field-outerHeight"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "id": "field-outerDepth"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "id": "field-panelThickness"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "id": "field-supports"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "id": "field-shelves"
+      },
+      {
+        "tag": "INPUT",
+        "text": "",
+        "id": "field-doors"
+      },
+      {
+        "tag": "SELECT",
+        "text": "Overlay slabInset slab",
+        "id": "door-style"
+      }
+    ]
+  },
+  "upperBoundInput": {
+    "value": "9",
+    "declaredMax": "8",
+    "browserRangeOverflow": true,
+    "appErrorShown": false,
+    "panelQuantity": "9",
+    "diagramSupportLines": 8
+  },
+  "unitBoundary": {
+    "before": {
+      "value": "740.01",
+      "verdict": "1 conflict to fix",
+      "conflict": true
+    },
+    "inches": {
+      "value": "29.13",
+      "verdict": "Fits with 1 check",
+      "conflictCount": 0
+    },
+    "after": {
+      "value": "739.9",
+      "spaceDepth": "780.03",
+      "rearClearance": "39.88",
+      "verdict": "Fits with 1 check",
+      "conflictCount": 0
+    }
+  },
+  "demoPlannerNavigation": {
+    "url": "https://shop-fit-sheet.sociobot.in/#planner",
+    "demoBannerCount": 0,
+    "projectName": "Untitled fit sheet"
+  },
+  "realPersistence": {
+    "projectNameAfterReload": "Persistent real project",
+    "storageKeys": [
+      "demo:shop-fit-sheet:project:v1",
+      "shop-fit-sheet:project:v1"
+    ]
+  },
+  "network": {
+    "total": 5,
+    "origins": [
+      "https://shop-fit-sheet.sociobot.in"
+    ],
+    "offOrigin": [],
+    "consoleErrors": []
+  },
+  "reducedMotion": {
+    "heroAnimationDuration": "1e-05s",
+    "resultAnimationDuration": "1e-05s",
+    "htmlScrollBehavior": "auto"
+  },
+  "mobile": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "firstScreenTexts": [
+      "Check a fitted build before buying stock",
+      "For home makers fitting cabinets or benches into tight garages, utility rooms, and vehicles."
+    ],
+    "overflow": {
+      "scrollWidth": 390,
+      "clientWidth": 390
+    },
+    "undersizedTargets": [],
+    "consoleErrors": [],
+    "textAt200Percent": {
+      "scrollWidth": 503,
+      "clientWidth": 390,
+      "printButtonVisible": true
+    }
+  },
+  "pwa": {
+    "registration": {
+      "scope": "https://shop-fit-sheet.sociobot.in/",
+      "active": "activated",
+      "waiting": null,
+      "controller": "https://shop-fit-sheet.sociobot.in/sw.js",
+      "caches": [
+        "shop-fit-sheet-v5"
+      ]
+    },
+    "offlineReloadVerdict": "1 conflict to fix",
+    "offlineTitle": "Demo — Shop Fit Sheet"
+  }
+}
