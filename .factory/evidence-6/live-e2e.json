@@ -1,0 +1,121 @@
+{
+  "testedAt": "2026-08-29T14:55:53.062Z",
+  "base": "https://shop-fit-sheet.sociobot.in",
+  "browserResponse": {
+    "status": 200,
+    "headers": {
+      "cache-control": "public, max-age=0, must-revalidate",
+      "content-encoding": "br",
+      "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "content-type": "text/html",
+      "date": "Sat, 29 Aug 2026 14:55:52 GMT",
+      "etag": "\"17344801\"",
+      "last-modified": "Sat, 29 Aug 2026 14:38:43 GMT",
+      "permissions-policy": "camera=(), microphone=(), geolocation=(), payment=()",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "strict-transport-security": "max-age=10886400; includeSubDomains; preload",
+      "vary": "Accept-Encoding",
+      "x-content-type-options": "nosniff",
+      "x-dns-prefetch-control": "off",
+      "x-xss-protection": "1; mode=block"
+    }
+  },
+  "firstViewport": {
+    "h1": "Check a fitted build before buying sheet material",
+    "audience": "For home makers fitting cabinets or benches into tight garages, utility rooms, and vehicles.",
+    "primaryAction": "Try it with sample data\n→",
+    "actionVisible": true
+  },
+  "sample": {
+    "url": "https://shop-fit-sheet.sociobot.in/?demo=1",
+    "banner": "Demo\n— sample data, nothing is saved.\nReset demo\nStart for real",
+    "project": "Van bed utility cabinet",
+    "verdict": "1 conflict to fix",
+    "depthConflict": true,
+    "panelRows": 6,
+    "stock": "3 × 1,220 × 2,440 mm sheet at 18 mm\nPanel area 5.78 m² + 15% allowance (0.87 m²) = 6.65 m².",
+    "printInvoked": "true"
+  },
+  "exactBoundary": {
+    "value": "740",
+    "verdict": "Fits with 1 check",
+    "depthConflictCount": 0
+  },
+  "invalidAndRecovery": {
+    "invalidValue": "-1",
+    "errorVisible": true,
+    "recoveredValue": "15",
+    "recoveredVerdict": "1 conflict to fix"
+  },
+  "stockOversize": {
+    "conflict": true,
+    "verdict": "7 conflicts to fix"
+  },
+  "internalLinks": {
+    "https://shop-fit-sheet.sociobot.in/?demo=1#main": 200,
+    "https://shop-fit-sheet.sociobot.in/?demo=1": 200,
+    "https://shop-fit-sheet.sociobot.in/?demo=1#planner": 200,
+    "https://shop-fit-sheet.sociobot.in/privacy?demo=1": 200,
+    "https://shop-fit-sheet.sociobot.in/terms?demo=1": 200
+  },
+  "network": {
+    "origins": [
+      "https://shop-fit-sheet.sociobot.in"
+    ],
+    "offOrigin": [],
+    "errors": []
+  },
+  "keyboardOnly": {
+    "focusTrail": [
+      {
+        "text": "Skip to main content",
+        "tag": "A",
+        "href": "#main",
+        "outline": "rgb(166, 93, 29) solid 3px"
+      },
+      {
+        "text": "Shop Fit Sheet",
+        "tag": "A",
+        "href": "/",
+        "outline": "rgb(166, 93, 29) solid 3px"
+      },
+      {
+        "text": "Demo",
+        "tag": "A",
+        "href": "/?demo=1",
+        "outline": "rgb(166, 93, 29) solid 3px"
+      },
+      {
+        "text": "Planner",
+        "tag": "A",
+        "href": "/#planner",
+        "outline": "rgb(166, 93, 29) solid 3px"
+      },
+      {
+        "text": "Privacy",
+        "tag": "A",
+        "href": "/privacy",
+        "outline": "rgb(166, 93, 29) solid 3px"
+      },
+      {
+        "text": "Try it with sample data →",
+        "tag": "A",
+        "href": "/?demo=1",
+        "outline": "rgb(166, 93, 29) solid 3px"
+      }
+    ],
+    "demoUrlAfterEnter": "https://shop-fit-sheet.sociobot.in/?demo=1",
+    "editedValue": "735",
+    "verdictAfterTyping": "Fits with 1 check",
+    "inputOutline": "rgb(166, 93, 29) solid 3px"
+  },
+  "mobile": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "verdictVisible": true
+  }
+}

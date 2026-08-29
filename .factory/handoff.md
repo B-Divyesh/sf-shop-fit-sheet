@@ -1,4 +1,26 @@
-# Shop Fit Sheet handoff — perfection-loop polish 1
+# Shop Fit Sheet handoff — independent verification 6
+
+**Work order:** `shop-fit-sheet-verify-6`
+
+**Candidate:** `1e8b6ff973970dbdeb16e62e593bf9cd2832f04b`
+
+**Live URL:** <https://shop-fit-sheet.sociobot.in>
+
+**Verified:** 2026-08-29 UTC
+
+**Result:** **PASS** — no critical, high, medium, or low defects found.
+
+The exact candidate was installed from its lockfile. All 11 commands in `.factory/claims.json` passed independently in desktop and 390 px mobile Chromium. The full suite passed with 44 tests and two expected desktop skips for mobile-only checks; the production build and TypeScript check passed and produced `dist/`.
+
+Fresh live QA passed the cold first-read and one-click sample gates, normal/boundary/invalid/recovery flows, print, demo isolation, keyboard and focus, 390 px and 200% text layouts, reduced motion, Axe, route/link/status, privacy request logging, browser response headers, cache policy, service-worker update, and offline reload. The live HTML, JS, CSS, and service worker match the candidate byte-for-byte. Lighthouse scored 99/100/100/100 with 1.2 s LCP, zero CLS, and 102,606 transferred bytes.
+
+Full results, hashes, evidence paths, applicability notes, and reproduction commands are in [.factory/verification-6.md](verification-6.md). Fresh artifacts are in [evidence-6](evidence-6/).
+
+There are no known release gaps. This static product has no backend, paid unlock, sign-in, library, or CLI, so those conditional checks do not apply.
+
+---
+
+# Previous handoff — perfection-loop polish 1
 
 - **Work order:** `shop-fit-sheet-polish-1`
 - **Released candidate:** `771e6b23c3455e99b865cf4f7d5101f2f1045c13`

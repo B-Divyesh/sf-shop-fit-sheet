@@ -1,0 +1,14 @@
+{
+  "url": "https://shop-fit-sheet.sociobot.in",
+  "loadMs": 1094,
+  "errors": [],
+  "a11y": {
+    "title": "Shop Fit Sheet — Check a fitted build",
+    "lang": "en",
+    "h1": 1,
+    "main": true,
+    "imgsMissingAlt": 0,
+    "buttonsUnlabeled": 0,
+    "textLength": 2314
+  }
+}
