@@ -7,7 +7,7 @@ import socialImage from './assets/social.webp';
 const PRODUCT = 'shop-fit-sheet';
 const REAL_KEY = `${PRODUCT}:project:v1`;
 const DEMO_KEY = `demo:${PRODUCT}:project:v1`;
-const BUILD_ID = '1.0.3';
+const BUILD_ID = '1.0.4';
 const app = document.querySelector<HTMLDivElement>('#app')!;
 const dimensionKeys = new Set<keyof Project>(DIMENSION_KEYS);
 const countKeys = new Set<keyof Project>(['supports', 'shelves', 'doors']);
@@ -139,7 +139,9 @@ function diagram(): string {
   const supports = Number.isInteger(project.supports) && project.supports >= 0 && project.supports <= COUNT_LIMITS.supports ? project.supports : 0;
   const supportLines = Array.from({ length: supports }, (_, i) => `<line x1="${24 + w * ((i + 1) / (supports + 1))}" x2="${24 + w * ((i + 1) / (supports + 1))}" y1="${25 + (170 - h)}" y2="195" />`).join('');
   const conflicts = result.findings.filter((f) => f.level === 'conflict').length;
-  const supportDescription = supports === project.supports ? `${supports} centre supports` : 'a support count that needs correction';
+  const supportDescription = supports === project.supports
+    ? `${supports} centre ${supports === 1 ? 'support' : 'supports'}`
+    : 'a support count that needs correction';
   return `<figure class="cabinet-diagram"><svg role="img" aria-labelledby="diagram-title diagram-desc" viewBox="0 0 300 235"><title id="diagram-title">Front view of the fitted build</title><desc id="diagram-desc">The build is ${format(project.outerWidth)} by ${format(project.outerHeight)} ${project.unit} with ${supportDescription}.</desc><rect class="space-box" x="18" y="18" width="264" height="185"/><rect class="build-box ${conflicts ? 'has-conflict' : ''}" x="24" y="${25 + (170 - h)}" width="${w}" height="${h}"/>${supportLines}<path class="dimension" d="M24 218h${w}m-${w} -4v8m${w} -8v8"/><text x="${24 + w / 2}" y="231" text-anchor="middle">${format(project.outerWidth)} ${project.unit}</text></svg><figcaption>Front view · clear envelope shown as a dashed line</figcaption></figure>`;
 }
 

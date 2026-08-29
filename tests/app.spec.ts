@@ -140,7 +140,7 @@ test('@claim:offline-reload reloads the demo without a network', async ({ page, 
       await new Promise<void>((resolve) => navigator.serviceWorker.addEventListener('controllerchange', () => resolve(), { once: true }));
     }
   });
-  await expect.poll(() => page.evaluate(async () => (await caches.keys()).includes('shop-fit-sheet-v7'))).toBe(true);
+  await expect.poll(() => page.evaluate(async () => (await caches.keys()).includes('shop-fit-sheet-v8'))).toBe(true);
   await context.setOffline(true);
   await page.reload();
   await expect(page.getByRole('heading', { name: '1 conflict to fix' })).toBeVisible();
@@ -171,6 +171,15 @@ test('@regression:first-screen-copy names sheet material and opens the isolated 
   await page.getByRole('button', { name: 'Reset demo' }).click();
   await expect(page.getByLabel('Project name')).toHaveValue('Van bed utility cabinet');
   expect(await page.evaluate(() => Object.keys(localStorage).sort())).toEqual(['demo:shop-fit-sheet:project:v1']);
+});
+
+test('@regression:diagram-support-grammar describes one and multiple centre supports correctly', async ({ page }) => {
+  await page.goto('/?demo=1');
+  const diagram = page.getByRole('img', { name: /Front view of the fitted build/ });
+  await expect(diagram.locator('desc')).toHaveText('The build is 1,350 by 800 mm with 1 centre support.');
+
+  await page.getByRole('spinbutton', { name: 'Centre supports', exact: true }).fill('2');
+  await expect(diagram.locator('desc')).toHaveText('The build is 1,350 by 800 mm with 2 centre supports.');
 });
 
 test('mobile @regression:touch-targets gives every visible control a 44 px target', async ({ page }, testInfo) => {

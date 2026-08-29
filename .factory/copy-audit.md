@@ -1,6 +1,6 @@
 # Landing-page copy audit
 
-Audited 2026-08-29 for perfection-loop round 1. This records every visitor-facing sentence, heading, fact, caption, and field-group label on the landing page. Dynamic measurements use the same sentence templates listed below. Product names, individual field labels, units, and table headings are direct labels rather than marketing copy.
+Audited 2026-08-29 for perfection-loop round 2. This records every visitor-facing sentence, heading, fact, caption, and field-group label on the landing page. Dynamic measurements use the same sentence templates listed below. Product names, individual field labels, units, and table headings are direct labels rather than marketing copy.
 
 | Copy | Words | Result |
 | --- | ---: | --- |
@@ -27,6 +27,8 @@ Audited 2026-08-29 for perfection-loop round 1. This records every visitor-facin
 | Doors and back | 3 | Pass |
 | Stock sheet | 2 | Pass |
 | For walls, doors, cables, or airflow. | 6 | Pass |
+| The build is [width] by [height] [unit] with 1 centre support. | 11 | Pass; F-2-1 fixed |
+| The build is [width] by [height] [unit] with [n] centre supports. | 11 | Pass; plural template |
 | Fit verdict | 2 | Pass |
 | Calculated openings | 2 | Pass |
 | Panel list | 2 | Pass |
