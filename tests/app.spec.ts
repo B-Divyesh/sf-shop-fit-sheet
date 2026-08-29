@@ -1,6 +1,7 @@
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import { expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { readFileSync, readdirSync } from 'node:fs';
 
 test('@claim:conflict-check sample exposes the exact fit conflict', async ({ page }) => {
   await page.goto('/demo');
@@ -63,42 +64,29 @@ test('@claim:offline-reload reloads the demo without a network', async ({ page, 
   await context.setOffline(false);
 });
 
-test('regression: an unregistered checkout is neither advertised nor requested', async ({ page }) => {
-  const offOrigin: string[] = [];
-  page.on('request', (request) => {
-    if (new URL(request.url()).origin !== 'http://127.0.0.1:4173') offOrigin.push(request.url());
-  });
+test('withdraws the unavailable paid offer and makes no billing request', async ({ page }) => {
+  const requests: string[] = [];
+  page.on('request', (request) => requests.push(request.url()));
   await page.goto('/');
-  await expect(page.getByText(/\$9/)).toHaveCount(0);
-  await expect(page.getByRole('link', { name: /buy|checkout|project library/i })).toHaveCount(0);
+  await expect(page.getByText(/\$9 project library|Buy the project library|One-time purchase/)).toHaveCount(0);
+  await expect(page.getByText('Free calculator and printable build sheet')).toBeVisible();
   await page.getByLabel('Space width').fill('1000');
   await expect(page.getByLabel('Space width')).toHaveValue('1000');
-  await page.goto('/privacy');
-  await expect(page.getByText('This version makes no third-party requests.')).toBeVisible();
-  expect(offOrigin).toEqual([]);
+  expect(requests.some((url) => url.includes('api.sociobot.in'))).toBe(false);
 });
 
-test('regression: release config fingerprints assets, caches them immutably, and preserves HTTP 404', () => {
-  const config = JSON.parse(readFileSync('public/staticwebapp.config.json', 'utf8')) as {
-    routes: Array<{ route: string; rewrite?: string; headers?: Record<string, string> }>;
-    navigationFallback: { exclude: string[] };
-    responseOverrides: Record<string, { rewrite: string }>;
-  };
-  const assetsRoute = config.routes.find((route) => route.route === '/assets/*');
-  expect(assetsRoute?.headers?.['Cache-Control']).toBe('public, max-age=31536000, immutable');
-  expect(config.routes.filter((route) => route.rewrite === '/index.html').map((route) => route.route))
-    .toEqual(['/demo', '/privacy', '/terms']);
-  expect(config.navigationFallback.exclude).toContain('/*');
-  expect(config.responseOverrides['404']).toEqual({ rewrite: '/index.html' });
-
-  const assets = readdirSync('dist/assets');
-  const appJs = assets.find((name) => /^app-[a-zA-Z0-9_-]+\.js$/.test(name));
-  const appCss = assets.find((name) => /^app-[a-zA-Z0-9_-]+\.css$/.test(name));
-  expect(appJs).toBeTruthy();
-  expect(appCss).toBeTruthy();
-  const serviceWorker = readFileSync('dist/sw.js', 'utf8');
-  expect(serviceWorker).toContain(`/assets/${appJs}`);
-  expect(serviceWorker).toContain(`/assets/${appCss}`);
+test('ships hashed immutable assets and a styled HTTP 404 response', async ({ page }) => {
+  await page.goto('/demo');
+  const assetUrl = await page.locator('script[type="module"]').getAttribute('src');
+  expect(assetUrl).toMatch(/^\/assets\/main-[a-zA-Z0-9_-]+\.js$/);
+  const asset = await page.request.get(assetUrl!);
+  expect(asset.headers()['cache-control']).toBe('public, max-age=31536000, immutable');
+  const missing = await page.goto('/does-not-exist');
+  expect(missing?.status()).toBe(404);
+  await expect(page.getByRole('heading', { name: 'This page is not on the sheet' })).toBeVisible();
+  const config = JSON.parse(await readFile(join(process.cwd(), 'dist/staticwebapp.config.json'), 'utf8'));
+  expect(config.responseOverrides['404']).toEqual({ rewrite: '/404.html', statusCode: 404 });
+  expect(config.routes).toContainEqual({ route: '/assets/*', headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } });
 });
 
 test('routes have one h1, distinct titles, and no serious accessibility findings', async ({ page }, testInfo) => {

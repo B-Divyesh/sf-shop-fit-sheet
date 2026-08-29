@@ -51,13 +51,13 @@ The tests cover each claim in [.factory/claims.json](.factory/claims.json), both
 
 ## Privacy and offline use
 
-Plans stay in browser storage. The demo uses `demo:shop-fit-sheet:project:v1`, separate from the real project key. There are no analytics, trackers, runtime fonts, or third-party scripts. After the first visit, the service worker reloads the calculator without a network.
+Plans stay in browser storage. The demo uses `demo:shop-fit-sheet:project:v1`, separate from the real project key. There are no analytics, trackers, runtime fonts, third-party scripts, or cross-origin calculator requests. After the first visit, the service worker reloads the calculator without a network.
 
-The calculator makes no third-party requests. It stores plans only in browser storage on this device.
+The unavailable project-library offer was removed until the factory can register and test it in the Sociobot billing engine. The free calculator and printable build sheet remain fully usable.
 
 ## Deploy
 
-Deploy the contents of `dist/` to Azure Static Web Apps. `public/staticwebapp.config.json` supplies the SPA fallback and security headers. The service worker uses same-origin cached files only.
+Deploy the contents of `dist/` to Azure Static Web Apps. `public/staticwebapp.config.json` supplies security headers, immutable cache rules for fingerprinted assets, and a product-styled HTTP 404. The service worker uses same-origin cached files only.
 
 ## Project records
 
