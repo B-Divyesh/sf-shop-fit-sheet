@@ -1,12 +1,13 @@
 # Shop Fit Sheet handoff — perfection-loop polish 1
 
-**Work order:** `shop-fit-sheet-polish-1`  
-**Released candidate:** `771e6b23c3455e99b865cf4f7d5101f2f1045c13`  
-**Review commit:** `62bf8236240e686b9c3a6e2a15241f88db2f1444`  
-**Repair commit:** `1e8b6ff973970dbdeb16e62e593bf9cd2832f04b`  
-**Live URL:** <https://shop-fit-sheet.sociobot.in>  
-**Demo URL:** <https://shop-fit-sheet.sociobot.in/?demo=1>  
-**Deployment:** Azure Static Web Apps `3edb82b4-f280-46d0-9307-f8478d6e3c0c`  
+- **Work order:** `shop-fit-sheet-polish-1`
+- **Released candidate:** `771e6b23c3455e99b865cf4f7d5101f2f1045c13`
+- **Review commit:** `62bf8236240e686b9c3a6e2a15241f88db2f1444`
+- **Repair commit:** `1e8b6ff973970dbdeb16e62e593bf9cd2832f04b`
+- **Live URL:** <https://shop-fit-sheet.sociobot.in>
+- **Demo URL:** <https://shop-fit-sheet.sociobot.in/?demo=1>
+- **Deployment:** Azure Static Web Apps `3edb82b4-f280-46d0-9307-f8478d6e3c0c`
+
 **Result:** PASS — every current and historical finding is resolved locally and live.
 
 ## What changed
