@@ -1,0 +1,273 @@
+{
+  "testedAt": "2026-08-29T18:18:18.725Z",
+  "base": "https://shop-fit-sheet.sociobot.in",
+  "identity": {
+    "/": {
+      "localSha256": "0b46f76638f939e7a051b3d40670ab3a33cb9b59b76cc8a5971a7c558ab6c9e9",
+      "liveSha256": "0b46f76638f939e7a051b3d40670ab3a33cb9b59b76cc8a5971a7c558ab6c9e9",
+      "byteMatch": true
+    },
+    "/demo/": {
+      "localSha256": "38c9dedbc0cd34197c2b90a5233921b6be10be0a5354ec5b02f3f1e3603ce38f",
+      "liveSha256": "38c9dedbc0cd34197c2b90a5233921b6be10be0a5354ec5b02f3f1e3603ce38f",
+      "byteMatch": true
+    },
+    "/privacy/": {
+      "localSha256": "3dd7f43cb9ee60d7906191bbeea47159aa3508cb12c5884b7add15397062028f",
+      "liveSha256": "3dd7f43cb9ee60d7906191bbeea47159aa3508cb12c5884b7add15397062028f",
+      "byteMatch": true
+    },
+    "/terms/": {
+      "localSha256": "dea7e73498a3e70d2b0c2285bcd9ec3f74afc807fdf16a8342e52560fa7abe46",
+      "liveSha256": "dea7e73498a3e70d2b0c2285bcd9ec3f74afc807fdf16a8342e52560fa7abe46",
+      "byteMatch": true
+    },
+    "/404.html": {
+      "localSha256": "20c9ccf7eafa0d8040a13fa44630645778413c6a75cc212563fb8edb0264de8d",
+      "liveSha256": "20c9ccf7eafa0d8040a13fa44630645778413c6a75cc212563fb8edb0264de8d",
+      "byteMatch": true
+    },
+    "/sw.js": {
+      "localSha256": "d8ef5b2813a90bd1e4b9f989ed0920554c5e56dd11bb8b8a7753a47e22d58345",
+      "liveSha256": "d8ef5b2813a90bd1e4b9f989ed0920554c5e56dd11bb8b8a7753a47e22d58345",
+      "byteMatch": true
+    },
+    "/manifest.webmanifest": {
+      "localSha256": "ee3be98ce9b90c1e80183680f7a432aa779704692ed1dccd8b1e3fd0d251d7be",
+      "liveSha256": "ee3be98ce9b90c1e80183680f7a432aa779704692ed1dccd8b1e3fd0d251d7be",
+      "byteMatch": true
+    },
+    "/favicon.svg": {
+      "localSha256": "80c6b729a23a3a90c73aa4bf0042591e95739f75b6ad97fb88e3edc905121e96",
+      "liveSha256": "80c6b729a23a3a90c73aa4bf0042591e95739f75b6ad97fb88e3edc905121e96",
+      "byteMatch": true
+    },
+    "/apple-touch-icon.png": {
+      "localSha256": "61c425e3e36c0ff73acbdd53602fd7c8a6abe2e039fc4e724c1efd3bf26aeb62",
+      "liveSha256": "61c425e3e36c0ff73acbdd53602fd7c8a6abe2e039fc4e724c1efd3bf26aeb62",
+      "byteMatch": true
+    },
+    "/assets/hero-1200-Cb_tXmD7.webp": {
+      "localSha256": "7e56413d8dff896afcdb69b8d72b2897481db7f53ecba33018d1a41c0393a9cf",
+      "liveSha256": "7e56413d8dff896afcdb69b8d72b2897481db7f53ecba33018d1a41c0393a9cf",
+      "byteMatch": true
+    },
+    "/assets/hero-720-DBJ7AVyu.webp": {
+      "localSha256": "748a1193ec95ccafee5418bf96b3293b41d4a4dda8173bef5cbd092eb98e2eda",
+      "liveSha256": "748a1193ec95ccafee5418bf96b3293b41d4a4dda8173bef5cbd092eb98e2eda",
+      "byteMatch": true
+    },
+    "/assets/main-DDrsfY5z.css": {
+      "localSha256": "536382999b8d3629ed4af0f7193fb5cdbb1d0da8e751a349d8584cf624d8df7d",
+      "liveSha256": "536382999b8d3629ed4af0f7193fb5cdbb1d0da8e751a349d8584cf624d8df7d",
+      "byteMatch": true
+    },
+    "/assets/main-tmwnctVJ.js": {
+      "localSha256": "016b7eed9eb0fe68e03d17f64c103cbe8c824223c7a0a2cf790a344773fabf75",
+      "liveSha256": "016b7eed9eb0fe68e03d17f64c103cbe8c824223c7a0a2cf790a344773fabf75",
+      "byteMatch": true
+    },
+    "/assets/social-CMr-jQD4.webp": {
+      "localSha256": "7a30391a797e8698547e7c704024799d3f1b0c042b2db8a6b9d20b86daaf04d1",
+      "liveSha256": "7a30391a797e8698547e7c704024799d3f1b0c042b2db8a6b9d20b86daaf04d1",
+      "byteMatch": true
+    }
+  },
+  "responses": {
+    "/": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "contentType": "text/html",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    "/?demo=1": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "contentType": "text/html",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    "/demo": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "contentType": "text/html",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    "/privacy": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "contentType": "text/html",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    "/terms": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "contentType": "text/html",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    "/does-not-exist": {
+      "status": 404,
+      "cacheControl": "public, must-revalidate, max-age=30",
+      "contentType": "text/html",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    "/assets/main-tmwnctVJ.js": {
+      "status": 200,
+      "cacheControl": "public, max-age=31536000, immutable",
+      "contentType": "text/javascript",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    "/assets/main-DDrsfY5z.css": {
+      "status": 200,
+      "cacheControl": "public, max-age=31536000, immutable",
+      "contentType": "text/css",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    "/sw.js": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "contentType": "text/javascript",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    }
+  },
+  "desktop": {
+    "title": "Shop Fit Sheet — Check a fitted build",
+    "h1": "Check a fitted build before buying sheet material",
+    "mainCount": 1,
+    "lang": "en",
+    "demoFirstViewport": [
+      {
+        "x": 144,
+        "y": 65.921875,
+        "width": 482.390625,
+        "height": 149.75
+      },
+      {
+        "x": 739.390625,
+        "y": 128.03125,
+        "width": 523.609375,
+        "height": 39.9375
+      },
+      {
+        "x": 739.390625,
+        "y": 221.96875,
+        "width": 523.609375,
+        "height": 24
+      }
+    ]
+  },
+  "keyboard": {
+    "firstFocus": true,
+    "outline": "3px solid rgb(166, 93, 29)"
+  },
+  "routes": {
+    "/": {
+      "status": 200,
+      "title": "Shop Fit Sheet — Check a fitted build",
+      "h1Count": 1,
+      "mainCount": 1
+    },
+    "/?demo=1": {
+      "status": 200,
+      "title": "Demo — Shop Fit Sheet",
+      "h1Count": 1,
+      "mainCount": 1
+    },
+    "/demo": {
+      "status": 200,
+      "title": "Demo — Shop Fit Sheet",
+      "h1Count": 1,
+      "mainCount": 1
+    },
+    "/privacy": {
+      "status": 200,
+      "title": "Privacy — Shop Fit Sheet",
+      "h1Count": 1,
+      "mainCount": 1
+    },
+    "/terms": {
+      "status": 200,
+      "title": "Terms — Shop Fit Sheet",
+      "h1Count": 1,
+      "mainCount": 1
+    },
+    "/does-not-exist": {
+      "status": 404,
+      "title": "Page not found — Shop Fit Sheet",
+      "h1Count": 1,
+      "mainCount": 1
+    }
+  },
+  "axe": {
+    "/": [],
+    "/?demo=1": [],
+    "/demo": [],
+    "/privacy": [],
+    "/terms": [],
+    "/does-not-exist": []
+  },
+  "privacy": {
+    "origins": [
+      "https://shop-fit-sheet.sociobot.in"
+    ],
+    "offOrigin": [],
+    "consoleErrors": [],
+    "pageErrors": []
+  },
+  "mobile": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "reducedMotion": true,
+    "scrollBehavior": "auto",
+    "targetsUnder44": [],
+    "text200": {
+      "scrollWidth": 390,
+      "clientWidth": 390
+    }
+  },
+  "offline": {
+    "registration": {
+      "active": "activated",
+      "waiting": false,
+      "caches": [
+        "shop-fit-sheet-v10"
+      ]
+    },
+    "verdict": "1 conflict to fix"
+  }
+}
