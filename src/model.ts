@@ -1,5 +1,6 @@
 export type Unit = 'mm' | 'in';
 export type DoorStyle = 'overlay' | 'inset';
+export type CountKey = 'supports' | 'shelves' | 'doors';
 
 export interface Project {
   name: string;
@@ -58,6 +59,21 @@ export interface Result {
 /** Added to each material-thickness panel area before rough sheet counting. */
 export const SHEET_AREA_ALLOWANCE = 0.15;
 
+export const COUNT_LIMITS: Record<CountKey, number> = {
+  supports: 8,
+  shelves: 30,
+  doors: 12,
+};
+
+export const DIMENSION_KEYS = [
+  'spaceWidth', 'spaceHeight', 'spaceDepth',
+  'clearanceLeft', 'clearanceRight', 'clearanceTop', 'clearanceBottom', 'clearanceBack',
+  'outerWidth', 'outerHeight', 'outerDepth', 'panelThickness', 'doorGap', 'backThickness',
+  'sheetWidth', 'sheetHeight',
+] as const satisfies ReadonlyArray<keyof Project>;
+
+export type DimensionKey = typeof DIMENSION_KEYS[number];
+
 export const blankProject: Project = {
   name: 'Untitled fit sheet', location: '', unit: 'mm',
   spaceWidth: 0, spaceHeight: 0, spaceDepth: 0,
@@ -77,27 +93,33 @@ export const sampleProject: Project = {
 };
 
 const positive = (value: number) => Number.isFinite(value) && value > 0;
-const round = (value: number) => Math.round(value * 100) / 100;
+const round = (value: number) => Math.abs(value) > 0 && Math.abs(value) < 0.01
+  ? Math.round(value * 10_000) / 10_000
+  : Math.round(value * 100) / 100;
+const validCount = (key: CountKey, value: number) => Number.isInteger(value) && value >= 0 && value <= COUNT_LIMITS[key];
 
 export function calculate(p: Project): Result {
+  const supports = validCount('supports', p.supports) ? p.supports : 0;
+  const shelves = validCount('shelves', p.shelves) ? p.shelves : 0;
+  const doors = validCount('doors', p.doors) ? p.doors : 0;
   const availableWidth = p.spaceWidth - p.clearanceLeft - p.clearanceRight;
   const availableHeight = p.spaceHeight - p.clearanceTop - p.clearanceBottom;
   const availableDepth = p.spaceDepth - p.clearanceBack;
-  const innerWidth = p.outerWidth - (2 + p.supports) * p.panelThickness;
-  const openingWidth = innerWidth / Math.max(1, p.supports + 1);
+  const innerWidth = p.outerWidth - (2 + supports) * p.panelThickness;
+  const openingWidth = innerWidth / Math.max(1, supports + 1);
   const openingHeight = p.outerHeight - 2 * p.panelThickness;
-  const insetWidth = innerWidth / Math.max(1, p.doors);
-  const doorWidth = p.doors > 0
-    ? p.doorStyle === 'inset' ? insetWidth - 2 * p.doorGap : (p.outerWidth - (p.doors + 1) * p.doorGap) / p.doors
+  const insetWidth = innerWidth / Math.max(1, doors);
+  const doorWidth = doors > 0
+    ? p.doorStyle === 'inset' ? insetWidth - 2 * p.doorGap : (p.outerWidth - (doors + 1) * p.doorGap) / doors
     : 0;
   const doorHeight = p.doorStyle === 'inset' ? openingHeight - 2 * p.doorGap : p.outerHeight - 2 * p.doorGap;
 
   const pieces: Piece[] = [];
   if (positive(p.outerHeight) && positive(p.outerDepth)) pieces.push({ part: 'Side', quantity: 2, length: p.outerHeight, width: p.outerDepth, thickness: p.panelThickness, note: 'Full cabinet height' });
-  if (positive(innerWidth) && positive(p.outerDepth)) pieces.push({ part: 'Top / bottom', quantity: 2, length: innerWidth + p.supports * p.panelThickness, width: p.outerDepth, thickness: p.panelThickness, note: 'Fits between sides' });
-  if (p.supports > 0 && positive(openingHeight)) pieces.push({ part: 'Centre support', quantity: p.supports, length: openingHeight, width: p.outerDepth, thickness: p.panelThickness, note: 'Fits between top and bottom' });
-  if (p.shelves > 0 && positive(openingWidth)) pieces.push({ part: 'Shelf', quantity: p.shelves, length: openingWidth, width: p.outerDepth, thickness: p.panelThickness, note: 'One opening wide; trim for hardware' });
-  if (p.doors > 0 && positive(doorWidth) && positive(doorHeight)) pieces.push({ part: 'Door', quantity: p.doors, length: doorHeight, width: doorWidth, thickness: p.panelThickness, note: `${p.doorStyle === 'inset' ? 'Inset' : 'Overlay'} slab; confirm hinge overlay` });
+  if (positive(innerWidth) && positive(p.outerDepth)) pieces.push({ part: 'Top / bottom', quantity: 2, length: innerWidth + supports * p.panelThickness, width: p.outerDepth, thickness: p.panelThickness, note: 'Fits between sides' });
+  if (supports > 0 && positive(openingHeight)) pieces.push({ part: 'Centre support', quantity: supports, length: openingHeight, width: p.outerDepth, thickness: p.panelThickness, note: 'Fits between top and bottom' });
+  if (shelves > 0 && positive(openingWidth)) pieces.push({ part: 'Shelf', quantity: shelves, length: openingWidth, width: p.outerDepth, thickness: p.panelThickness, note: 'One opening wide; trim for hardware' });
+  if (doors > 0 && positive(doorWidth) && positive(doorHeight)) pieces.push({ part: 'Door', quantity: doors, length: doorHeight, width: doorWidth, thickness: p.panelThickness, note: `${p.doorStyle === 'inset' ? 'Inset' : 'Overlay'} slab; confirm hinge overlay` });
   if (p.includeBack && positive(p.outerWidth) && positive(p.outerHeight)) pieces.push({ part: 'Back', quantity: 1, length: p.outerHeight, width: p.outerWidth, thickness: p.backThickness, note: 'Overall size; adjust for grooves or rebates' });
 
   const findings: Finding[] = [];
@@ -108,6 +130,14 @@ export function calculate(p: Project): Result {
   if (clearances.some((v) => !Number.isFinite(v) || v < 0)) findings.push({ level: 'conflict', text: 'Clearances and gaps cannot be negative.' });
   const counts = [p.supports, p.shelves, p.doors];
   if (counts.some((v) => !Number.isInteger(v) || v < 0)) findings.push({ level: 'conflict', text: 'Supports, shelves, and doors must use whole numbers of zero or more.' });
+  const boundedCounts: Array<[string, CountKey, number]> = [
+    ['Centre supports', 'supports', p.supports],
+    ['Shelves', 'shelves', p.shelves],
+    ['Doors', 'doors', p.doors],
+  ];
+  for (const [label, key, value] of boundedCounts) {
+    if (Number.isFinite(value) && Number.isInteger(value) && value > COUNT_LIMITS[key]) findings.push({ level: 'conflict', text: `${label} must be no more than ${COUNT_LIMITS[key]}.` });
+  }
   const axes: Array<[string, number, number]> = [['width', p.outerWidth, availableWidth], ['height', p.outerHeight, availableHeight], ['depth', p.outerDepth, availableDepth]];
   for (const [axis, outer, available] of axes) {
     if (positive(outer) && positive(available) && outer > available) findings.push({ level: 'conflict', text: `Build ${axis} exceeds the cleared space by ${round(outer - available)} ${p.unit}.` });
@@ -138,10 +168,9 @@ export function calculate(p: Project): Result {
 }
 
 export function convertProject(project: Project, unit: Unit): Project {
-  if (project.unit === unit) return project;
+  if (project.unit === unit) return { ...project };
   const factor = unit === 'in' ? 1 / 25.4 : 25.4;
   const converted = { ...project, unit };
-  const keys: Array<keyof Project> = ['spaceWidth','spaceHeight','spaceDepth','clearanceLeft','clearanceRight','clearanceTop','clearanceBottom','clearanceBack','outerWidth','outerHeight','outerDepth','panelThickness','doorGap','backThickness','sheetWidth','sheetHeight'];
-  for (const key of keys) (converted[key] as number) = round((project[key] as number) * factor);
+  for (const key of DIMENSION_KEYS) (converted[key] as number) = (project[key] as number) * factor;
   return converted;
 }

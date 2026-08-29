@@ -38,6 +38,11 @@ Audited 2026-08-29 after the release repair. This records every visitor-facing s
 | Enter positive space, build, panel, and stock measurements. | 8 | Pass |
 | Clearances and gaps cannot be negative. | 6 | Pass |
 | Supports, shelves, and doors must use whole numbers of zero or more. | 12 | Pass |
+| Enter a whole number from 0 to [maximum]. | 8 | Pass |
+| Enter no more than [maximum]. | 5 | Pass |
+| Centre supports must be no more than 8. | 8 | Pass |
+| Shelves must be no more than 30. | 7 | Pass |
+| Doors must be no more than 12. | 7 | Pass |
 | The outer build fits inside the clear envelope. | 8 | Pass |
 | Consider another support or confirm sag limits. | 7 | Pass |
 | Confirm hinge limits and door weight. | 6 | Pass |
@@ -55,6 +60,7 @@ Audited 2026-08-29 after the release repair. This records every visitor-facing s
 | It does not design joints, choose fixings, test loads, or optimise cuts. | 12 | Pass |
 | Your current plan stays in your browser. | 7 | Pass |
 | Check a fitted build before you buy sheet material. | 9 | Pass |
+| Page changed: [page heading]. | 4 | Pass |
 
 No sentence exceeds 22 words. The longest is 14 words. No banned word appears. Removed decorative labels: “Workshop field note · No. 01,” “Cabinet specimen, plate 01,” “A short field method,” “Scope note,” “Field note,” and “Specimen not found.”
 

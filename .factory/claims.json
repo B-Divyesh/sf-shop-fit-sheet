@@ -39,7 +39,7 @@
     "claim": "Switches measurements between millimetres and inches",
     "where": "README and unit selector",
     "test": "npm test -- --grep @claim:unit-conversion",
-    "sandbox": "fresh browser context at /demo; switch units and assert the converted build depth"
+    "sandbox": "fresh browser context at /demo; create a 0.01 mm boundary conflict, switch to inches and back, then assert the conflict, exact millimetre value, and canonical stored value survive"
   },
   {
     "id": "live-results",

@@ -66,12 +66,21 @@ test('@claim:stock-fit-check flags an oversize panel for the selected sheet', as
   await expect(page.getByText('Side at 800 × 750 mm does not fit the chosen stock sheet.')).toBeVisible();
 });
 
-test('@claim:unit-conversion changes the displayed measurements to inches', async ({ page }) => {
+test('@claim:unit-conversion preserves a boundary conflict through a unit round trip', async ({ page }) => {
   await page.goto('/demo');
-  await page.getByLabel('Build depth').fill('740');
+  await page.getByRole('button', { name: 'Reset demo' }).click();
+  await page.getByLabel('Build depth').fill('740.01');
+  await expect(page.getByText('Build depth exceeds the cleared space by 0.01 mm.')).toBeVisible();
   await page.getByLabel('Units').selectOption('in');
   await expect(page.getByLabel('Build depth')).toHaveValue('29.13');
   await expect(page.getByText(/All dimensions use inches/)).toBeVisible();
+  await expect(page.getByRole('heading', { name: '1 conflict to fix' })).toBeVisible();
+  await expect(page.getByText(/Build depth exceeds the cleared space by 0\.0004 in\./)).toBeVisible();
+  await page.getByLabel('Units').selectOption('mm');
+  await expect(page.getByLabel('Build depth')).toHaveValue('740.01');
+  await expect(page.getByText('Build depth exceeds the cleared space by 0.01 mm.')).toBeVisible();
+  const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('demo:shop-fit-sheet:project:v1') ?? '{}'));
+  expect(stored).toMatchObject({ schemaVersion: 2, displayUnit: 'mm', canonicalProject: { unit: 'mm', outerDepth: 740.01 } });
 });
 
 test('@claim:live-results updates the verdict without a submit action', async ({ page }) => {
@@ -87,6 +96,11 @@ test('@claim:demo-isolation keeps sample changes separate', async ({ page }) => 
   await page.goto('/demo');
   await expect(page.getByLabel('Project name')).toHaveValue('Van bed utility cabinet');
   await page.getByLabel('Project name').fill('Changed sample only');
+  await page.getByRole('link', { name: 'Planner', exact: true }).click();
+  await expect(page).toHaveURL(/\/demo#planner$/);
+  await expect(page.getByLabel('Demo mode')).toBeVisible();
+  await expect(page.getByLabel('Project name')).toHaveValue('Changed sample only');
+  expect(await page.evaluate(() => localStorage.getItem('shop-fit-sheet:project:v1'))).toContain('My real garage bench');
   await page.getByRole('button', { name: 'Start for real' }).click();
   await expect(page).toHaveURL(/\/$/);
   await expect(page.getByLabel('Project name')).toHaveValue('My real garage bench');
@@ -126,7 +140,7 @@ test('@claim:offline-reload reloads the demo without a network', async ({ page, 
       await new Promise<void>((resolve) => navigator.serviceWorker.addEventListener('controllerchange', () => resolve(), { once: true }));
     }
   });
-  await expect.poll(() => page.evaluate(async () => (await caches.keys()).includes('shop-fit-sheet-v5'))).toBe(true);
+  await expect.poll(() => page.evaluate(async () => (await caches.keys()).includes('shop-fit-sheet-v6'))).toBe(true);
   await context.setOffline(true);
   await page.reload();
   await expect(page.getByRole('heading', { name: '1 conflict to fix' })).toBeVisible();
@@ -155,6 +169,66 @@ test('mobile @regression:touch-targets gives every visible control a 44 px targe
     })
     .filter((target) => target.visible && (target.width < 44 || target.height < 44)));
   expect(undersized).toEqual([]);
+});
+
+test('mobile @regression:text-resize reflows navigation and controls at 200% text', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'mobile', 'This regression checks the required 390 px viewport.');
+  await page.goto('/demo');
+  await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; });
+  await expect(page.getByRole('link', { name: 'Shop Fit Sheet' }).first()).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Planner', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Reset demo' })).toBeVisible();
+  const layout = await page.evaluate(() => {
+    const targets = [...document.querySelectorAll<HTMLElement>('.site-header a, .demo-banner button')]
+      .map((element) => ({ label: element.textContent?.trim(), rect: element.getBoundingClientRect() }));
+    const outsideViewport = targets.filter(({ rect }) => rect.left < 0 || rect.right > innerWidth);
+    const overlap = targets.some((target, index) => targets.slice(index + 1).some((other) => (
+      target.rect.left < other.rect.right && target.rect.right > other.rect.left
+      && target.rect.top < other.rect.bottom && target.rect.bottom > other.rect.top
+    )));
+    return {
+      scrollWidth: document.documentElement.scrollWidth,
+      clientWidth: document.documentElement.clientWidth,
+      outsideViewport: outsideViewport.map(({ label }) => label),
+      overlap,
+    };
+  });
+  expect(layout).toEqual({ scrollWidth: 390, clientWidth: 390, outsideViewport: [], overlap: false });
+});
+
+test('@regression:count-maxima rejects counts beyond every rendered limit', async ({ page }) => {
+  await page.goto('/demo');
+  const cases = [
+    { label: 'Centre supports', max: 8, finding: 'Centre supports must be no more than 8.', row: 'Centre support' },
+    { label: 'Shelves total', max: 30, finding: 'Shelves must be no more than 30.', row: 'Shelf' },
+    { label: 'Doors', max: 12, finding: 'Doors must be no more than 12.', row: 'Door' },
+  ];
+  for (const item of cases) {
+    const input = page.getByRole('spinbutton', { name: item.label, exact: true });
+    const original = await input.inputValue();
+    await input.fill(String(item.max + 1));
+    await expect(input).toHaveAttribute('aria-invalid', 'true');
+    await expect(page.getByText(item.finding)).toBeVisible();
+    await expect(page.getByRole('rowheader', { name: new RegExp(`^${item.row}`) })).toHaveCount(0);
+    if (item.label === 'Centre supports') await expect(page.locator('.cabinet-diagram line')).toHaveCount(0);
+    await input.fill(original);
+    await expect(input).not.toHaveAttribute('aria-invalid', 'true');
+  }
+});
+
+test('@regression:history-focus focuses and announces routes on Back and Forward', async ({ page }) => {
+  await page.goto('/demo');
+  await page.getByRole('link', { name: 'Privacy', exact: true }).first().click();
+  await expect(page).toHaveURL(/\/privacy\?demo=1$/);
+  await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
+  await page.goBack();
+  await expect(page).toHaveURL(/\/demo$/);
+  await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
+  await expect(page.locator('#route-status')).toHaveText('Page changed: Check a fitted build before buying stock');
+  await page.goForward();
+  await expect(page).toHaveURL(/\/privacy\?demo=1$/);
+  await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
+  await expect(page.locator('#route-status')).toHaveText('Page changed: Your plan stays in your browser');
 });
 
 test('ships hashed immutable assets and a styled HTTP 404 response', async ({ page }) => {

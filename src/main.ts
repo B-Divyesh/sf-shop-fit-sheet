@@ -1,5 +1,5 @@
 import './style.css';
-import { blankProject, calculate, convertProject, sampleProject, type Project, type Unit } from './model';
+import { blankProject, calculate, convertProject, COUNT_LIMITS, DIMENSION_KEYS, sampleProject, type CountKey, type Project, type Unit } from './model';
 import heroMobile from './assets/hero-720.webp';
 import heroDesktop from './assets/hero-1200.webp';
 import socialImage from './assets/social.webp';
@@ -7,27 +7,75 @@ import socialImage from './assets/social.webp';
 const PRODUCT = 'shop-fit-sheet';
 const REAL_KEY = `${PRODUCT}:project:v1`;
 const DEMO_KEY = `demo:${PRODUCT}:project:v1`;
-const BUILD_ID = '1.0.1';
+const BUILD_ID = '1.0.2';
 const app = document.querySelector<HTMLDivElement>('#app')!;
-let isDemo = location.pathname === '/demo' || new URLSearchParams(location.search).get('demo') === '1';
-let project = loadProject();
+const dimensionKeys = new Set<keyof Project>(DIMENSION_KEYS);
+const countKeys = new Set<keyof Project>(['supports', 'shelves', 'doors']);
+let isDemo = isDemoUrl(new URL(location.href));
+
+interface StoredProject {
+  schemaVersion: 2;
+  displayUnit: Unit;
+  canonicalProject: Project;
+}
+
+const initialState = loadProject();
+let canonicalProject = initialState.canonicalProject;
+let displayUnit = initialState.displayUnit;
+let project = convertProject(canonicalProject, displayUnit);
 
 function escapeHtml(value: string | number): string {
   return String(value).replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]!);
 }
 
-function loadProject(): Project {
+function isDemoUrl(url: URL): boolean {
+  return url.pathname === '/demo' || url.searchParams.get('demo') === '1';
+}
+
+function loadProject(): { canonicalProject: Project; displayUnit: Unit } {
   const key = isDemo ? DEMO_KEY : REAL_KEY;
+  const fallback = structuredClone(isDemo ? sampleProject : blankProject);
   try {
     const stored = localStorage.getItem(key);
-    return stored ? { ...(isDemo ? sampleProject : blankProject), ...JSON.parse(stored) } : structuredClone(isDemo ? sampleProject : blankProject);
+    if (!stored) return { canonicalProject: fallback, displayUnit: fallback.unit };
+    const parsed = JSON.parse(stored) as Partial<StoredProject> & Partial<Project>;
+    if (parsed.schemaVersion === 2 && parsed.canonicalProject) {
+      const unit = parsed.displayUnit === 'in' ? 'in' : 'mm';
+      return { canonicalProject: { ...fallback, ...parsed.canonicalProject, unit: 'mm' }, displayUnit: unit };
+    }
+    const legacy = { ...fallback, ...parsed } as Project;
+    const unit: Unit = legacy.unit === 'in' ? 'in' : 'mm';
+    return { canonicalProject: convertProject({ ...legacy, unit }, 'mm'), displayUnit: unit };
   } catch {
-    return structuredClone(isDemo ? sampleProject : blankProject);
+    return { canonicalProject: fallback, displayUnit: fallback.unit };
   }
 }
 
 function saveProject(): void {
-  localStorage.setItem(isDemo ? DEMO_KEY : REAL_KEY, JSON.stringify(project));
+  const stored: StoredProject = { schemaVersion: 2, displayUnit, canonicalProject: { ...canonicalProject, unit: 'mm' } };
+  localStorage.setItem(isDemo ? DEMO_KEY : REAL_KEY, JSON.stringify(stored));
+}
+
+function reloadProject(): void {
+  const loaded = loadProject();
+  canonicalProject = loaded.canonicalProject;
+  displayUnit = loaded.displayUnit;
+  project = convertProject(canonicalProject, displayUnit);
+}
+
+function syncDisplayProject(): void {
+  project = convertProject(canonicalProject, displayUnit);
+}
+
+function inputValue(value: number): number {
+  return Math.round(value * 100) / 100;
+}
+
+function countError(key: CountKey): string {
+  const value = project[key];
+  if (!Number.isInteger(value) || value < 0) return `Enter a whole number from 0 to ${COUNT_LIMITS[key]}.`;
+  if (value > COUNT_LIMITS[key]) return `Enter no more than ${COUNT_LIMITS[key]}.`;
+  return '';
 }
 
 function icon(name: 'leaf' | 'ruler' | 'warn'): string {
@@ -37,26 +85,32 @@ function icon(name: 'leaf' | 'ruler' | 'warn'): string {
 }
 
 function header(): string {
-  return `<a class="skip-link" href="#main">Skip to main content</a><div id="route-status" class="sr-only" aria-live="polite"></div>
+  const home = isDemo ? '/demo' : '/';
+  const privacy = isDemo ? '/privacy?demo=1' : '/privacy';
+  return `<a class="skip-link" href="#main">Skip to main content</a><div id="route-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
   ${isDemo ? `<aside class="demo-banner" aria-label="Demo mode"><span><strong>Demo</strong> — sample data, nothing is saved to your project.</span><span><button class="text-button" data-action="reset-demo">Reset demo</button><button class="text-button" data-action="start-real">Start for real</button></span></aside>` : ''}
   <header class="site-header">
-    <a class="wordmark" href="/" data-link>${icon('leaf')}<span>Shop Fit Sheet</span></a>
-    <nav aria-label="Main navigation"><a href="/demo" data-link>Demo</a><a href="/#planner">Planner</a><a href="/privacy" data-link>Privacy</a></nav>
+    <a class="wordmark" href="${home}" data-link>${icon('leaf')}<span>Shop Fit Sheet</span></a>
+    <nav aria-label="Main navigation"><a href="/demo" data-link>Demo</a><a href="${isDemo ? '/demo#planner' : '/#planner'}">Planner</a><a href="${privacy}" data-link>Privacy</a></nav>
   </header>`;
 }
 
 function footer(): string {
-  return `<footer><div><a class="wordmark footer-mark" href="/" data-link>${icon('leaf')}<span>Shop Fit Sheet</span></a><p>Check a fitted build before you buy sheet material.</p></div><nav aria-label="Footer navigation"><a href="/privacy" data-link>Privacy</a><a href="/terms" data-link>Terms</a><a href="https://hello-factory.sociobot.in" target="_blank" rel="noopener">Built by Param Factory <span class="sr-only">(opens in a new tab)</span></a></nav><small>Version ${BUILD_ID} · Original generated field-guide art</small></footer>`;
+  const home = isDemo ? '/demo' : '/';
+  const suffix = isDemo ? '?demo=1' : '';
+  return `<footer><div><a class="wordmark footer-mark" href="${home}" data-link>${icon('leaf')}<span>Shop Fit Sheet</span></a><p>Check a fitted build before you buy sheet material.</p></div><nav aria-label="Footer navigation"><a href="/privacy${suffix}" data-link>Privacy</a><a href="/terms${suffix}" data-link>Terms</a><a href="https://hello-factory.sociobot.in" target="_blank" rel="noopener">Built by Param Factory <span class="sr-only">(opens in a new tab)</span></a></nav><small>Version ${BUILD_ID} · Original generated field-guide art</small></footer>`;
 }
 
 function field(label: string, key: keyof Project, options: { min?: number; step?: number; help?: string } = {}): string {
   const value = project[key];
   const id = `field-${String(key)}`;
-  return `<label class="field" for="${id}"><span>${label}</span><span class="number-wrap"><input id="${id}" name="${String(key)}" data-field="${String(key)}" type="number" inputmode="decimal" min="${options.min ?? 0}" step="${options.step ?? 'any'}" value="${escapeHtml(value as number)}" ${options.help ? `aria-describedby="${id}-help"` : ''}><b aria-hidden="true">${project.unit}</b></span>${options.help ? `<small id="${id}-help">${options.help}</small>` : ''}</label>`;
+  return `<label class="field" for="${id}"><span>${label}</span><span class="number-wrap"><input id="${id}" name="${String(key)}" data-field="${String(key)}" type="number" inputmode="decimal" min="${options.min ?? 0}" step="${options.step ?? 'any'}" value="${escapeHtml(inputValue(value as number))}" ${options.help ? `aria-describedby="${id}-help"` : ''}><b aria-hidden="true">${project.unit}</b></span>${options.help ? `<small id="${id}-help">${options.help}</small>` : ''}</label>`;
 }
 
-function countField(label: string, key: 'supports' | 'shelves' | 'doors', max = 12): string {
-  return `<label class="field" for="field-${key}"><span>${label}</span><input id="field-${key}" name="${key}" data-field="${key}" type="number" inputmode="numeric" min="0" max="${max}" step="1" value="${project[key]}"></label>`;
+function countField(label: string, key: CountKey): string {
+  const error = countError(key);
+  const errorId = `field-${key}-error`;
+  return `<div class="field"><label for="field-${key}">${label}</label><input id="field-${key}" name="${key}" data-field="${key}" type="number" inputmode="numeric" min="0" max="${COUNT_LIMITS[key]}" step="1" value="${project[key]}" aria-describedby="${errorId}" ${error ? 'aria-invalid="true"' : ''}><small id="${errorId}" class="field-error" aria-live="polite">${error}</small></div>`;
 }
 
 function calculator(): string {
@@ -68,8 +122,8 @@ function calculator(): string {
       <form class="measure-form" novalidate>
         <fieldset><legend><b>01</b> Project note</legend><div class="two-col"><label class="field" for="field-name"><span>Project name</span><input id="field-name" data-field="name" type="text" value="${escapeHtml(project.name)}"></label><label class="field" for="field-location"><span>Fitted location</span><input id="field-location" data-field="location" type="text" value="${escapeHtml(project.location)}"></label></div></fieldset>
         <fieldset><legend><b>02</b> Space envelope</legend><div class="three-col">${field('Space width', 'spaceWidth')}${field('Space height', 'spaceHeight')}${field('Space depth', 'spaceDepth')}</div><h3>Clearance to leave</h3><div class="clearance-grid">${field('Left', 'clearanceLeft')}${field('Right', 'clearanceRight')}${field('Top', 'clearanceTop')}${field('Floor', 'clearanceBottom')}${field('Behind', 'clearanceBack', { help: 'For walls, doors, cables, or airflow.' })}</div></fieldset>
-        <fieldset><legend><b>03</b> Outer build</legend><div class="three-col">${field('Build width', 'outerWidth')}${field('Build height', 'outerHeight')}${field('Build depth', 'outerDepth')}</div><div class="three-col">${field('Panel thickness', 'panelThickness', { min: 0.1 })}${countField('Centre supports', 'supports', 8)}${countField('Shelves total', 'shelves', 30)}</div></fieldset>
-        <fieldset><legend><b>04</b> Doors and back</legend><div class="three-col">${countField('Doors', 'doors', 12)}<label class="field" for="door-style"><span>Door style</span><select id="door-style" data-field="doorStyle"><option value="overlay" ${project.doorStyle === 'overlay' ? 'selected' : ''}>Overlay slab</option><option value="inset" ${project.doorStyle === 'inset' ? 'selected' : ''}>Inset slab</option></select></label>${field('Door gap', 'doorGap')}</div><label class="check-row" for="include-back"><input id="include-back" data-field="includeBack" type="checkbox" ${project.includeBack ? 'checked' : ''}><span>Include a back panel</span></label>${project.includeBack ? `<div class="three-col">${field('Back thickness', 'backThickness', { min: 0.1 })}</div>` : ''}</fieldset>
+        <fieldset><legend><b>03</b> Outer build</legend><div class="three-col">${field('Build width', 'outerWidth')}${field('Build height', 'outerHeight')}${field('Build depth', 'outerDepth')}</div><div class="three-col">${field('Panel thickness', 'panelThickness', { min: 0.1 })}${countField('Centre supports', 'supports')}${countField('Shelves total', 'shelves')}</div></fieldset>
+        <fieldset><legend><b>04</b> Doors and back</legend><div class="three-col">${countField('Doors', 'doors')}<label class="field" for="door-style"><span>Door style</span><select id="door-style" data-field="doorStyle"><option value="overlay" ${project.doorStyle === 'overlay' ? 'selected' : ''}>Overlay slab</option><option value="inset" ${project.doorStyle === 'inset' ? 'selected' : ''}>Inset slab</option></select></label>${field('Door gap', 'doorGap')}</div><label class="check-row" for="include-back"><input id="include-back" data-field="includeBack" type="checkbox" ${project.includeBack ? 'checked' : ''}><span>Include a back panel</span></label>${project.includeBack ? `<div class="three-col">${field('Back thickness', 'backThickness', { min: 0.1 })}</div>` : ''}</fieldset>
         <fieldset><legend><b>05</b> Stock sheet</legend><div class="two-col">${field('Sheet width', 'sheetWidth', { min: 0.1 })}${field('Sheet length', 'sheetHeight', { min: 0.1 })}</div></fieldset>
       </form>
       <aside class="result-column" aria-label="Live fit results"><div class="diagram-slot">${diagram()}</div><div class="result-slot" aria-live="polite">${results()}</div></aside>
@@ -82,9 +136,11 @@ function diagram(): string {
   const maxW = Math.max(project.spaceWidth, 1); const maxH = Math.max(project.spaceHeight, 1);
   const w = Math.max(12, Math.min(250, (project.outerWidth / maxW) * 250));
   const h = Math.max(12, Math.min(170, (project.outerHeight / maxH) * 170));
-  const supportLines = Array.from({ length: Math.max(0, Math.min(8, project.supports)) }, (_, i) => `<line x1="${24 + w * ((i + 1) / (project.supports + 1))}" x2="${24 + w * ((i + 1) / (project.supports + 1))}" y1="${25 + (170 - h)}" y2="195" />`).join('');
+  const supports = Number.isInteger(project.supports) && project.supports >= 0 && project.supports <= COUNT_LIMITS.supports ? project.supports : 0;
+  const supportLines = Array.from({ length: supports }, (_, i) => `<line x1="${24 + w * ((i + 1) / (supports + 1))}" x2="${24 + w * ((i + 1) / (supports + 1))}" y1="${25 + (170 - h)}" y2="195" />`).join('');
   const conflicts = result.findings.filter((f) => f.level === 'conflict').length;
-  return `<figure class="cabinet-diagram"><svg role="img" aria-labelledby="diagram-title diagram-desc" viewBox="0 0 300 235"><title id="diagram-title">Front view of the fitted build</title><desc id="diagram-desc">The build is ${project.outerWidth} by ${project.outerHeight} ${project.unit} with ${project.supports} centre supports.</desc><rect class="space-box" x="18" y="18" width="264" height="185"/><rect class="build-box ${conflicts ? 'has-conflict' : ''}" x="24" y="${25 + (170 - h)}" width="${w}" height="${h}"/>${supportLines}<path class="dimension" d="M24 218h${w}m-${w} -4v8m${w} -8v8"/><text x="${24 + w / 2}" y="231" text-anchor="middle">${format(project.outerWidth)} ${project.unit}</text></svg><figcaption>Front view · clear envelope shown as a dashed line</figcaption></figure>`;
+  const supportDescription = supports === project.supports ? `${supports} centre supports` : 'a support count that needs correction';
+  return `<figure class="cabinet-diagram"><svg role="img" aria-labelledby="diagram-title diagram-desc" viewBox="0 0 300 235"><title id="diagram-title">Front view of the fitted build</title><desc id="diagram-desc">The build is ${format(project.outerWidth)} by ${format(project.outerHeight)} ${project.unit} with ${supportDescription}.</desc><rect class="space-box" x="18" y="18" width="264" height="185"/><rect class="build-box ${conflicts ? 'has-conflict' : ''}" x="24" y="${25 + (170 - h)}" width="${w}" height="${h}"/>${supportLines}<path class="dimension" d="M24 218h${w}m-${w} -4v8m${w} -8v8"/><text x="${24 + w / 2}" y="231" text-anchor="middle">${format(project.outerWidth)} ${project.unit}</text></svg><figcaption>Front view · clear envelope shown as a dashed line</figcaption></figure>`;
 }
 
 function format(value: number): string { return Number.isFinite(value) ? new Intl.NumberFormat('en', { maximumFractionDigits: 2 }).format(value) : '—'; }
@@ -105,7 +161,7 @@ function results(): string {
   const rows = r.pieces.length ? r.pieces.map((piece) => `<tr><th scope="row">${piece.part}<small>${escapeHtml(piece.note)}</small></th><td>${piece.quantity}</td><td>${format(piece.length)} × ${format(piece.width)}</td><td>${format(piece.thickness)}</td></tr>`).join('') : '<tr><td colspan="4" class="empty-cell">Your panel list appears after you enter the space and build sizes.</td></tr>';
   const stocks = r.sheetEstimate.map((s) => `<li data-stock-thickness="${s.thickness}"><strong>${s.sheets}</strong> × ${format(project.sheetWidth)} × ${format(project.sheetHeight)} ${project.unit} sheet at ${format(s.thickness)} ${project.unit}<span class="stock-area">Panel area ${formatArea(s.area)} + 15% allowance (${formatArea(s.allowance)}) = ${formatArea(s.totalArea)}.</span></li>`).join('');
   return `<section class="fit-verdict ${statusClass}" aria-labelledby="verdict-title"><p class="eyebrow">Fit verdict</p><h3 id="verdict-title">${status}</h3><ul>${findings}</ul></section>
-    <section class="opening-note"><h3>Calculated openings</h3><dl><div><dt>Each opening</dt><dd>${format(r.openingWidth)} × ${format(r.openingHeight)} ${project.unit}</dd></div>${project.doors ? `<div><dt>Each door blank</dt><dd>${format(r.doorWidth)} × ${format(r.doorHeight)} ${project.unit}</dd></div>` : ''}<div><dt>Clear envelope</dt><dd>${format(r.availableWidth)} × ${format(r.availableHeight)} × ${format(r.availableDepth)} ${project.unit}</dd></div></dl></section>
+    <section class="opening-note"><h3>Calculated openings</h3><dl><div><dt>Each opening</dt><dd>${format(r.openingWidth)} × ${format(r.openingHeight)} ${project.unit}</dd></div>${r.doorWidth > 0 ? `<div><dt>Each door blank</dt><dd>${format(r.doorWidth)} × ${format(r.doorHeight)} ${project.unit}</dd></div>` : ''}<div><dt>Clear envelope</dt><dd>${format(r.availableWidth)} × ${format(r.availableHeight)} × ${format(r.availableDepth)} ${project.unit}</dd></div></dl></section>
     <section class="cut-list" aria-labelledby="cut-list-title"><div class="result-heading"><h3 id="cut-list-title">Panel list</h3><button class="secondary-button" data-action="print">Print build sheet</button></div><div class="table-wrap"><table><thead><tr><th>Part</th><th>Qty</th><th>Length × width</th><th>Thick.</th></tr></thead><tbody>${rows}</tbody></table></div>${stocks ? `<div class="stock-estimate"><h4>Rough sheet allowance</h4><ul>${stocks}</ul><p>Each material thickness adds 15% of its panel area before sheet counting. This is not a cutting layout.</p></div>` : ''}</section>`;
 }
 
@@ -147,10 +203,25 @@ function bindCalculator(): void {
   document.querySelectorAll<HTMLInputElement | HTMLSelectElement>('[data-field]').forEach((control) => {
     control.addEventListener('input', () => {
       const key = control.dataset.field as keyof Project;
-      if (control instanceof HTMLInputElement && control.type === 'checkbox') (project[key] as boolean) = control.checked;
-      else if (control instanceof HTMLInputElement && control.type === 'number') (project[key] as number) = control.value === '' ? 0 : Number(control.value);
-      else (project[key] as string) = control.value;
+      if (control instanceof HTMLInputElement && control.type === 'checkbox') {
+        (project[key] as boolean) = control.checked;
+        (canonicalProject[key] as boolean) = control.checked;
+      } else if (control instanceof HTMLInputElement && control.type === 'number') {
+        const value = control.value === '' ? 0 : Number(control.value);
+        (project[key] as number) = value;
+        (canonicalProject[key] as number) = dimensionKeys.has(key) && displayUnit === 'in' ? value * 25.4 : value;
+      } else {
+        (project[key] as string) = control.value;
+        (canonicalProject[key] as string) = control.value;
+      }
       saveProject();
+      if (control instanceof HTMLInputElement && countKeys.has(key)) {
+        const error = countError(key as CountKey);
+        if (error) control.setAttribute('aria-invalid', 'true');
+        else control.removeAttribute('aria-invalid');
+        const errorElement = document.querySelector<HTMLElement>(`#${control.id}-error`);
+        if (errorElement) errorElement.textContent = error;
+      }
       document.querySelector('.diagram-slot')!.innerHTML = diagram();
       document.querySelector('.result-slot')!.innerHTML = results();
       document.querySelector<HTMLElement>('[data-action="print"]')?.addEventListener('click', (event) => handleAction(event.currentTarget as HTMLElement));
@@ -158,13 +229,19 @@ function bindCalculator(): void {
     });
   });
   document.querySelector<HTMLSelectElement>('[data-unit]')?.addEventListener('change', (event) => {
-    project = convertProject(project, (event.target as HTMLSelectElement).value as Unit); saveProject(); render();
+    displayUnit = (event.target as HTMLSelectElement).value as Unit; syncDisplayProject(); saveProject(); render();
   });
 }
 
 function bindCommon(): void {
+  document.querySelector<HTMLAnchorElement>('.skip-link')?.addEventListener('click', (event) => {
+    event.preventDefault();
+    const main = document.querySelector<HTMLElement>('#main');
+    main?.focus({ preventScroll: true });
+    main?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  });
   document.querySelectorAll<HTMLAnchorElement>('a[data-link]').forEach((link) => link.addEventListener('click', (event) => {
-    if (link.origin !== location.origin) return; event.preventDefault(); navigate(link.pathname);
+    if (link.origin !== location.origin) return; event.preventDefault(); navigate(`${link.pathname}${link.search}${link.hash}`);
   }));
   document.querySelectorAll<HTMLElement>('[data-action]').forEach((button) => button.addEventListener('click', () => handleAction(button)));
 }
@@ -172,19 +249,37 @@ function bindCommon(): void {
 function handleAction(button: HTMLElement): void {
   const action = button.dataset.action;
   if (action === 'print') window.print();
-  if (action === 'reset-demo') { localStorage.removeItem(DEMO_KEY); project = structuredClone(sampleProject); saveProject(); render(); }
+  if (action === 'reset-demo') { localStorage.removeItem(DEMO_KEY); canonicalProject = structuredClone(sampleProject); displayUnit = 'mm'; syncDisplayProject(); saveProject(); render(); }
   if (action === 'start-real') { localStorage.removeItem(DEMO_KEY); navigate('/'); }
 }
 
 function navigate(path: string): void {
-  history.pushState({}, '', path); isDemo = path === '/demo'; project = loadProject(); render(); scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); requestAnimationFrame(() => { const heading = document.querySelector<HTMLElement>('h1'); heading?.focus({ preventScroll: true }); const status = document.querySelector('#route-status'); if (status) status.textContent = heading?.textContent ?? ''; });
+  const next = new URL(path, location.href);
+  history.pushState({}, '', `${next.pathname}${next.search}${next.hash}`);
+  isDemo = isDemoUrl(next);
+  reloadProject();
+  render();
+  finishRouteChange();
+}
+
+function finishRouteChange(): void {
+  scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  requestAnimationFrame(() => {
+    const heading = document.querySelector<HTMLElement>('h1');
+    heading?.focus({ preventScroll: true });
+    const status = document.querySelector<HTMLElement>('#route-status');
+    if (!status || !heading) return;
+    status.textContent = '';
+    setTimeout(() => { if (status.isConnected) status.textContent = `Page changed: ${heading.textContent ?? ''}`; }, 0);
+  });
 }
 
 function updateCanonical(path: string): void {
   const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]'); if (canonical) canonical.href = `https://shop-fit-sheet.sociobot.in${path === '/' ? '/' : path}`;
 }
 
-window.addEventListener('popstate', () => { isDemo = location.pathname === '/demo'; project = loadProject(); render(); });
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+window.addEventListener('popstate', () => { isDemo = isDemoUrl(new URL(location.href)); reloadProject(); render(); finishRouteChange(); });
 window.addEventListener('offline', () => { document.body.dataset.offline = 'true'; });
 window.addEventListener('online', () => { delete document.body.dataset.offline; });
 if (!navigator.onLine) document.body.dataset.offline = 'true';
