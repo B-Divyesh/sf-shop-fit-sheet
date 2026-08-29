@@ -22,6 +22,22 @@ test('@claim:panel-list calculates panels and invokes print', async ({ page }) =
   await expect(page.locator('body')).toHaveAttribute('data-printed', 'true');
 });
 
+test('@claim:sheet-area-allowance adds 15% to each material total before counting sheets', async ({ page }) => {
+  await page.goto('/demo');
+  const estimate = page.locator('[data-stock-thickness="18"]');
+  await expect(estimate).toContainText('3 × 1,220 × 2,440 mm sheet at 18 mm');
+  const detail = await estimate.locator('.stock-area').textContent();
+  const match = detail?.match(/Panel area ([\d.]+) m² \+ 15% allowance \(([\d.]+) m²\) = ([\d.]+) m²\./);
+  expect(match, `Unexpected 18 mm allowance detail: ${detail}`).not.toBeNull();
+  const [, shownPanelArea, shownAllowance, shownTotal] = match!;
+  const panelAreaFromVisibleRows = 2 * 800 * 750 + 2 * 1314 * 750 + 764 * 750 + 2 * 648 * 750 + 2 * 794 * 670.5;
+  const expectedPanelArea = panelAreaFromVisibleRows / 1_000_000;
+  const tolerance = 0.005; // Values shown to two decimals, in square metres.
+  expect(Math.abs(Number(shownPanelArea) - expectedPanelArea)).toBeLessThanOrEqual(tolerance);
+  expect(Math.abs(Number(shownAllowance) - expectedPanelArea * 0.15)).toBeLessThanOrEqual(tolerance);
+  expect(Math.abs(Number(shownTotal) - (expectedPanelArea * 1.15))).toBeLessThanOrEqual(tolerance);
+});
+
 test('@claim:calculated-parts sample calculates openings, doors, supports, shelves, and a back', async ({ page }) => {
   await page.goto('/demo');
   const results = page.locator('.result-slot');

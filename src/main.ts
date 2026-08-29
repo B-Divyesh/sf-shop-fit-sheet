@@ -89,6 +89,12 @@ function diagram(): string {
 
 function format(value: number): string { return Number.isFinite(value) ? new Intl.NumberFormat('en', { maximumFractionDigits: 2 }).format(value) : '—'; }
 
+function formatArea(value: number): string {
+  const divisor = project.unit === 'mm' ? 1_000_000 : 144;
+  const unit = project.unit === 'mm' ? 'm²' : 'ft²';
+  return `${format(value / divisor)} ${unit}`;
+}
+
 function results(): string {
   const r = calculate(project);
   const conflicts = r.findings.filter((f) => f.level === 'conflict').length;
@@ -97,10 +103,10 @@ function results(): string {
   const statusClass = conflicts ? 'conflict' : checks ? 'check' : 'pass';
   const findings = r.findings.map((f) => `<li class="finding ${f.level}"><span aria-hidden="true">${f.level === 'conflict' ? '×' : f.level === 'check' ? '!' : '✓'}</span>${escapeHtml(f.text)}</li>`).join('');
   const rows = r.pieces.length ? r.pieces.map((piece) => `<tr><th scope="row">${piece.part}<small>${escapeHtml(piece.note)}</small></th><td>${piece.quantity}</td><td>${format(piece.length)} × ${format(piece.width)}</td><td>${format(piece.thickness)}</td></tr>`).join('') : '<tr><td colspan="4" class="empty-cell">Your panel list appears after you enter the space and build sizes.</td></tr>';
-  const stocks = r.sheetEstimate.map((s) => `<li><strong>${s.sheets}</strong> × ${format(project.sheetWidth)} × ${format(project.sheetHeight)} ${project.unit} sheet at ${format(s.thickness)} ${project.unit}</li>`).join('');
+  const stocks = r.sheetEstimate.map((s) => `<li data-stock-thickness="${s.thickness}"><strong>${s.sheets}</strong> × ${format(project.sheetWidth)} × ${format(project.sheetHeight)} ${project.unit} sheet at ${format(s.thickness)} ${project.unit}<span class="stock-area">Panel area ${formatArea(s.area)} + 15% allowance (${formatArea(s.allowance)}) = ${formatArea(s.totalArea)}.</span></li>`).join('');
   return `<section class="fit-verdict ${statusClass}" aria-labelledby="verdict-title"><p class="eyebrow">Fit verdict</p><h3 id="verdict-title">${status}</h3><ul>${findings}</ul></section>
     <section class="opening-note"><h3>Calculated openings</h3><dl><div><dt>Each opening</dt><dd>${format(r.openingWidth)} × ${format(r.openingHeight)} ${project.unit}</dd></div>${project.doors ? `<div><dt>Each door blank</dt><dd>${format(r.doorWidth)} × ${format(r.doorHeight)} ${project.unit}</dd></div>` : ''}<div><dt>Clear envelope</dt><dd>${format(r.availableWidth)} × ${format(r.availableHeight)} × ${format(r.availableDepth)} ${project.unit}</dd></div></dl></section>
-    <section class="cut-list" aria-labelledby="cut-list-title"><div class="result-heading"><h3 id="cut-list-title">Panel list</h3><button class="secondary-button" data-action="print">Print build sheet</button></div><div class="table-wrap"><table><thead><tr><th>Part</th><th>Qty</th><th>Length × width</th><th>Thick.</th></tr></thead><tbody>${rows}</tbody></table></div>${stocks ? `<div class="stock-estimate"><h4>Rough sheet allowance</h4><ul>${stocks}</ul><p>Includes 15% area waste. This is not a cutting layout.</p></div>` : ''}</section>`;
+    <section class="cut-list" aria-labelledby="cut-list-title"><div class="result-heading"><h3 id="cut-list-title">Panel list</h3><button class="secondary-button" data-action="print">Print build sheet</button></div><div class="table-wrap"><table><thead><tr><th>Part</th><th>Qty</th><th>Length × width</th><th>Thick.</th></tr></thead><tbody>${rows}</tbody></table></div>${stocks ? `<div class="stock-estimate"><h4>Rough sheet allowance</h4><ul>${stocks}</ul><p>Each material thickness adds 15% of its panel area before sheet counting. This is not a cutting layout.</p></div>` : ''}</section>`;
 }
 
 function landing(): string {

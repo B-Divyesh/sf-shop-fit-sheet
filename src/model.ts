@@ -52,8 +52,11 @@ export interface Result {
   doorHeight: number;
   pieces: Piece[];
   findings: Finding[];
-  sheetEstimate: Array<{ thickness: number; sheets: number; area: number }>;
+  sheetEstimate: Array<{ thickness: number; sheets: number; area: number; allowance: number; totalArea: number }>;
 }
+
+/** Added to each material-thickness panel area before rough sheet counting. */
+export const SHEET_AREA_ALLOWANCE = 0.15;
 
 export const blankProject: Project = {
   name: 'Untitled fit sheet', location: '', unit: 'mm',
@@ -125,7 +128,11 @@ export function calculate(p: Project): Result {
   const groups = new Map<number, number>();
   for (const piece of pieces) groups.set(piece.thickness, (groups.get(piece.thickness) ?? 0) + piece.quantity * piece.length * piece.width);
   const sheetArea = p.sheetWidth * p.sheetHeight;
-  const sheetEstimate = [...groups.entries()].map(([thickness, area]) => ({ thickness, area, sheets: sheetArea > 0 ? Math.ceil((area * 1.15) / sheetArea) : 0 }));
+  const sheetEstimate = [...groups.entries()].map(([thickness, area]) => {
+    const allowance = area * SHEET_AREA_ALLOWANCE;
+    const totalArea = area + allowance;
+    return { thickness, area, allowance, totalArea, sheets: sheetArea > 0 ? Math.ceil(totalArea / sheetArea) : 0 };
+  });
 
   return { availableWidth, availableHeight, availableDepth, openingWidth, openingHeight, doorWidth, doorHeight, pieces, findings, sheetEstimate };
 }

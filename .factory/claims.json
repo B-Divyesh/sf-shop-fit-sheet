@@ -14,6 +14,13 @@
     "sandbox": "fresh browser context at /demo; assert calculated parts, dimensions, stock allowance, and print action"
   },
   {
+    "id": "sheet-area-allowance",
+    "claim": "Adds a 15% area allowance to each material-thickness panel total before estimating sheets",
+    "where": "README and panel-list rough sheet allowance",
+    "test": "npm test -- --grep @claim:sheet-area-allowance",
+    "sandbox": "fresh browser context at /demo; derive the 18 mm panel area from visible table rows, then assert the displayed allowance is 15.0% within 0.005 m² and the displayed total matches"
+  },
+  {
     "id": "calculated-parts",
     "claim": "Calculates openings, door blanks, supports, shelves, and a back panel",
     "where": "README and calculator results",
