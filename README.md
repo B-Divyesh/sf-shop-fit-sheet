@@ -5,7 +5,7 @@ Check a fitted build before you buy sheet material.
 Shop Fit Sheet is for home makers sizing cabinets, benches, and storage for tight garages, utility rooms, or vehicles. Enter the available space, required clearances, outer build, panels, supports, shelves, and doors. The calculator flags conflicts and prepares a printable panel list with a rough sheet allowance.
 
 Live site: <https://shop-fit-sheet.sociobot.in>  
-One-click demo: <https://shop-fit-sheet.sociobot.in/demo>
+One-click demo: <https://shop-fit-sheet.sociobot.in/?demo=1>
 
 ## What it includes
 
@@ -28,7 +28,7 @@ npm install
 npm run dev
 ```
 
-Open <http://localhost:5173>. Use <http://localhost:5173/demo> for sample data.
+Open <http://localhost:5173>. Use <http://localhost:5173/?demo=1> for sample data.
 
 ## Test and build
 

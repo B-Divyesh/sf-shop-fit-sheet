@@ -4,49 +4,49 @@
     "claim": "Checks the outer build against the cleared space",
     "where": "landing headline and demo verdict",
     "test": "npm test -- --grep @claim:conflict-check",
-    "sandbox": "fresh browser context at /demo; sample depth exceeds its cleared space by 10 mm"
+    "sandbox": "fresh browser context at /?demo=1; sample depth exceeds its cleared space by 10 mm"
   },
   {
     "id": "panel-list",
     "claim": "Makes a printable panel and rough sheet list",
     "where": "calculator results and how-it-works section",
     "test": "npm test -- --grep @claim:panel-list",
-    "sandbox": "fresh browser context at /demo; assert calculated parts, dimensions, stock allowance, and print action"
+    "sandbox": "fresh browser context at /?demo=1; assert calculated parts, dimensions, stock allowance, and print action"
   },
   {
     "id": "sheet-area-allowance",
     "claim": "Adds a 15% area allowance to each material-thickness panel total before estimating sheets",
     "where": "README and panel-list rough sheet allowance",
     "test": "npm test -- --grep @claim:sheet-area-allowance",
-    "sandbox": "fresh browser context at /demo; derive the 18 mm panel area from visible table rows, then assert the displayed allowance is 15.0% within 0.005 m² and the displayed total matches"
+    "sandbox": "fresh browser context at /?demo=1; derive the 18 mm panel area from visible table rows, then assert the displayed allowance is 15.0% within 0.005 m² and the displayed total matches"
   },
   {
     "id": "calculated-parts",
     "claim": "Calculates openings, door blanks, supports, shelves, and a back panel",
     "where": "README and calculator results",
     "test": "npm test -- --grep @claim:calculated-parts",
-    "sandbox": "fresh browser context at /demo; assert every named calculated value or panel row from the shipped sample"
+    "sandbox": "fresh browser context at /?demo=1; assert every named calculated value or panel row from the shipped sample"
   },
   {
     "id": "stock-fit-check",
     "claim": "Flags a panel that will not fit the chosen stock sheet",
     "where": "README and demo verdict",
     "test": "npm test -- --grep @claim:stock-fit-check",
-    "sandbox": "fresh browser context at /demo; reduce the stock sheet and assert the observable oversize-part conflict"
+    "sandbox": "fresh browser context at /?demo=1; reduce the stock sheet and assert the observable oversize-part conflict"
   },
   {
     "id": "unit-conversion",
     "claim": "Switches measurements between millimetres and inches",
     "where": "README and unit selector",
     "test": "npm test -- --grep @claim:unit-conversion",
-    "sandbox": "fresh browser context at /demo; create a 0.01 mm boundary conflict, switch to inches and back, then assert the conflict, exact millimetre value, and canonical stored value survive"
+    "sandbox": "fresh browser context at /?demo=1; create a 0.01 mm boundary conflict, switch to inches and back, then assert the conflict, exact millimetre value, and canonical stored value survive"
   },
   {
     "id": "live-results",
     "claim": "Results update while you type",
     "where": "calculator heading",
     "test": "npm test -- --grep @claim:live-results",
-    "sandbox": "fresh browser context at /demo; edit a measurement and assert the verdict changes without submitting"
+    "sandbox": "fresh browser context at /?demo=1; edit a measurement and assert the verdict changes without submitting"
   },
   {
     "id": "demo-isolation",
@@ -74,6 +74,6 @@
     "claim": "Works offline after the first visit",
     "where": "landing facts and README",
     "test": "npm test -- --grep @claim:offline-reload",
-    "sandbox": "fresh browser context at /demo; wait for its service worker, go offline, reload, and assert the sample verdict"
+    "sandbox": "fresh browser context at /?demo=1; wait for its service worker, go offline, reload, and assert the sample verdict"
   }
 ]

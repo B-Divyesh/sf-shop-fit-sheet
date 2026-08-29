@@ -7,7 +7,7 @@ import socialImage from './assets/social.webp';
 const PRODUCT = 'shop-fit-sheet';
 const REAL_KEY = `${PRODUCT}:project:v1`;
 const DEMO_KEY = `demo:${PRODUCT}:project:v1`;
-const BUILD_ID = '1.0.2';
+const BUILD_ID = '1.0.3';
 const app = document.querySelector<HTMLDivElement>('#app')!;
 const dimensionKeys = new Set<keyof Project>(DIMENSION_KEYS);
 const countKeys = new Set<keyof Project>(['supports', 'shelves', 'doors']);
@@ -85,18 +85,18 @@ function icon(name: 'leaf' | 'ruler' | 'warn'): string {
 }
 
 function header(): string {
-  const home = isDemo ? '/demo' : '/';
+  const home = isDemo ? '/?demo=1' : '/';
   const privacy = isDemo ? '/privacy?demo=1' : '/privacy';
   return `<a class="skip-link" href="#main">Skip to main content</a><div id="route-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
-  ${isDemo ? `<aside class="demo-banner" aria-label="Demo mode"><span><strong>Demo</strong> — sample data, nothing is saved to your project.</span><span><button class="text-button" data-action="reset-demo">Reset demo</button><button class="text-button" data-action="start-real">Start for real</button></span></aside>` : ''}
+  ${isDemo ? `<aside class="demo-banner" aria-label="Demo mode"><span><strong>Demo</strong> — sample data, nothing is saved.</span><span><button class="text-button" data-action="reset-demo">Reset demo</button><button class="text-button" data-action="start-real">Start for real</button></span></aside>` : ''}
   <header class="site-header">
     <a class="wordmark" href="${home}" data-link>${icon('leaf')}<span>Shop Fit Sheet</span></a>
-    <nav aria-label="Main navigation"><a href="/demo" data-link>Demo</a><a href="${isDemo ? '/demo#planner' : '/#planner'}">Planner</a><a href="${privacy}" data-link>Privacy</a></nav>
+    <nav aria-label="Main navigation"><a href="/?demo=1" data-link>Demo</a><a href="${isDemo ? '/?demo=1#planner' : '/#planner'}">Planner</a><a href="${privacy}" data-link>Privacy</a></nav>
   </header>`;
 }
 
 function footer(): string {
-  const home = isDemo ? '/demo' : '/';
+  const home = isDemo ? '/?demo=1' : '/';
   const suffix = isDemo ? '?demo=1' : '';
   return `<footer><div><a class="wordmark footer-mark" href="${home}" data-link>${icon('leaf')}<span>Shop Fit Sheet</span></a><p>Check a fitted build before you buy sheet material.</p></div><nav aria-label="Footer navigation"><a href="/privacy${suffix}" data-link>Privacy</a><a href="/terms${suffix}" data-link>Terms</a><a href="https://hello-factory.sociobot.in" target="_blank" rel="noopener">Built by Param Factory <span class="sr-only">(opens in a new tab)</span></a></nav><small>Version ${BUILD_ID} · Original generated field-guide art</small></footer>`;
 }
@@ -167,7 +167,7 @@ function results(): string {
 
 function landing(): string {
   return `${header()}<main id="main" tabindex="-1">
-    <section class="hero" aria-labelledby="page-title"><div class="hero-copy"><h1 id="page-title" tabindex="-1">Check a fitted build before buying stock</h1><p class="lede">For home makers fitting cabinets or benches into tight garages, utility rooms, and vehicles.</p><div class="hero-actions"><a class="primary-button" href="/demo" data-link>Try it with sample data <span aria-hidden="true">→</span></a><span>See a filled plan and its conflicts.</span></div><ul class="plain-facts"><li>${icon('leaf')} Plans stay on this device</li><li>${icon('ruler')} Works offline after the first visit</li><li>${icon('warn')} Calculator and printable build sheet</li></ul></div><figure class="hero-art"><picture><source media="(max-width: 700px)" srcset="${heroMobile}"><img src="${heroDesktop}" width="1200" height="800" alt="A plywood cabinet arranged like a botanical specimen beside a fern and folding rule." fetchpriority="high" decoding="async"></picture><figcaption>Cabinet planning reference image, generated for Shop Fit Sheet</figcaption></figure></section>
+    <section class="hero" aria-labelledby="page-title"><div class="hero-copy"><h1 id="page-title" tabindex="-1">Check a fitted build before buying sheet material</h1><p class="lede">For home makers fitting cabinets or benches into tight garages, utility rooms, and vehicles.</p><div class="hero-actions"><a class="primary-button" href="/?demo=1" data-link>Try it with sample data <span aria-hidden="true">→</span></a><span>See a filled plan and its conflicts.</span></div><ul class="plain-facts"><li>${icon('leaf')} Plans stay on this device</li><li>${icon('ruler')} Works offline after the first visit</li><li>${icon('warn')} Calculator and printable build sheet</li></ul></div><figure class="hero-art"><picture><source media="(max-width: 700px)" srcset="${heroMobile}"><img src="${heroDesktop}" width="1200" height="800" alt="A plywood cabinet arranged like a botanical specimen beside a fern and folding rule." fetchpriority="high" decoding="async"></picture><figcaption>Cabinet planning reference image, generated for Shop Fit Sheet</figcaption></figure></section>
     <aside class="safety-note">${icon('warn')}<div><strong>Measure twice. Verify the result before cutting.</strong><p>This sheet is not structural or load-safety advice. Confirm fixings, spans, hinges, ventilation, and site conditions.</p></div></aside>
     ${calculator()}
     <section class="how" aria-labelledby="how-heading"><h2 id="how-heading">How the fit check works</h2><ol><li><span>01</span><div><h3>Measure the space</h3><p>Record the tightest width, height, and depth. Add room for walls, doors, cables, and airflow.</p></div></li><li><span>02</span><div><h3>Describe the build</h3><p>Enter the outer size, panel thickness, supports, shelves, and doors.</p></div></li><li><span>03</span><div><h3>Check before buying</h3><p>Fix conflicts. Then print the panel list and verify every size at the site.</p></div></li></ol></section>
@@ -189,14 +189,13 @@ function notFound(): string {
 function render(): void {
   const path = location.pathname.replace(/\/$/, '') || '/';
   if (path === '/' || path === '/demo') {
-    document.title = isDemo ? 'Demo — Shop Fit Sheet' : 'Shop Fit Sheet — Check a fitted build';
     app.innerHTML = landing();
     bindCalculator();
   } else if (path === '/privacy') app.innerHTML = legalPage('privacy');
   else if (path === '/terms') app.innerHTML = legalPage('terms');
   else app.innerHTML = notFound();
   bindCommon();
-  updateCanonical(path);
+  updateMetadata(path);
 }
 
 function bindCalculator(): void {
@@ -274,8 +273,25 @@ function finishRouteChange(): void {
   });
 }
 
-function updateCanonical(path: string): void {
-  const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]'); if (canonical) canonical.href = `https://shop-fit-sheet.sociobot.in${path === '/' ? '/' : path}`;
+function updateMetadata(path: string): void {
+  const page = path === '/' || path === '/demo'
+    ? isDemo
+      ? { title: 'Demo — Shop Fit Sheet', description: 'Try a sample fitted-build plan with isolated data you can reset.', canonicalPath: path === '/demo' ? '/demo' : '/?demo=1' }
+      : { title: 'Shop Fit Sheet — Check a fitted build', description: 'Check cabinet clearances, panels, doors, and sheet material before you buy.', canonicalPath: '/' }
+    : path === '/privacy'
+      ? { title: 'Privacy — Shop Fit Sheet', description: 'Learn how Shop Fit Sheet keeps plans in your browser.', canonicalPath: '/privacy' }
+      : path === '/terms'
+        ? { title: 'Terms — Shop Fit Sheet', description: 'Read the planning and safety terms for Shop Fit Sheet.', canonicalPath: '/terms' }
+        : { title: 'Page not found — Shop Fit Sheet', description: 'Return to the Shop Fit Sheet calculator.', canonicalPath: path };
+  const absoluteUrl = `https://shop-fit-sheet.sociobot.in${page.canonicalPath}`;
+  document.title = page.title;
+  document.querySelector<HTMLMetaElement>('meta[name="description"]')?.setAttribute('content', page.description);
+  document.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.setAttribute('href', absoluteUrl);
+  document.querySelector<HTMLMetaElement>('meta[property="og:title"]')?.setAttribute('content', page.title);
+  document.querySelector<HTMLMetaElement>('meta[property="og:description"]')?.setAttribute('content', page.description);
+  document.querySelector<HTMLMetaElement>('meta[property="og:url"]')?.setAttribute('content', absoluteUrl);
+  document.querySelector<HTMLMetaElement>('meta[name="twitter:title"]')?.setAttribute('content', page.title);
+  document.querySelector<HTMLMetaElement>('meta[name="twitter:description"]')?.setAttribute('content', page.description);
 }
 
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
