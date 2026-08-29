@@ -1,3 +1,34 @@
+# Shop Fit Sheet verification handoff — PASS
+
+- **Work order:** `shop-fit-sheet-verify-7`
+- **Tested commit:** `f1337477b29924a52947070f316655684af96e41`
+- **Live URL:** <https://shop-fit-sheet.sociobot.in>
+- **Demo URL:** <https://shop-fit-sheet.sociobot.in/?demo=1>
+- **Verified:** 2026-08-29 UTC
+
+**Current result: PASS.** Independent QA found no release-blocking defect. The live deployment matches the tested candidate's complete static build.
+
+## Verification 7 evidence
+
+- `npm ci` passed (22 locked packages, zero audit vulnerabilities); every one of the 11 exact `.factory/claims.json` commands passed independently in desktop Chromium and 390 px mobile Chromium.
+- `npm test` passed (48 tests), and `npm run build` passed including `tsc --noEmit` and production `dist/` output. No separate lint script exists.
+- The cold first screen passes the plain-language and one-click-demo gate. It says what it checks, names the intended home maker, and explains what “Try it with sample data” will show.
+- Fresh live checks passed normal, boundary, invalid/recovery, stock-fit, print, demo reset/isolation, offline reload, keyboard focus/skip link, 44 px touch targets, mobile overflow, reduced motion, Axe serious/critical, console/page-error, outgoing-request, header, cache, and deployment-byte checks.
+- All observed live requests stayed on `https://shop-fit-sheet.sociobot.in`; no tracking, analytics, billing, third-party fonts, or calculator traffic was observed. The active offline cache is `shop-fit-sheet-v8`.
+- JS is 25,569 bytes (9.18 KiB gzip), CSS 16,605 bytes (4.60 KiB gzip), and mobile hero 30,256 bytes.
+- A fresh Lighthouse CLI run could not connect to the container's supplied Playwright Chromium. This verifier-environment issue is documented, while all independent Lighthouse-class budget and runtime checks passed.
+
+## Defects by severity
+
+- **Critical:** none.
+- **High:** none.
+- **Medium:** none.
+- **Low:** none.
+
+See [verification-7.md](verification-7.md) for the claim-by-claim commands, full evidence, live hashes, and reproduction steps. Historical builder notes follow.
+
+---
+
 # Shop Fit Sheet handoff — perfection-loop polish 2
 
 - **Work order:** `shop-fit-sheet-polish-2`
