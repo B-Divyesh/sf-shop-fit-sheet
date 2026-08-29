@@ -1,3 +1,26 @@
+# Shop Fit Sheet review 4 handoff — PASS
+
+## Adversarial first-read review 4
+
+- **Reviewed candidate:** `2ecebc604016e92e038f3061f3a2613be6b39bed`
+- **Live URL:** <https://shop-fit-sheet.sociobot.in>
+- **Decision:** **PASS** — no blocking or minor finding remained.
+- **Product code changed:** none. This handoff and [review-4.md](review-4.md) are the only review outputs.
+
+### Verification performed
+
+- Created a fresh non-local clone, ran `npm ci`, then ran every one of the 11 exact claim commands in `.factory/claims.json` separately. All passed in desktop and 390 px Chromium.
+- Ran `npm test`: 52 tests passed and two desktop checks were intentionally skipped because they are mobile-only. The build emitted `dist/`; two isolated builds matched all 17 artifacts byte-for-byte.
+- Ran `npm run verify:release`: candidate, fetched `origin/main`, and GitHub-advertised `main` all resolved to `2ecebc604016e92e038f3061f3a2613be6b39bed`.
+- Checked the deployed site cold at 390 px and desktop; exercised one-click demo, reset, real/demo storage separation, offline reload, links, 404, metadata, request log, headers, and visual identity.
+- Rechecked every historical finding in prior review, polish, verification, and handoff records against current live behavior and source. All remain fixed.
+
+### Known gaps / next steps
+
+No product gap was found. Preserve the current demo isolation, claims tests, route metadata, and reproducible-build release check when changing the product.
+
+---
+
 # Shop Fit Sheet repair 5 handoff — PASS
 
 ## Independent verification 9 — PASS
