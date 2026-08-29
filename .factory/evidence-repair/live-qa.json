@@ -1,0 +1,234 @@
+{
+  "testedAt": "2026-08-29T13:29:51.004Z",
+  "base": "https://shop-fit-sheet.sociobot.in",
+  "identity": {
+    "html": {
+      "local": "014436151f132b6736a792d8ef31ffe906b0f7a218c55d12b8078965c1abb393",
+      "live": "014436151f132b6736a792d8ef31ffe906b0f7a218c55d12b8078965c1abb393",
+      "matches": true
+    },
+    "script": {
+      "path": "/assets/main-Dayn5lR2.js",
+      "local": "08a0a72f1cc631b96c12fa470f7b00af0bd5989a2ea8f81554fb7ab12562be39",
+      "live": "08a0a72f1cc631b96c12fa470f7b00af0bd5989a2ea8f81554fb7ab12562be39",
+      "matches": true
+    },
+    "style": {
+      "path": "/assets/main-BoV9wXCl.css",
+      "local": "43f0ba36b245599488a70b6ee85c8c00f371871f4efefe302ae16535fcec41f3",
+      "live": "43f0ba36b245599488a70b6ee85c8c00f371871f4efefe302ae16535fcec41f3",
+      "matches": true
+    },
+    "worker": {
+      "local": "c4b27187e9182de1dc459efa3a1362a3e42322e3ba4f6126eb704d5cd0d8b7a2",
+      "live": "c4b27187e9182de1dc459efa3a1362a3e42322e3ba4f6126eb704d5cd0d8b7a2",
+      "matches": true
+    }
+  },
+  "responses": {
+    "/": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "contentType": "text/html",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    "/demo": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "contentType": "text/html",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    "/privacy": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "contentType": "text/html",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    "/terms": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "contentType": "text/html",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    "/does-not-exist": {
+      "status": 404,
+      "cacheControl": "public, must-revalidate, max-age=30",
+      "contentType": "text/html",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    "/assets/main-Dayn5lR2.js": {
+      "status": 200,
+      "cacheControl": "public, max-age=31536000, immutable",
+      "contentType": "text/javascript",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    "/sw.js": {
+      "status": 200,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "contentType": "text/javascript",
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests",
+      "hsts": "max-age=10886400; includeSubDomains; preload",
+      "nosniff": "nosniff",
+      "referrerPolicy": "strict-origin-when-cross-origin",
+      "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=()"
+    }
+  },
+  "firstRead": {
+    "title": "Shop Fit Sheet — Check a fitted build",
+    "h1": "Check a fitted build before buying stock",
+    "audience": "For home makers fitting cabinets or benches into tight garages, utility rooms, and vehicles.",
+    "action": "Try it with sample data\n→"
+  },
+  "unitBoundary": {
+    "before": {
+      "value": "740.01",
+      "verdict": "1 conflict to fix",
+      "conflict": true
+    },
+    "inches": {
+      "value": "29.13",
+      "verdict": "1 conflict to fix",
+      "conflict": true
+    },
+    "after": {
+      "value": "740.01",
+      "verdict": "1 conflict to fix",
+      "conflict": true,
+      "stored": {
+        "schemaVersion": 2,
+        "displayUnit": "mm",
+        "canonicalProject": {
+          "name": "Van bed utility cabinet",
+          "location": "Left bay below the bed platform",
+          "unit": "mm",
+          "spaceWidth": 1400,
+          "spaceHeight": 840,
+          "spaceDepth": 780,
+          "clearanceLeft": 15,
+          "clearanceRight": 15,
+          "clearanceTop": 20,
+          "clearanceBottom": 10,
+          "clearanceBack": 40,
+          "outerWidth": 1350,
+          "outerHeight": 800,
+          "outerDepth": 740.01,
+          "panelThickness": 18,
+          "supports": 1,
+          "shelves": 2,
+          "doors": 2,
+          "doorStyle": "overlay",
+          "doorGap": 3,
+          "includeBack": true,
+          "backThickness": 6,
+          "sheetWidth": 1220,
+          "sheetHeight": 2440
+        }
+      }
+    }
+  },
+  "countLimit": {
+    "value": "9",
+    "ariaInvalid": "true",
+    "error": true,
+    "panelRows": 0,
+    "diagramLines": 0
+  },
+  "demoNavigation": {
+    "url": "https://shop-fit-sheet.sociobot.in/demo#planner",
+    "banner": true,
+    "projectName": "Live demo navigation check",
+    "realStorage": null
+  },
+  "routing": {
+    "privacyUrl": "https://shop-fit-sheet.sociobot.in/privacy?demo=1",
+    "privacyFocus": "H1",
+    "backUrl": "https://shop-fit-sheet.sociobot.in/demo#planner",
+    "backFocus": "H1",
+    "backAnnouncement": "Page changed: Check a fitted build before buying stock",
+    "forwardFocus": "H1",
+    "forwardAnnouncement": "Page changed: Your plan stays in your browser"
+  },
+  "offline": {
+    "registration": {
+      "active": "activated",
+      "waiting": null,
+      "controller": "https://shop-fit-sheet.sociobot.in/sw.js",
+      "caches": [
+        "shop-fit-sheet-v6"
+      ]
+    },
+    "title": "Demo — Shop Fit Sheet",
+    "verdict": "1 conflict to fix"
+  },
+  "axe": {
+    "desktop:/": [],
+    "desktop:/demo": [],
+    "desktop:/privacy": [],
+    "desktop:/terms": [],
+    "mobile:/": [],
+    "mobile:/demo": [],
+    "mobile:/privacy": [],
+    "mobile:/terms": []
+  },
+  "network": {
+    "origins": [
+      "https://shop-fit-sheet.sociobot.in"
+    ],
+    "offOrigin": [],
+    "errors": []
+  },
+  "mobile": {
+    "normalOverflow": {
+      "scrollWidth": 390,
+      "clientWidth": 390
+    },
+    "undersizedTargets": [],
+    "text200": {
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "nav": [
+        "Demo",
+        "Planner",
+        "Privacy"
+      ],
+      "demoActions": [
+        "Reset demo",
+        "Start for real"
+      ]
+    }
+  },
+  "keyboard": {
+    "firstFocus": "Skip to main content",
+    "outline": "rgb(166, 93, 29) solid 3px",
+    "skipTarget": "MAIN#main"
+  },
+  "reducedMotion": {
+    "heroDuration": "1e-05s",
+    "resultDuration": "1e-05s",
+    "scrollBehavior": "auto"
+  }
+}
