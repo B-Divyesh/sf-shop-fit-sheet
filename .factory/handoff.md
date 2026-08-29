@@ -30,15 +30,12 @@ Build output is `dist/`, with `dist/index.html` at its root. Use `npm run previe
 
 ## Deployment and live checks
 
-Deploy `dist/` using `/opt/fleet/lib/deploy-static.sh shop-fit-sheet dist`. After deployment, verify identity and response policy:
+Deployed `dist/` with `/opt/fleet/lib/deploy-static.sh shop-fit-sheet dist` on 2026-08-29. Azure Static Web Apps deployment ID: `18fa75dc-ae4e-4b87-a0b2-24422666d4ff`.
 
-```sh
-curl -I https://shop-fit-sheet.sociobot.in/
-curl -I https://shop-fit-sheet.sociobot.in/does-not-exist
-curl -I https://shop-fit-sheet.sociobot.in/assets/<fingerprinted-file>.js
-```
-
-Expect the product title on `/`, HTTP 404 on the unknown route, and immutable cache control on fingerprinted assets.
+- `https://shop-fit-sheet.sociobot.in/` returned HTTP 200 with the current CSP and short HTML cache policy.
+- `https://shop-fit-sheet.sociobot.in/does-not-exist` returned **HTTP 404**, the product-styled 404 document, `lang="en"`, and title `Page not found — Shop Fit Sheet`.
+- The deployed `assets/main-Bqy6gQO_.js` returned HTTP 200 with `Cache-Control: public, max-age=31536000, immutable`.
+- Live 390 × 844 Chromium smoke test: `/`, `/demo`, `/privacy`, and `/terms` each returned 200 with route-specific titles, exactly one h1 and main, and no serious/critical Axe findings. The demo had a focused skip link after Tab, no horizontal overflow, zero console/page errors, and zero off-origin requests.
 
 ## Known limits and next step
 
