@@ -1,3 +1,4 @@
+import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { defineConfig, type Plugin } from 'vite';
 
@@ -21,12 +22,16 @@ function precachePlugin(): Plugin {
 function socialMetadataPlugin(): Plugin {
   return {
     name: 'shop-fit-sheet-social-metadata',
-    generateBundle(_, bundle) {
+    async writeBundle(options, bundle) {
       const social = Object.keys(bundle).find((fileName) => fileName.includes('social-') && fileName.endsWith('.webp'));
       if (!social) throw new Error('Social image was not emitted');
-      for (const item of Object.values(bundle)) {
-        if (item.type === 'asset' && item.fileName.endsWith('.html') && typeof item.source === 'string') item.source = item.source.replaceAll('/__SOCIAL_IMAGE__', `/${social}`);
-      }
+      if (!options.dir) throw new Error('Build output directory is required');
+      const pages = ['index.html', 'demo/index.html', 'privacy/index.html', 'terms/index.html', '404.html'];
+      await Promise.all(pages.map(async (page) => {
+        const path = resolve(options.dir!, page);
+        const html = await readFile(path, 'utf8');
+        await writeFile(path, html.replaceAll('/__SOCIAL_IMAGE__', `/${social}`));
+      }));
     },
   };
 }

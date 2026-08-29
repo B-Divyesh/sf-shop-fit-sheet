@@ -243,6 +243,11 @@ test('ships hashed immutable assets and a styled HTTP 404 response', async ({ pa
   const config = JSON.parse(await readFile(join(process.cwd(), 'dist/staticwebapp.config.json'), 'utf8'));
   expect(config.responseOverrides['404']).toEqual({ rewrite: '/404.html', statusCode: 404 });
   expect(config.routes).toContainEqual({ route: '/assets/*', headers: { 'Cache-Control': 'public, max-age=31536000, immutable' } });
+  for (const output of ['index.html', 'demo/index.html', 'privacy/index.html', 'terms/index.html', '404.html']) {
+    const html = await readFile(join(process.cwd(), 'dist', output), 'utf8');
+    expect(html, output).not.toContain('__SOCIAL_IMAGE__');
+    expect(html, output).toMatch(/https:\/\/shop-fit-sheet\.sociobot\.in\/assets\/social-[a-zA-Z0-9_-]+\.webp/);
+  }
 });
 
 test('routes have one h1, distinct titles, and no serious accessibility findings', async ({ page }, testInfo) => {
