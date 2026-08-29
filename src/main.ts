@@ -153,14 +153,15 @@ function formatArea(value: number): string {
   return `${format(value / divisor)} ${unit}`;
 }
 
-function verdict(): string {
+function verdict(asPageSection = false): string {
   const r = calculate(project);
   const conflicts = r.findings.filter((f) => f.level === 'conflict').length;
   const checks = r.findings.filter((f) => f.level === 'check').length;
   const status = conflicts ? `${conflicts} ${conflicts === 1 ? 'conflict' : 'conflicts'} to fix` : checks ? `Fits with ${checks} ${checks === 1 ? 'check' : 'checks'}` : 'Fits the cleared space';
   const statusClass = conflicts ? 'conflict' : checks ? 'check' : 'pass';
   const findings = r.findings.map((f) => `<li class="finding ${f.level}"><span aria-hidden="true">${f.level === 'conflict' ? '×' : f.level === 'check' ? '!' : '✓'}</span>${escapeHtml(f.text)}</li>`).join('');
-  return `<section class="fit-verdict ${statusClass}" aria-labelledby="verdict-title"><p class="eyebrow">Fit verdict</p><h3 id="verdict-title">${status}</h3><ul>${findings}</ul></section>`;
+  const heading = asPageSection ? 'h2' : 'h3';
+  return `<section class="fit-verdict ${statusClass}" aria-labelledby="verdict-title"><p class="eyebrow">Fit verdict</p><${heading} id="verdict-title">${status}</${heading}><ul>${findings}</ul></section>`;
 }
 
 function results(includeVerdict = true): string {
@@ -177,7 +178,7 @@ function supportingSections(): string {
 }
 
 function demoOverview(): string {
-  return `<section class="demo-overview" aria-labelledby="page-title"><div class="demo-project"><p class="section-kicker">Sample fit check</p><h1 id="page-title" data-project-title tabindex="-1">${escapeHtml(project.name || 'Untitled fit sheet')}</h1><p class="demo-location" data-project-location>${escapeHtml(project.location)}</p><a class="secondary-button" href="#planner">Edit sample measurements <span aria-hidden="true">↓</span></a></div><div class="demo-verdict-slot" aria-live="polite">${verdict()}</div></section>`;
+  return `<section class="demo-overview" aria-labelledby="page-title"><div class="demo-project"><p class="section-kicker">Sample fit check</p><h1 id="page-title" data-project-title tabindex="-1">${escapeHtml(project.name || 'Untitled fit sheet')}</h1><p class="demo-location" data-project-location>${escapeHtml(project.location)}</p><a class="secondary-button" href="#planner">Edit sample measurements <span aria-hidden="true">↓</span></a></div><div class="demo-verdict-slot" aria-live="polite">${verdict(true)}</div></section>`;
 }
 
 function landing(): string {
@@ -246,7 +247,7 @@ function bindCalculator(): void {
       document.querySelector('.diagram-slot')!.innerHTML = diagram();
       document.querySelector('.result-slot')!.innerHTML = results(!isDemo);
       const demoVerdict = document.querySelector<HTMLElement>('.demo-verdict-slot');
-      if (demoVerdict) demoVerdict.innerHTML = verdict();
+      if (demoVerdict) demoVerdict.innerHTML = verdict(true);
       const projectTitle = document.querySelector<HTMLElement>('[data-project-title]');
       if (projectTitle) projectTitle.textContent = project.name.trim() || 'Untitled fit sheet';
       const projectLocation = document.querySelector<HTMLElement>('[data-project-location]');
