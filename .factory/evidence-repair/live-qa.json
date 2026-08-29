@@ -1,10 +1,10 @@
 {
-  "testedAt": "2026-08-29T13:29:51.004Z",
+  "testedAt": "2026-08-29T13:34:25.296Z",
   "base": "https://shop-fit-sheet.sociobot.in",
   "identity": {
     "html": {
-      "local": "014436151f132b6736a792d8ef31ffe906b0f7a218c55d12b8078965c1abb393",
-      "live": "014436151f132b6736a792d8ef31ffe906b0f7a218c55d12b8078965c1abb393",
+      "local": "4a810b9e200a962c59b16ad83e0e285761a133e96e98e82eea8ea112ae4177a2",
+      "live": "4a810b9e200a962c59b16ad83e0e285761a133e96e98e82eea8ea112ae4177a2",
       "matches": true
     },
     "script": {
@@ -20,8 +20,8 @@
       "matches": true
     },
     "worker": {
-      "local": "c4b27187e9182de1dc459efa3a1362a3e42322e3ba4f6126eb704d5cd0d8b7a2",
-      "live": "c4b27187e9182de1dc459efa3a1362a3e42322e3ba4f6126eb704d5cd0d8b7a2",
+      "local": "87632ab4f6479819444957bb304a57afefd49ab50c7468ff17e1728615bf0ad5",
+      "live": "87632ab4f6479819444957bb304a57afefd49ab50c7468ff17e1728615bf0ad5",
       "matches": true
     }
   },

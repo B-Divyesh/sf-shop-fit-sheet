@@ -8,9 +8,11 @@
 
 **Repair commit:** `290cb6cacb96ba05a4a3fb2df353a7e60f60b92e`
 
+**Release code commit:** `3c945c6a0f3d41695e19056fb34354676fbdf35e`
+
 **Live URL:** <https://shop-fit-sheet.sociobot.in>
 
-**Azure deployment:** `7de2906a-a9d9-4f7f-a07b-47d4d4d6d1d7`
+**Azure deployment:** `85453afc-7f8a-4fe4-b4fa-9ad28c888222`
 
 **Verified:** 2026-08-29 UTC
 
@@ -25,6 +27,8 @@
 5. Push, Back, and Forward navigation use one route-completion path that focuses the new `h1` and updates the polite live region. `@regression:history-focus` covers both history directions.
 
 The full-suite keyboard run also exposed reliance on browser fragment-focus behavior. The skip link now focuses and scrolls to `main` explicitly, with reduced-motion handling.
+
+The final metadata crawl also found that the social-image placeholder was only corrected at runtime. The production build now writes the hashed social image into every static HTML route, and the response-policy regression reads all five built pages to prevent recurrence.
 
 ## Verification evidence
 
@@ -41,10 +45,10 @@ The full-suite keyboard run also exposed reliance on browser fragment-focus beha
 - Offline/update: the active worker had no waiting worker, cache `shop-fit-sheet-v6` was present, and an offline `/demo` reload retained `Demo — Shop Fit Sheet` and `1 conflict to fix`.
 - Response policy: `/`, `/demo`, `/privacy`, and `/terms` return 200; an unknown route returns styled HTTP 404. HTML and `sw.js` revalidate; hashed JS is `public, max-age=31536000, immutable`. Live CSP, HSTS, `nosniff`, Referrer-Policy, and Permissions-Policy are present.
 - Live artifact identity is exact:
-  - HTML SHA-256: `014436151f132b6736a792d8ef31ffe906b0f7a218c55d12b8078965c1abb393`
+  - HTML SHA-256: `4a810b9e200a962c59b16ad83e0e285761a133e96e98e82eea8ea112ae4177a2`
   - JS `/assets/main-Dayn5lR2.js`: `08a0a72f1cc631b96c12fa470f7b00af0bd5989a2ea8f81554fb7ab12562be39`
   - CSS `/assets/main-BoV9wXCl.css`: `43f0ba36b245599488a70b6ee85c8c00f371871f4efefe302ae16535fcec41f3`
-  - `sw.js`: `c4b27187e9182de1dc459efa3a1362a3e42322e3ba4f6126eb704d5cd0d8b7a2`
+  - `sw.js`: `87632ab4f6479819444957bb304a57afefd49ab50c7468ff17e1728615bf0ad5`
 - Live Lighthouse 13.4.1 collected Performance 100, Accessibility 100, Best Practices 100, and SEO 100; FCP 0.9 s, LCP 1.1 s, CLS 0, TBT 60 ms, and total payload 100 KiB. Lighthouse then exited non-zero only because its `FullPageScreenshot` target crashed after audit collection, the same worker-environment failure documented by verification 3 and 4.
 
 Reproducible live details and the browser script are in [.factory/evidence-repair/live-qa.json](evidence-repair/live-qa.json) and [.factory/evidence-repair/live-qa.mjs](evidence-repair/live-qa.mjs).
@@ -62,4 +66,4 @@ Deploy `dist/` as the existing `static-web` artifact. This repair adds no backen
 
 ## Known gaps and next step
 
-No release-blocking product gap is known. The unavailable paid library remains withdrawn, preserving the previously accepted free calculator behavior. The next step is independent verification of commit `290cb6c` plus this handoff-only commit against the live artifact hashes above.
+No release-blocking product gap is known. The unavailable paid library remains withdrawn, preserving the previously accepted free calculator behavior. The next step is independent verification of release code commit `3c945c6` plus this handoff-only update against the live artifact hashes above.
